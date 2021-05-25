@@ -5,6 +5,8 @@ User = get_user_model()
 
 
 class Strategy(models.Model):
+    class Meta:
+        verbose_name_plural = 'Strategies'
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)

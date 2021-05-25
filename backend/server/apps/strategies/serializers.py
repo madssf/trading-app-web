@@ -30,5 +30,4 @@ class StrategyParameterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StrategyParameter
-        fields = ['created_at', 'created_by',
-                  'parameter', 'strategy']
+        fields = ['strategy', 'parameter']
