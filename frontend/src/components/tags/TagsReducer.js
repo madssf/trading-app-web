@@ -19,7 +19,7 @@ export const tagsReducer = (state = initialState, action) => {
     case DELETE_TAG:
         return {
           ...state,
-          notes: state.tags.filter((item, index) => item.id !== action.payload)
+          tags: state.tags.filter((item, index) => item.id !== action.payload)
         };
     case UPDATE_TAG:
         const updatedTags = state.tags.map(item => {

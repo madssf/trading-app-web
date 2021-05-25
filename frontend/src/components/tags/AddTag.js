@@ -1,4 +1,3 @@
-// frontend/src/components/notes/AddNote.js
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -55,7 +54,7 @@ class AddTag extends Component {
           </Form.Group>
         </Form>
         <Button variant="success" onClick={this.onAddClick}>
-          Add note
+          Add tag
         </Button>
       </div>
     );

@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from apps.users.urls import users_urlpatterns
 from apps.tags.urls import tags_urlpatterns
+from apps.exchanges.urls import exchanges_urlpatterns
+from apps.strategies.urls import strategies_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,3 +26,5 @@ urlpatterns = [
 
 urlpatterns += users_urlpatterns
 urlpatterns += tags_urlpatterns
+urlpatterns += exchanges_urlpatterns
+urlpatterns += strategies_urlpatterns

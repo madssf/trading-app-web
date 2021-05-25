@@ -15,7 +15,7 @@ class TagGroupViewSet(viewsets.ModelViewSet):
         serializer.save(created_by=self.request.user)
 
     def get_queryset(self):
-        return self.queryset
+        return self.queryset.all()
 
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -27,4 +27,4 @@ class TagViewSet(viewsets.ModelViewSet):
         serializer.save(created_by=self.request.user)
 
     def get_queryset(self):
-        return self.queryset
+        return self.queryset.all()

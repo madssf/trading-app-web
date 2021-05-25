@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { getTags } from "./TagsActions";
 
 import Tag from "./Tag";
+import axios from "axios";
 
 class TagsList extends Component {
   componentDidMount() {
@@ -30,6 +31,8 @@ class TagsList extends Component {
       </div>
     );
   }
+
+
 }
 
 TagsList.propTypes = {

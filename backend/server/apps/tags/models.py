@@ -16,7 +16,8 @@ class TagGroup(models.Model):
 
 class Tag(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
     tag_group = models.ForeignKey(
         TagGroup, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
     name = models.CharField(max_length=30, blank=True)
