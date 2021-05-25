@@ -4,13 +4,15 @@ import { connectRouter } from "connected-react-router";
 
 import { signupReducer } from "./components/signup/SignupReducer";
 import { loginReducer } from "./components/login/LoginReducer";
+import { tagsReducer } from "./components/tags/TagsReducer";
 
 
 const createRootReducer = history =>
   combineReducers({
     router: connectRouter(history),
     createUser: signupReducer,
-    auth: loginReducer
+    auth: loginReducer,
+    tags: tagsReducer
   });    
 
 export default createRootReducer;
