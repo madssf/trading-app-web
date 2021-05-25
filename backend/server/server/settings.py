@@ -27,10 +27,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'apps.users',
-    'apps.tags',
+    'apps.strategies',
+    'apps.portfolios',
     'apps.exchanges',
-    'apps.strategies'
-
+    'apps.currencies',
+    'apps.watchlists'
 ]
 
 CORS_ALLOWED_ORIGINS = [
