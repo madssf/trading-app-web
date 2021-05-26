@@ -4,15 +4,18 @@ django, react
 
 https://saasitive.com/tutorial/react-token-based-authentication-django/
 
-## FIX:
+## Backend TODO:
 
-Missing models:
+### Short-term:
 
-- Trades, deposits, portfolio assets
+- Permissions on everything
+- Linked API views, relational
 
-Models updates:
+### Mid-term:
 
-- Banned coins FK currency (list or what?)
-- More model parameters
+- PortfolioAssets status Enum
+- Paramters that use coins should have coin as FK
 
-Permissions on everything
+### Long-term:
+
+- Store prices in DB

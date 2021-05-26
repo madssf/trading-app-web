@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Exchange, Credentials
-from .serializers import ExchangeSerializer, CredentialsSerializer
+from .models import Exchange
+from .serializers import ExchangeSerializer
 
 
 class ExchangeViewSet(viewsets.ModelViewSet):
@@ -13,15 +13,3 @@ class ExchangeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.all()
-
-
-class CredentialsViewSet(viewsets.ModelViewSet):
-
-    serializer_class = CredentialsSerializer
-    queryset = Credentials.objects.all()
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-    def get_queryset(self):
-        return self.queryset.filter(owner=self.request.user)

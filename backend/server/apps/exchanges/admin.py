@@ -2,7 +2,6 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Credentials, Exchange
+from .models import Exchange
 
 admin.site.register(Exchange)
-admin.site.register(Credentials)

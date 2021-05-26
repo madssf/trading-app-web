@@ -17,8 +17,8 @@ class Currency(models.Model):
     symbol = models.CharField(max_length=10)
     alternative_name = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    web_url = models.URLField()
-    whitepaper_url = models.URLField()
+    web_url = models.URLField(blank=True, null=True)
+    whitepaper_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.symbol
