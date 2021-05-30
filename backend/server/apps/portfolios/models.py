@@ -36,20 +36,37 @@ class PortfolioAsset(models.Model):
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     exchange = models.ForeignKey(
         Exchange, default=None, blank=True, null=True, on_delete=SET_DEFAULT)
-    #SPOT, FLEX, LOCK
-    status = models.CharField(max_length=4)
-    amount = models.DecimalField(max_digits=18, decimal_places=10)
-    average = models.DecimalField(max_digits=18, decimal_places=10)
-    added_at = models.DateTimeField(auto_now_add=True)
+    # timestamp
+    timestamp = models.DateTimeField(auto_now=True)
+    # true if this is the newest entry for this pf/exchange/currency
+    active = models.BooleanField(default=True)
+    # not tradeable
+    locked = models.DecimalField(
+        max_digits=18, decimal_places=10, blank=True, null=True)
+    # tradeable with some action
+    flex = models.DecimalField(
+        max_digits=18, decimal_places=10, blank=True, null=True)
+    # instantly tradeable
+    spot = models.DecimalField(
+        max_digits=18, decimal_places=10, blank=True, null=True)
+    # average price
+    average = models.DecimalField(
+        max_digits=18, decimal_places=10, blank=True, null=True)
+
     # STAKED INFO
-    apr = models.DecimalField(
+    flex_apr = models.DecimalField(
         max_digits=7, decimal_places=4, default=0, blank=True)
-    stake_start = models.DateTimeField(
+    flex_start = models.DateTimeField(
         auto_now_add=False, blank=True, null=True)
-    stake_end = models.DateTimeField(auto_now_add=False, blank=True, null=True)
+    locked_apr = models.DecimalField(
+        max_digits=7, decimal_places=4, default=0, blank=True)
+    locked_start = models.DateTimeField(
+        auto_now_add=False, blank=True, null=True)
+    locked_end = models.DateTimeField(
+        auto_now_add=False, blank=True, null=True)
 
     def __str__(self):
-        return str(self.portfolio) + "/" + str(self.exchange) + "/" + str(self.currency)
+        return str(self.portfolio) + "/" + str(self.timestamp) + "/" + str(self.exchange) + "/" + str(self.currency)
 
 
 class Trade(models.Model):
@@ -87,8 +104,10 @@ class Credentials(models.Model):
     exchange = models.ForeignKey(Exchange, on_delete=models.CASCADE)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     api_key = encrypt(models.CharField(max_length=200))
-    api_secret = encrypt(models.CharField(max_length=200))
-    api_payload = encrypt(models.CharField(max_length=200))
+    api_secret = encrypt(models.CharField(
+        max_length=200, blank=True, null=True))
+    api_payload = encrypt(models.CharField(
+        max_length=200, blank=True, null=True))
 
     def __str__(self):
         return str(self.owner) + "/" + str(self.portfolio) + "/" + str(self.exchange)
