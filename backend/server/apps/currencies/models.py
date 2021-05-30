@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.db.models.deletion import CASCADE
 
 User = get_user_model()
 
@@ -12,7 +11,7 @@ class Currency(models.Model):
 
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
-        User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
+        User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=50, unique=True)
     symbol = models.CharField(max_length=10, unique=True)
     alternative_name = models.CharField(
@@ -42,7 +41,8 @@ class Price(models.Model):
 
 class TagGroup(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        User, default=User, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=30, blank=True, unique=True)
     description = models.TextField(blank=True)
 
@@ -53,7 +53,7 @@ class TagGroup(models.Model):
 class Tag(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
+        User, default=User, null=True, on_delete=models.SET_NULL)
     tag_group = models.ForeignKey(
         TagGroup, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
     name = models.CharField(max_length=30, blank=True, unique=True)
@@ -66,7 +66,7 @@ class Tag(models.Model):
 class CurrencyTag(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
+        User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
 

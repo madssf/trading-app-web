@@ -9,7 +9,7 @@ class Strategy(models.Model):
         verbose_name_plural = 'Strategies'
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
+        User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null=True)
 
@@ -20,7 +20,7 @@ class Strategy(models.Model):
 class ParameterType(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
+        User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
@@ -30,7 +30,7 @@ class ParameterType(models.Model):
 class Parameter(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
+        User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null=True)
     parameter_type = models.ForeignKey(ParameterType, on_delete=models.CASCADE)
@@ -45,7 +45,7 @@ class StrategyParameter(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
+        User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)
 

@@ -19,14 +19,11 @@ _Only Binance for now, makes dealing with market data easier_
 
 ### 1. API request
 
-```sql
-SELECT * FROM PORTFOLIOS JOIN PORTFOLIO_PARAMETERS JOIN PORTFOLIO_CREDENTIALS JOIN PORTFOLIO_ASSETS
-```
-
 ```json
   {portfolio: {
     strategy: 'name',
     parameters: {param1: value, param2: value},
+    assets: {exchange: {locked, flex, spot}},
     credentials: {key: string, secret: string}
     }
   }
@@ -38,20 +35,21 @@ SELECT * FROM PORTFOLIOS JOIN PORTFOLIO_PARAMETERS JOIN PORTFOLIO_CREDENTIALS JO
 
 ```Python
 for portfolio in portfolios:
+  # TODO: check if stake expired
   assets = get_assets(exchange='Binance', credentials)
-  #change unlocked assets that differ from exchange
+  #change assets that differ from exchange, set update_assets = True
   strategy = Strategy(assets, parameters, market_data)
   strategy.instruct()
-  if instructions: trade(instructions)
-    # TODO:replace request with sql query
-    request.post(trades)
-  # due to staking
-  if new_assets != old_assets:
-    # TODO: check if stake expired
-    # TODO:replace request with sql query
-    email_user(trades)
-    requests.post(trades)
+  if instructions:
+    if portfolio_trade_activated:
+      trade(instructions)
+      request.post(trades)
+      email_user(trades)
+      update_assets = True
+    else:
+      email_user(instructions)
+  if update_assets:
+    request.post(new_assets)
 # for performance comparison etc. only do this every hour etc.
-# TODO:replace request with sql query
 requests.post(total_mcap)
 ```
