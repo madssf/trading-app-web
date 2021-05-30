@@ -10,6 +10,8 @@ User = get_user_model()
 
 
 class Portfolio(models.Model):
+    class Meta:
+        unique_together = [['owner', 'name']]
     created_at = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     strategy = models.ForeignKey(
@@ -23,6 +25,8 @@ class Portfolio(models.Model):
 
 
 class PortfolioParameter(models.Model):
+    class Meta:
+        unique_together = [['portfolio', 'parameter']]
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     parameter = models.ForeignKey(StrategyParameter, on_delete=models.CASCADE)
     value = models.TextField()
@@ -98,6 +102,7 @@ class Deposit(models.Model):
 class Credentials(models.Model):
     class Meta:
         verbose_name_plural = 'Credentials'
+        unique_together = [['owner', 'exchange', 'portfolio']]
 
     created_at = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)

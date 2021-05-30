@@ -13,12 +13,13 @@ class Currency(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
         User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
-    name = models.CharField(max_length=50)
-    symbol = models.CharField(max_length=10)
-    alternative_name = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(max_length=50, unique=True)
+    symbol = models.CharField(max_length=10, unique=True)
+    alternative_name = models.CharField(
+        max_length=50, blank=True, null=True, unique=True)
     description = models.TextField(blank=True, null=True)
-    web_url = models.URLField(blank=True, null=True)
-    whitepaper_url = models.URLField(blank=True, null=True)
+    web_url = models.URLField(blank=True, null=True, unique=True)
+    whitepaper_url = models.URLField(blank=True, null=True, unique=True)
 
     def __str__(self):
         return self.symbol
@@ -42,7 +43,7 @@ class Price(models.Model):
 class TagGroup(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=30, blank=True)
+    name = models.CharField(max_length=30, blank=True, unique=True)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -55,7 +56,7 @@ class Tag(models.Model):
         User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
     tag_group = models.ForeignKey(
         TagGroup, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
-    name = models.CharField(max_length=30, blank=True)
+    name = models.CharField(max_length=30, blank=True, unique=True)
     description = models.TextField(blank=True)
 
     def __str__(self):

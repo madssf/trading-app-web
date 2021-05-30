@@ -9,9 +9,9 @@ class Exchange(models.Model):
     added_by = models.ForeignKey(
         User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
     name = models.CharField(max_length=50)
-    description = models.TextField(blank=True, null=True)
-    web_url = models.URLField()
-    api_url = models.URLField()
+    description = models.TextField(blank=True, null=True, unique=True)
+    web_url = models.URLField(unique=True)
+    api_url = models.URLField(unique=True)
 
     def __str__(self):
         return self.name

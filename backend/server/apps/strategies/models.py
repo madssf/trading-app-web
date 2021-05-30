@@ -10,7 +10,7 @@ class Strategy(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -21,7 +21,7 @@ class ParameterType(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
@@ -31,7 +31,7 @@ class Parameter(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null=True)
     parameter_type = models.ForeignKey(ParameterType, on_delete=models.CASCADE)
 
@@ -40,6 +40,9 @@ class Parameter(models.Model):
 
 
 class StrategyParameter(models.Model):
+    class Meta:
+        unique_together = [['parameter', 'strategy']]
+
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=None, blank=True, null=True, on_delete=models.SET_DEFAULT)

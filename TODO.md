@@ -35,7 +35,6 @@
 
 ### Mid-term:
 
-- PortfolioAssets status Enum
 - Parameters that use coins should have coin as FK
 
 ### Long-term:
