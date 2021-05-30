@@ -47,4 +47,4 @@ class StrategyParameter(models.Model):
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.strategy) + " " + str(self.parameter)
+        return str(self.strategy) + "/" + str(self.parameter)

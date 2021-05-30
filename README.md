@@ -13,14 +13,14 @@
 - Minimizing market risk
 - Encouraging fundamental view and hodling???
 
-## Cloud Script
+## Strategy Bot
 
 _Only Binance for now, makes dealing with market data easier_
 
-### DB query
+### 1. API request
 
 ```sql
-SELECT * FROM PORTFOLIOS JOIN PORTFOLIO_PARAMETERS JOIN PORTFOLIO_CREDENTIALS
+SELECT * FROM PORTFOLIOS JOIN PORTFOLIO_PARAMETERS JOIN PORTFOLIO_CREDENTIALS JOIN PORTFOLIO_ASSETS
 ```
 
 ```json
@@ -39,6 +39,7 @@ SELECT * FROM PORTFOLIOS JOIN PORTFOLIO_PARAMETERS JOIN PORTFOLIO_CREDENTIALS
 ```Python
 for portfolio in portfolios:
   assets = get_assets(exchange='Binance', credentials)
+  #change unlocked assets that differ from exchange
   strategy = Strategy(assets, parameters, market_data)
   strategy.instruct()
   if instructions: trade(instructions)
@@ -54,56 +55,3 @@ for portfolio in portfolios:
 # TODO:replace request with sql query
 requests.post(total_mcap)
 ```
-
-## Strategies/watchlist/research TODO:
-
-### Short-term:
-
-- Calculate beta and other metrics for portfolios.
-
-### Mid-term:
-
-- Get inspired by VORTECS and such for parameters for strategies.
-- Research panel in front-end.
-  - Twitter data,
-  - Google trends etc.
-  - Some news API
-  - CoinmarketCal ish - also consider manually adding stuff here!
-  - On-chain data, fees, txs etc.
-
-### Long-term:
-
-- Goal: All of the above should be usable as input in some strategy.
-
-## Cloud Script TODO:
-
-### Short-term:
-
-- Write model code
-- Write trading code
-
-## Backend TODO:
-
-### Short-term:
-
-- Permissions on everything
-- Change mcap_weigthed parameter:
-  - Float 0 to 1, no weight to full weight
-  - Some param for dealing with small caps
-- Linked API views, relational
-
-### Mid-term:
-
-- PortfolioAssets status Enum
-- Parameters that use coins should have coin as FK
-
-### Long-term:
-
-- Store prices in DB
-
-## Frontend TODO:
-
-### Short-term:
-
-- Recreate streamlit dashboard
-- Watchlists

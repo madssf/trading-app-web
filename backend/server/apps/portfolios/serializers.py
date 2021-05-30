@@ -21,8 +21,8 @@ class PortfolioAssetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PortfolioAsset
-        fields = ['portfolio', 'currency', 'exchange', 'status', 'amount',
-                  'average', 'added_at', 'apr', 'stake_start', 'stake_end']
+        fields = ['id', 'portfolio', 'currency', 'timestamp', 'exchange', 'locked', 'flex', 'spot',
+                  'average', 'flex_apr', 'flex_start', 'locked_apr', 'locked_start', 'locked_end']
 
 
 class TradeSerializer(serializers.ModelSerializer):
