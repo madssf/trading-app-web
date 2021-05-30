@@ -31,6 +31,7 @@ _Only Binance for now, makes dealing with market data easier_
 
 ### 2. Execute strategy
 
+- GET: coingecko - mcap data
 - GET: exchange - market data
 
 ```Python
@@ -38,6 +39,7 @@ for portfolio in portfolios:
   # TODO: check if stake expired
   assets = get_assets(exchange='Binance', credentials)
   #change assets that differ from exchange, set update_assets = True
+  # get prices for coins that were not in top 100
   strategy = Strategy(assets, parameters, market_data)
   strategy.instruct()
   if instructions:

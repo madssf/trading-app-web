@@ -32,6 +32,9 @@
 
 - Endpoints for frontend
 - Remove unused endpoints
+- Fix user endpoints permissions
+- Table for mcap total
+- Table for stablecoins/general banned
 
 ### Mid-term:
 

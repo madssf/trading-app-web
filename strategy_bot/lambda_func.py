@@ -1,8 +1,11 @@
-import api_conn
+import backend
 
-token = api_conn.get_token()
+# Get portfolios from API
+token = backend.get_token()
+portfolios = backend.get_portfolios(token)
 
+# Get market data
+data = backend.get_market_data()
 
-data = api_conn.get_portfolios(token)
 
 print(data)

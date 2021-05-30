@@ -131,5 +131,7 @@ class BotPortfolioList(mixins.ListModelMixin, generics.GenericAPIView):
 
 # for updating portfolio assets, makes a new record and sets previous Active=False
 class BotPortfolioAssetList():
+    permission_classes = [IsAdminUser]
+
     def post(self, request):
         return
