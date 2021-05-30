@@ -30,16 +30,18 @@
 
 ### Short-term:
 
-- Permissions on everything
-- Linked API views, relational
+- Endpoints for frontend
+- Remove unused endpoints
 
 ### Mid-term:
 
 - Parameters that use coins should have coin as FK
+- Permissions on tags
 
 ### Long-term:
 
 - Store prices in DB
+- Allow users to make strategies and parameters
 
 ## FRONTEND:
 

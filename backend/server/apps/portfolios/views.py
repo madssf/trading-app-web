@@ -1,9 +1,14 @@
+from django.contrib.auth import get_user_model
 from rest_framework import viewsets, mixins, generics
-from rest_framework.permissions import IsAdminUser
 from django.http.response import JsonResponse
+from apps.users.permissions import OwnerCUD_AuthR
+from rest_framework.permissions import IsAdminUser
+from django.db.models import Q
 
 from .models import Deposit, Portfolio, PortfolioAsset, PortfolioParameter, Trade, Credentials
 from .serializers import DepositSerializer, PortfolioAssetSerializer, PortfolioSerializer, PortfolioParameterSerializer, TradeSerializer, CredentialsSerializer
+
+User = get_user_model()
 
 
 class PortfolioViewSet(viewsets.ModelViewSet):
@@ -11,11 +16,14 @@ class PortfolioViewSet(viewsets.ModelViewSet):
     serializer_class = PortfolioSerializer
     queryset = Portfolio.objects.all()
 
+    def get_permissions(self):
+        return OwnerCUD_AuthR(self, super())
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.all()
+        return self.queryset.filter(Q(owner=self.request.user) | Q(public=True))
 
 
 class PortfolioParameterViewSet(viewsets.ModelViewSet):

@@ -6,8 +6,8 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Portfolio
-        fields = ['created_at', 'owner', 'name',
-                  'strategy', 'description']
+        fields = ['id', 'created_at', 'owner', 'name',
+                  'strategy', 'description', 'public']
 
 
 class PortfolioParameterSerializer(serializers.ModelSerializer):
