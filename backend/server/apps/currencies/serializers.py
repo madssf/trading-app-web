@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Currency, CurrencyTag, Price, Tag, TagGroup
+from .models import Currency, CurrencyStat, CurrencyTag, Price, Tag, TagGroup, MCAPTotal
 
 
 class CurrencySerializer(serializers.ModelSerializer):
@@ -37,3 +37,15 @@ class PriceSerializer(serializers.ModelSerializer):
         model = Price
         fields = ['timestamp', 'currency', 'open',
                   'high', 'low', 'close', 'volume']
+
+
+class MCAPTotalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MCAPTotal
+        fields = '__all__'
+
+
+class CurrencyStatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CurrencyStat
+        fields = '__all__'

@@ -24,7 +24,29 @@ class Currency(models.Model):
         return self.symbol
 
 
+class CurrencyStat(models.Model):
+    currency = models.OneToOneField(
+        Currency, on_delete=models.CASCADE, unique=True)
+    modified = models.DateTimeField(auto_now=True)
+    price = models.DecimalField(max_digits=18, decimal_places=10)
+    mcap_total = models.PositiveBigIntegerField()
+    mcap_rank = models.SmallIntegerField()
+    pct_change_24h = models.DecimalField(max_digits=9, decimal_places=5)
+
+    def __str__(self):
+        return str(self.currency) + "/" + str(self.modified)
+
+
+class MCAPTotal(models.Model):
+    timestamp = models.DateField(auto_now_add=True)
+    mcap_total = models.PositiveBigIntegerField()
+
+    def __str__(self):
+        return f"MCAP at {str(self.timestamp)}"
+
 # HOURLY PRICES
+
+
 class Price(models.Model):
 
     timestamp = models.DateTimeField()

@@ -35,11 +35,22 @@ _Only Binance for now, makes dealing with market data easier_
 - GET: exchange - market data
 
 ```Python
+def get_market_data():
+  market_data = cg.list_market()
+  market_data += #  # get prices for coins that were not in top 250
+  write_to_db()
+
+def write_to_db()
+  request.post(mcap_total)
+  request.post(market_data)
+
+
 for portfolio in portfolios:
+  if market_data.time > 5 min old: #get new market data if old
+    get_market_data(write_mcap_total = False)
   # TODO: check if stake expired
   assets = get_assets(exchange='Binance', credentials)
   #change assets that differ from exchange, set update_assets = True
-  # get prices for coins that were not in top 100
   strategy = Strategy(assets, parameters, market_data)
   strategy.instruct()
   if instructions:
@@ -52,6 +63,5 @@ for portfolio in portfolios:
       email_user(instructions)
   if update_assets:
     request.post(new_assets)
-# for performance comparison etc. only do this every hour etc.
-requests.post(total_mcap)
+
 ```

@@ -36,8 +36,6 @@
 - Table for mcap total
 - Table for stablecoins/general banned
 - Table for currency stats (currency unique)
-- Function for updating currency stats (called by script every hour and manually)
-- Function for updating mcap_total (called by script every hour and manually)
 
 ### Mid-term:
 

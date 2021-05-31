@@ -18,8 +18,8 @@
   - Research/resources
 
 - Needed endpoints:
-  GET User/Portfolios
-  GET User/Watchlists
+  GET Portfolios/Owner=User
+  GET Watchlists/Owner=User
 
 ### USER PORTFOLIO VIEW
 
@@ -38,7 +38,12 @@
   POST PortfolioID/Strategy
   POST PortfolioID/PortfolioParameter
 
-#### Performance and history stats/graphs
+#### stats/graphs
+
+Current pie chart
+
+- Needed endpoints:
+  GET PortfolioID/Assets=Active
 
 Performance graph
 
@@ -54,7 +59,14 @@ History graph
 
 ### USER WATCHLIST VIEW
 
-GET User/Watchlists/WatchlistCurrencies
+#### Watchlist list view
+
+GET User/Watchlists
+
+#### Watchlist detail view
+
+GET WatchlistCurrencies + currency details
+POST WatchlistCurrency
 
 ### EXPLORE STRATEGIES VIEW
 
@@ -75,12 +87,24 @@ GET User/Watchlists/WatchlistCurrencies
 
 ### EXPLORE CURRENCIES/TAGS VIEW
 
-- Needed endpoints:
-  GET currencies+tags
-  GET taggroups+tags
+- Currency list
+  GET currencies
+
+- Currency detail
+  GET currency+currencytags
   POST currencytag
-  POST tag
+
+- Tag group list
   POST taggroups
+
+- Tag group detail
+  GET taggroup+tags
+
+- Tags list
+  GET tags
+  POST tag
+- Tags detail
+  POST taggroup
 
 ### EXPLORE WATCHLISTS VIEW
 
