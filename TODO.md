@@ -35,11 +35,16 @@
 - Fix user endpoints permissions
 - Table for mcap total
 - Table for stablecoins/general banned
+- Table for currency stats (currency unique)
+- Function for updating currency stats (called by script every hour and manually)
+- Function for updating mcap_total (called by script every hour and manually)
 
 ### Mid-term:
 
 - Parameters that use coins should have coin as FK
-- Permissions on tags
+- Figure out permissions on tags (users should be able to create tags, but need to keep order)
+- Write tests
+- Events model
 
 ### Long-term:
 
