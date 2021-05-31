@@ -33,8 +33,6 @@
 - Endpoints for frontend
 - Remove unused endpoints
 - Fix user endpoints permissions
-- Table for mcap total
-- Table for stablecoins/general banned
 - Table for currency stats (currency unique)
 
 ### Mid-term:
@@ -43,6 +41,7 @@
 - Figure out permissions on tags (users should be able to create tags, but need to keep order)
 - Write tests
 - Events model
+- Table for stablecoins/general banned
 
 ### Long-term:
 
