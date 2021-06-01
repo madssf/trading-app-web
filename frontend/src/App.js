@@ -1,14 +1,19 @@
-// frontend/src/App.js
-
+import './App.css';
 import React, { Component } from "react";
 import Root from "./Root";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import requireAuth from "./utils/RequireAuth";
-import Home from "./components/Home";
+import Landing from "./components/Landing";
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
-import Dashboard from "./components/dashboard/Dashboard";
+import Home from "./components/home/Home";
+import MyPortfolioList from "./components/home/MyPortfolioList";
+
+import Explore from "./components/explore/Explore";
+import Research from "./components/research/Research";
+import Guide from "./components/guide/Guide";
+import Logout from "./components/login/Logout";
 
 import axios from "axios";
 axios.defaults.baseURL = "http://127.0.0.1:8000";
@@ -19,11 +24,20 @@ class App extends Component {
     return (
       <div>
         <Root> 
-          <Switch>
+          
+           <Switch>
+           <Route exact path="/" component={Landing} />
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
-            <Route path="/dashboard" component={requireAuth(Dashboard)}/>
-            <Route exact path="/" component={Home} />
+            <Route path="/home" component={requireAuth(Home)}/>
+            <Route path="/my_portfolios" component={requireAuth(MyPortfolioList)}/>
+
+            <Route path="/explore" component={requireAuth(Explore)}/>
+            
+            <Route path="/research" component={requireAuth(Research)}/>
+            <Route path="/guide" component={requireAuth(Guide)}/>
+            <Route path="/logout" component={requireAuth(Logout)}/>
+
             <Route path="*">Ups</Route>
           </Switch>
         </Root>

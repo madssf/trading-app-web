@@ -5,6 +5,7 @@ import { connectRouter } from "connected-react-router";
 import { signupReducer } from "./components/signup/SignupReducer";
 import { loginReducer } from "./components/login/LoginReducer";
 import { tagsReducer } from "./components/tags/TagsReducer";
+import { portfoliosReducer } from "./components/portfolios/PortfoliosReducer";
 
 
 const createRootReducer = history =>
@@ -12,7 +13,8 @@ const createRootReducer = history =>
     router: connectRouter(history),
     createUser: signupReducer,
     auth: loginReducer,
-    tags: tagsReducer
+    tags: tagsReducer,
+    portfolios: portfoliosReducer
   });    
 
 export default createRootReducer;
