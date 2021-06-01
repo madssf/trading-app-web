@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { deletePortfolio, updatePortfolio } from "./PortfoliosActions";
 import { Button } from "react-bootstrap";
 
-class portfolio extends Component {
+class PortfolioListEntry extends Component {
   onDeleteClick = () => {
     const { portfolio } = this.props;
     this.props.deletePortfolio(portfolio.id);
@@ -15,21 +15,18 @@ class portfolio extends Component {
     return (
       <div>
         <hr />
-        <p>{portfolio.name} | {portfolio.description}</p>
-        <Button variant="danger" size="sm" onClick={this.onDeleteClick}>
-          Delete
-        </Button>
-
+        <p>{portfolio.name}</p>
+        <p>{portfolio.description}</p>
       </div>
     );
   }
 }
 
-portfolio.propTypes = {
+PortfolioListEntry.propTypes = {
   portfolio: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, { deletePortfolio, updatePortfolio })(
-  withRouter(portfolio)
+  withRouter(PortfolioListEntry)
 );

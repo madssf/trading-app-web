@@ -4,13 +4,12 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getPortfolios } from "./PortfoliosActions";
 
-import Portfolio from "./Portfolio";
+import PortfolioListEntry from "./PortfolioListEntry";
 import axios from "axios";
 
 class PortfoliosList extends Component {
   componentDidMount() {
     this.props.getPortfolios();
-    console.log('lol');
   }
 
   render() {
@@ -21,7 +20,7 @@ class PortfoliosList extends Component {
     }
 
     let items = portfolios.map(portfolio => {
-      return <Portfolio key={portfolio.id} portfolio={portfolio} />;
+      return <PortfolioListEntry key={portfolio.id} portfolio={portfolio} />;
     });
 
     return (
