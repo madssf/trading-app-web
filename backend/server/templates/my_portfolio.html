@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Portfolio{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+ 
+ 	
+ 
+    <div>
+      <div class='pfName'>
+        {{name}}
+      </div>
+    {% for i in assets %}
+	<div class="row">
+    {{i.name}}
+    Coins: {{i.total}}
+
+    Average: {{i.data.average}}
+  
+	</div>
+    {% endfor %}
+	</div>
+
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+{% endblock %}
