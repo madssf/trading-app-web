@@ -1,18 +1,22 @@
 
 
 from pathlib import Path
+from os import path
+from server.keyconfig import Database, Secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+TEMPLATE_DIR = path.join(BASE_DIR, "templates")
 
 
-SECRET_KEY = 'django-insecure-(fql$sws3(^1u+$m_9e6oilz-8*fxgs9qj-gfmm7qolydz@p7('
+SECRET_KEY = Secrets.SECRET_KEY
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
-
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,6 +39,15 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    # STREAMLIT
+    "http://localhost:8500",
+    "http://127.0.0.1:8500",
+    "http://192.168.1.151:8500",
+    "http://localhost:8501",
+    "http://127.0.0.1:8501",
+    "http://192.168.1.151:8501",
+
+    # REACT
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
@@ -56,7 +69,7 @@ ROOT_URLCONF = 'server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,12 +102,15 @@ DJOSER = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": Database.NAME,
+        "USER": Database.USER,
+        "PASSWORD": Database.PASSWORD,
+        "HOST": Database.HOST,
+        "PORT": Database.PORT,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -132,7 +148,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [path.join(BASE_DIR, "static")]
+STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

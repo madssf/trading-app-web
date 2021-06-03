@@ -34,3 +34,6 @@ typing-extensions==3.10.0.0
 uritemplate==3.0.1
 urllib3==1.26.4
 zipp==3.4.1
+django_cryptography
+psycopg2-binary
+gunicorn==20.1.0

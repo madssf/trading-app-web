@@ -1,0 +1,11 @@
+.baseClass {
+  text-align: center;
+  color: red;
+}
+
+.nav {
+  margin: 10px;
+  text-align: center;
+  justify-content: right;
+  color: darkcyan;
+}

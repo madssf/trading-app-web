@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}My Portfolios{% endblock %}
+
+{% block content %}
+ 
+  {% for i in data %}
+	<div class="row">
+    <a href={{i.id}}
+    <a href="/pages/MyPortfoliosView/{{ i.id }}/">{{ i.name }}</a>
+
+	</div>
+{% endfor %}
+{% endblock %}
