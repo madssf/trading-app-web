@@ -37,6 +37,15 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    # STREAMLIT
+    "http://localhost:8500",
+    "http://127.0.0.1:8500",
+    "http://192.168.1.151:8500",
+    "http://localhost:8501",
+    "http://127.0.0.1:8501",
+    "http://192.168.1.151:8501",
+
+    # REACT
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
@@ -135,6 +144,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+
+]
+print(BASE_DIR)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -8,6 +8,6 @@ pages_urlpatterns = [
     path('my_portfolios/',
          MyPortfoliosView, name="my_portfolios"),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('my_portfolio/<int:id>', PortfolioID, name='portfolioid')
+    path('my_portfolios/<int:id>', PortfolioID, name='portfolioid')
 
 ]

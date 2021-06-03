@@ -2,6 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from apps.portfolios.models import Portfolio, PortfolioAsset, Credentials, PortfolioParameter
 from apps.currencies.models import Currency
+from apps.strategies.models import Parameter
 
 from django.http import HttpResponse, JsonResponse
 from django.core.serializers import json
@@ -42,11 +43,18 @@ def PortfolioID(request, id):
 
             }
         )
+    params_qs = PortfolioParameter.objects.filter().values()
+    parameters = []
+    for param in params_qs:
+        parameters.append({Parameter.objects.filter(
+            id=param['parameter_id'])[0].name: param['value']})
+       # parameters.append({Parameter.objects.filter().values()})
+
    # print(assets)
     context = {
         'name': portfolio['name'],
         "id": portfolio['id'],
         "assets": assets,
+        "parameters": parameters
     }
-    print(context)
     return render(request, "my_portfolio.html", context)

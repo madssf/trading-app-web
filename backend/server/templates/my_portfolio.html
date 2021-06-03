@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
 
 {% block title %}Portfolio{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
- 
- 	
- 
-    <div>
+
+    <div className="base">
       <div class='pfName'>
         {{name}}
       </div>
@@ -22,6 +21,12 @@
 	</div>
     {% endfor %}
 	</div>
+
+  {% for i in parameters %}
+	<div class="row">
+    {{i}}  
+	</div>
+    {% endfor %}
 
 {% else %}
   <p>You are not logged in</p>

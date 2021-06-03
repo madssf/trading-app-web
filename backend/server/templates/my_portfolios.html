@@ -3,17 +3,12 @@
 {% block title %}My Portfolios{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
  
   {% for i in data %}
 	<div class="row">
-    {{i.id}}
+    <a href={{i.id}}
+    <a href="/pages/MyPortfoliosView/{{ i.id }}/">{{ i.name }}</a>
+
 	</div>
 {% endfor %}
-
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">Log In</a>
-{% endif %}
 {% endblock %}

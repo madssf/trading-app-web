@@ -1,0 +1,10 @@
+.base {
+  text-align: center;
+}
+
+.nav {
+  margin: 10px;
+  text-align: center;
+  justify-content: right;
+  color: darkcyan;
+}
