@@ -1,5 +1,21 @@
 # trading-app-web
 
+## Backend:
+
+1.
+
+```bash
+cd backend
+# python 3
+python3 -m virtualenv venv
+source venv/bin/activate #deactivate to quit
+pip install -r requirerments.txt
+cd server
+./manage.py makemigrations
+./manage.py migrate
+./manage.py runserver
+```
+
 ## Tech stack:
 
 - Django, React, Python, PostgreSQL

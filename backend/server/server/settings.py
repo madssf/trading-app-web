@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-(fql$sws3(^1u+$m_9e6oilz-8*fxgs9qj-gfmm7qolydz@p7(
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
