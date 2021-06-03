@@ -6,30 +6,38 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-
     <div className="base">
       <div class='pfName'>
-        {{name}}
+        <h1>  {{name}} </h1>
       </div>
     {% for i in assets %}
-	<div class="row">
-    {{i.name}}
-    Coins: {{i.total}}
-
-    Average: {{i.data.average}}
-  
-	</div>
+    	<div class="row">
+      {{i.symbol}}/{{i.name}}
+      |
+      Coins: {{i.total}}
+      {%if i.data.average%}
+      Average: i.data.average
+      {%endif%}
+	    </div>
     {% endfor %}
 	</div>
+
+
+  <h2> Strategy </h2>
+  <h3> {{strategy}}  </h3>
 
   {% for i in parameters %}
 	<div class="row">
     {{i}}  
 	</div>
     {% endfor %}
-
+    <div>
+    <a href="{% url 'my_portfolios' %}">My Portfolios</a>
+  </div>
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">Log In</a>
 {% endif %}
+
+
 {% endblock %}

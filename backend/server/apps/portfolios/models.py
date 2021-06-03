@@ -59,11 +59,11 @@ class PortfolioAsset(models.Model):
 
     # STAKED INFO
     flex_apr = models.DecimalField(
-        max_digits=7, decimal_places=4, default=0, blank=True)
+        max_digits=7, decimal_places=4, default=0, blank=True, null=True)
     flex_start = models.DateTimeField(
         auto_now_add=False, blank=True, null=True)
     locked_apr = models.DecimalField(
-        max_digits=7, decimal_places=4, default=0, blank=True)
+        max_digits=7, decimal_places=4, default=0, blank=True, null=True)
     locked_start = models.DateTimeField(
         auto_now_add=False, blank=True, null=True)
     locked_end = models.DateTimeField(

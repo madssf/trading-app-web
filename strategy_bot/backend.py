@@ -14,7 +14,7 @@ def get_token():
 def get_portfolios(token):
     data = requests.get(config.GET_URL, headers={
                         'Authorization': f'Token {token}'})
-    return data.json()
+    return data
 
 
 def get_market_data():

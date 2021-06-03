@@ -14,7 +14,8 @@
   <title>{% block title %}Trading App{% endblock %}</title>
 </head>
 <body>
-  <main className='base'>
+  <main className='base' style="margin: 10px; text-align: center">
+
     {% if user.is_authenticated %}
   <div className='nav'>user: {{ user.username }}</div>
   {% block content %}
