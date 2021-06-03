@@ -1,5 +1,6 @@
-.base {
+.baseClass {
   text-align: center;
+  color: red;
 }
 
 .nav {

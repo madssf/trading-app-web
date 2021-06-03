@@ -1,11 +1,12 @@
+'''
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import config
+from config import EmailUser
 # The mail addresses and password
-sender_address = config.MAIL_FROM
-sender_pass = config.MAIL_FROM_PW
-receiver_address = config.MAIL_TO
+sender_address = EmailUser.MAIL_FROM
+sender_pass = EmailUser.MAIL_FROM_PW
+receiver_address = Email.MAIL_TO
 
 
 def send_mail(mail_content, to_addr):
@@ -30,3 +31,4 @@ def send_mail(mail_content, to_addr):
     session.quit()
     print(
         f'mail sent! | from: {sender_address} | to: {to_addr} | subject: {subject} | content: {mail_content}|')
+'''

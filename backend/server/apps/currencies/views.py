@@ -2,6 +2,8 @@ from apps.users.permissions import AdminCUD_AuthR
 from rest_framework import viewsets
 from .models import Currency, CurrencyStat, MCAPTotal, Tag, TagGroup, CurrencyTag
 from .serializers import CurrencySerializer, CurrencyStatSerializer, MCAPTotalSerializer, TagSerializer, TagGroupSerializer, CurrencyTagSerializer
+from rest_framework.permissions import IsAdminUser
+from django.http.response import JsonResponse
 
 
 class CurrencyViewSet(viewsets.ModelViewSet):
@@ -83,3 +85,17 @@ class CurrencyStatViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.all()
+
+
+class CurrencyAndStatView():
+    permission_classes = [IsAdminUser]
+
+    def post(self, request):
+        try:
+            CurrencySerializer.save(symbol=request.data.get(
+                "symbol"), name=request.data.get("name"))
+        except KeyError as e:
+            return JsonResponse({'status': 500, 'error': e})
+        # CurrencyStatSerializer.save()
+
+        return JsonResponse({'status': 200})

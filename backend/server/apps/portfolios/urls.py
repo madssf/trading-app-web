@@ -14,5 +14,8 @@ router.register("portfolio_assets", PortfolioAssetView,
 router.register("credentials", CredentialsViewSet, basename="credentials")
 # user home portfolio view url with slug
 #router.register("my_portfolio⁄", CredentialsViewSet, basename="credentials")
-portfolios_urlpatterns = [url("api/v1/", include(router.urls))] + [path(
+
+bot_portfolios = [path(
     "api/v1/bot/portfolios", BotPortfolioList.as_view(), name='bot-portfolio-list')]
+portfolios_urlpatterns = [
+    url("api/v1/", include(router.urls))] + bot_portfolios

@@ -1,8 +1,20 @@
 # trading-app-web
 
-## Backend:
+## Docker
 
-1.
+Might need:
+
+```bash
+sudo chmod +x entrypoint.sh
+```
+
+Gunicorn
+
+```bash
+gunicorn server.wsgi:application --bind 0.0.0.0:8000 --workers=4
+```
+
+## Backend:
 
 ```bash
 cd backend
@@ -11,9 +23,27 @@ python3 -m virtualenv venv
 source venv/bin/activate #deactivate to quit
 pip install -r requirerments.txt
 cd server
+
+# set up db
 ./manage.py makemigrations
 ./manage.py migrate
+
+# create super user
+./manage.py createsuperuser
+# load seed data
+#./manage.py loaddata seed.json
 ./manage.py runserver
+```
+
+## Scripts:
+
+```bash
+cd scripts
+# python 3
+python3 -m virtualenv venv
+source venv/bin/activate #deactivate to quit
+pip install -r requirerments.txt
+
 ```
 
 ## Tech stack:
