@@ -1,13 +1,12 @@
 from rest_framework import serializers
-from .models import Currency, CurrencyStat, CurrencyTag, Price, Tag, TagGroup, MCAPTotal
+from .models import Currency, CurrencyTag, Price, Tag, TagGroup, MCAPTotal
 
 
 class CurrencySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Currency
-        fields = ['added_at', 'added_by', 'name',
-                  'symbol', 'alternative_name', 'web_url', 'whitepaper_url', 'description']
+        fields = '__all__'
 
 
 class TagGroupSerializer(serializers.ModelSerializer):
@@ -42,10 +41,4 @@ class PriceSerializer(serializers.ModelSerializer):
 class MCAPTotalSerializer(serializers.ModelSerializer):
     class Meta:
         model = MCAPTotal
-        fields = '__all__'
-
-
-class CurrencyStatSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CurrencyStat
         fields = '__all__'

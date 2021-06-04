@@ -29,11 +29,9 @@ class Api():
         if method == "GET":
             res = requests.get(self.base_url+endpoint, headers={
                 'Authorization': f'Token {self.token}'})
-            return res.json()
         if method == "POST":
             res = requests.post(self.base_url+endpoint, data=data, headers={
                 'Authorization': f'Token {self.token}'})
         print(f"Request: {method} {endpoint} {data}")
-        print("Response:")
-        print(res)
-        return res
+        print(f"Response: {res}")
+        return res.json()

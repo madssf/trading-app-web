@@ -20,21 +20,14 @@ class Currency(models.Model):
     web_url = models.URLField(blank=True, null=True, unique=True)
     whitepaper_url = models.URLField(blank=True, null=True, unique=True)
 
-    def __str__(self):
-        return self.symbol
-
-
-class CurrencyStat(models.Model):
-    currency = models.OneToOneField(
-        Currency, on_delete=models.CASCADE, unique=True)
     modified = models.DateTimeField(auto_now=True)
-    price = models.DecimalField(max_digits=18, decimal_places=10)
+    last_price = models.DecimalField(max_digits=18, decimal_places=10)
     mcap_total = models.PositiveBigIntegerField()
     mcap_rank = models.SmallIntegerField()
     pct_change_24h = models.DecimalField(max_digits=9, decimal_places=5)
 
     def __str__(self):
-        return str(self.currency) + "/" + str(self.modified)
+        return str(self.name)
 
 
 class MCAPTotal(models.Model):
