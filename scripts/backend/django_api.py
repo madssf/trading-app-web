@@ -1,4 +1,5 @@
 import requests
+from json import JSONDecodeError
 
 
 class Api():
@@ -29,9 +30,18 @@ class Api():
         if method == "GET":
             res = requests.get(self.base_url+endpoint, headers={
                 'Authorization': f'Token {self.token}'})
-        if method == "POST":
+        elif method == "POST":
             res = requests.post(self.base_url+endpoint, data=data, headers={
                 'Authorization': f'Token {self.token}'})
-        print(f"Request: {method} {endpoint} {data}")
+        elif method == "PATCH":
+            res = requests.patch(self.base_url+endpoint, data=data, headers={
+                'Authorization': f'Token {self.token}'})
+        else:
+            print(f"Method not recognized: {method} {endpoint}")
+        try:
+            res = res.json()
+        except JSONDecodeError:
+            res = {'error': 'JSONDecodeError', 'msg': res}
+        print(f"Request: {method}: {endpoint} {data}")
         print(f"Response: {res}")
-        return res.json()
+        return res

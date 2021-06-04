@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -8,7 +9,7 @@ class Currency(models.Model):
 
     class Meta:
         verbose_name_plural = 'Currencies'
-
+    slug = models.SlugField(unique=True)
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
         User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
@@ -28,6 +29,9 @@ class Currency(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    def get_absolute_url(self):
+        return reverse('currency_detail', kwargs={'slug': self.slug})
 
 
 class MCAPTotal(models.Model):
