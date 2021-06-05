@@ -6,8 +6,7 @@ import backend
 
 
 def main(context, market_data):
-    data = portfolios
-    print(data)
+    pass
 
 
 if __name__ == "__main__":

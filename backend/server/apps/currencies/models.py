@@ -9,7 +9,6 @@ class Currency(models.Model):
 
     class Meta:
         verbose_name_plural = 'Currencies'
-    slug = models.SlugField(unique=True)
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
         User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
@@ -23,7 +22,7 @@ class Currency(models.Model):
 
     modified = models.DateTimeField(auto_now=True)
     last_price = models.DecimalField(max_digits=18, decimal_places=10)
-    mcap_total = models.PositiveBigIntegerField()
+    mcap = models.PositiveBigIntegerField()
     mcap_rank = models.SmallIntegerField()
     pct_change_24h = models.DecimalField(max_digits=9, decimal_places=5)
 

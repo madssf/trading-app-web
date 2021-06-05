@@ -42,6 +42,7 @@ class Api():
             res = res.json()
         except JSONDecodeError:
             res = {'error': 'JSONDecodeError', 'msg': res}
-        print(f"Request: {method} {self.base_url}{endpoint} Data: {data}")
+        print(
+            f"Request: {method} {self.base_url}{endpoint} Data: {True if data else False}")
         print(f"Response: {res}")
         return res

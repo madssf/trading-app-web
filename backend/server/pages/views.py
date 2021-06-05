@@ -56,8 +56,6 @@ def PortfolioID(request, id):
         strategy_name = Strategy.objects.get(id=portfolio.strategy.id).name
     except AttributeError as e:
         strategy_name = "No strategy"
-    print(strategy_name)
-   # print(assets)
     context = {
         'name': portfolio.name,
         "id": portfolio.name,

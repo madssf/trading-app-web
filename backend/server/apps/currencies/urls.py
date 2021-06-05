@@ -14,8 +14,8 @@ router.register("mcap_total", MCAPTotalViewSet,
                 basename="mcap_total")
 
 batch_update_url = [path(
-    "api/v1/bot/currency_batch_update", csrf_exempt
-    (CurrencyBatchView.as_view()), name='currencies_batch_update')]
+    "api/v1/bot/currencies", csrf_exempt
+    (CurrencyBatchView.as_view()), name='bot_currencies')]
 
 currencies_urlpatterns = [
     url("api/v1/", include(router.urls))] + batch_update_url

@@ -17,17 +17,18 @@ class Seed():
         market = self.cg.get_market_data(max=n)
         i = 0
         for coin in market:
-            name = "".join(re.findall("[a-zA-Z]+", coin['name']))
+            name = "".join(re.findall("[a-zA-Z.]+", coin['name']))
             symbol = "".join(re.findall("[a-zA-Z]+", coin['symbol']))
             market[i]['name'] = name
             market[i]['symbol'] = symbol
+            market[i]['last_price'] = coin['price']
+            del market[i]['price']
             i += 1
         market = json.dumps(market)
-        print(market)
-        res = self.api.make_request(
-            "POST", "bot/currency_batch_update", data=market)
-        print(res)
+        print(f"Market size: {len(market)}")
+        self.api.make_request(
+            "POST", "bot/currencies", data=market)
 
 
 s = Seed()
-s.update_currencies(n=10)
+s.update_currencies(n=250)
