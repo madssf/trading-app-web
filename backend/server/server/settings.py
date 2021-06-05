@@ -2,7 +2,7 @@
 
 from pathlib import Path
 from os import path
-from server.keyconfig import Database, Secrets
+from server.keys import Database, Secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent

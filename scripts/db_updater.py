@@ -3,11 +3,11 @@ from config import Superuser, Endpoints, Parameters
 from backend.django_api import Api
 from backend.coingecko import CoinGecko
 import re
-api_credentials = {'username': Superuser.USER2,
-                   'password': Superuser.PW2}
+api_credentials = {'username': Superuser.USERS[1],
+                   'password': Superuser.PASSWORDS[1]}
 
 
-class Updater():
+class DBUpdater():
 
     def __init__(self):
         self.api = Api(api_credentials, Endpoints.BASE, Endpoints.LOGIN)
@@ -30,8 +30,17 @@ class Updater():
             "POST", "bot/currencies", data=market)
 
     def update_portfolio_assets(self):
+
+        # get all portfolios with credentials
+        # all_assets = []
+        # for portfolio in portfolios:
+        #   portfolio_assets = []
+        #   for creds in credentials:
+        #       portfolio_assets.append(get_assets(creds.exchange, credentials))
+        #   if len(portfolio_assets > 0):
+        #       all_assets.append(portfolio_assets)
         pass
 
 
-s = Updater()
+s = DBUpdater()
 s.update_currencies(n=250)
