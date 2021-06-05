@@ -7,7 +7,7 @@ api_credentials = {'username': Superuser.USERS[1],
                    'password': Superuser.PASSWORDS[1]}
 
 
-class DBUpdater():
+class DBConnection():
 
     def __init__(self):
         self.api = Api(api_credentials, Endpoints.BASE, Endpoints.LOGIN)
@@ -15,6 +15,7 @@ class DBUpdater():
 
     def update_currencies(self, n=5):
         market = self.cg.get_market_data(max=min(n, 250))  # coingecko 250 max
+        print(f"Market size: {len(market)}")
         i = 0
         for coin in market:
             name = "".join(re.findall("[a-zA-Z.]+", coin['name']))
@@ -25,11 +26,13 @@ class DBUpdater():
             del market[i]['price']
             i += 1
         market = json.dumps(market)
-        print(f"Market size: {len(market)}")
         self.api.make_request(
             "POST", "bot/currencies", data=market)
 
-    def update_portfolio_assets(self):
+    def get_credentials(self):
+        return self.api.make_request("GET", "bot/credentials")
+
+    def update_exchange_assets(self):
 
         # get all portfolios with credentials
         # all_assets = []
@@ -39,8 +42,20 @@ class DBUpdater():
         #       portfolio_assets.append(get_assets(creds.exchange, credentials))
         #   if len(portfolio_assets > 0):
         #       all_assets.append(portfolio_assets)
+
+        # deal with coins getting unstaked in post view
+        # if new amount is almost equal to staked
+        pass
+
+    def get_tradeable_portfolios(self):
+        pass
+
+    def post_trades(self):
         pass
 
 
-s = DBUpdater()
-s.update_currencies(n=250)
+db = DBConnection()
+
+
+data = db.get_credentials()
+print(data)

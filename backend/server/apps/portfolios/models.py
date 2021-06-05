@@ -123,10 +123,10 @@ class Credentials(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     exchange = models.ForeignKey(Exchange, on_delete=models.CASCADE)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
-    api_key = encrypt(models.CharField(max_length=200))
-    api_secret = encrypt(models.CharField(
+    key = encrypt(models.CharField(max_length=200))
+    secret = encrypt(models.CharField(
         max_length=200, blank=True, null=True))
-    api_payload = encrypt(models.CharField(
+    data = encrypt(models.CharField(
         max_length=200, blank=True, null=True))
 
     def __str__(self):

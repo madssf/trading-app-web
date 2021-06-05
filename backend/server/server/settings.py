@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'apps.portfolios',
     'apps.exchanges',
     'apps.currencies',
-    'apps.watchlists'
+    'apps.watchlists',
+    'bot'
 ]
 
 CORS_ALLOWED_ORIGINS = [

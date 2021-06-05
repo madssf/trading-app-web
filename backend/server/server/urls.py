@@ -15,24 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from apps.users.urls import users_urlpatterns
-from apps.exchanges.urls import exchanges_urlpatterns
-from apps.strategies.urls import strategies_urlpatterns
-from apps.portfolios.urls import portfolios_urlpatterns
-from apps.currencies.urls import currencies_urlpatterns
-from apps.watchlists.urls import watchlists_urlpatterns
-from pages.urls import pages_urlpatterns
+from apps.users.urls import users_urls
+from apps.exchanges.urls import exchanges_urls
+from apps.strategies.urls import strategies_urls
+from apps.portfolios.urls import portfolios_urls
+from apps.currencies.urls import currencies_urls
+from apps.watchlists.urls import watchlists_urls
+from pages.urls import pages_urls
+from bot.urls import bot_urls
+
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-urlpatterns += users_urlpatterns
-urlpatterns += exchanges_urlpatterns
-urlpatterns += strategies_urlpatterns
-urlpatterns += portfolios_urlpatterns
-urlpatterns += currencies_urlpatterns
-urlpatterns += watchlists_urlpatterns
-urlpatterns += pages_urlpatterns
+urlpatterns += users_urls
+urlpatterns += exchanges_urls
+urlpatterns += strategies_urls
+urlpatterns += portfolios_urls
+urlpatterns += currencies_urls
+urlpatterns += watchlists_urls
+urlpatterns += pages_urls
+urlpatterns += bot_urls
 urlpatterns += staticfiles_urlpatterns()

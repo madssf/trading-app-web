@@ -5,4 +5,4 @@ from .views import ExchangeViewSet
 router = DefaultRouter()
 router.register("exchanges", ExchangeViewSet, basename="exchanges")
 
-exchanges_urlpatterns = [url("api/v1/", include(router.urls))]
+exchanges_urls = [url("api/v1/", include(router.urls))]

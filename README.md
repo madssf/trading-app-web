@@ -48,7 +48,6 @@ cd server
 1. Go to /scripts/, make a file called 'config.py', add the following:
 
 ```python
-# Make a new instance, edit config.py to match project.env for Docker
 import os
 
 class Endpoints:

@@ -8,4 +8,4 @@ router.register("watchlist_currencies", WatchlistViewSet,
                 basename="watchlist_currencies")
 
 
-watchlists_urlpatterns = [url("api/v1/", include(router.urls))]
+watchlists_urls = [url("api/v1/", include(router.urls))]

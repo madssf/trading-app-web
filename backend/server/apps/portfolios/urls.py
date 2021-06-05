@@ -1,7 +1,6 @@
 from django.conf.urls import url, include
-from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import DepositViewSet, PortfolioAssetView, PortfolioViewSet, PortfolioParameterViewSet, TradeViewSet, CredentialsViewSet, BotPortfolioList, PortfolioLogEntryViewSet
+from .views import DepositViewSet, PortfolioAssetView, PortfolioViewSet, PortfolioParameterViewSet, TradeViewSet, CredentialsViewSet, PortfolioLogEntryViewSet
 
 router = DefaultRouter()
 router.register("portfolios", PortfolioViewSet, basename="portfolios")
@@ -15,8 +14,6 @@ router.register("portfolio_log", PortfolioLogEntryViewSet,
                 basename="portfolio_log")
 router.register("credentials", CredentialsViewSet, basename="credentials")
 
-bot_portfolios = [path(
-    "api/v1/bot/portfolios", BotPortfolioList.as_view(), name='bot-portfolio-list')]
 
-portfolios_urlpatterns = [
-    url("api/v1/", include(router.urls))] + bot_portfolios
+portfolios_urls = [
+    url("api/v1/", include(router.urls))]

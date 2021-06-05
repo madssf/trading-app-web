@@ -11,4 +11,4 @@ router.register("parameters", ParameterViewSet,
 router.register("strategy_parameters", StrategyParameterViewSet,
                 basename="strategy_parameters")
 
-strategies_urlpatterns = [url("api/v1/", include(router.urls))]
+strategies_urls = [url("api/v1/", include(router.urls))]
