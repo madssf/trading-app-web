@@ -5,8 +5,8 @@ from apps.users.permissions import OwnerCUD_AuthR
 from rest_framework.permissions import IsAdminUser
 from django.db.models import Q
 
-from .models import Deposit, Portfolio, PortfolioAsset, PortfolioParameter, Trade, Credentials
-from .serializers import DepositSerializer, PortfolioAssetSerializer, PortfolioSerializer, PortfolioParameterSerializer, TradeSerializer, CredentialsSerializer
+from .models import Deposit, Portfolio, PortfolioAsset, PortfolioLogEntry, PortfolioParameter, Trade, Credentials
+from .serializers import DepositSerializer, PortfolioAssetSerializer, PortfolioLogEntrySerializer, PortfolioSerializer, PortfolioParameterSerializer, TradeSerializer, CredentialsSerializer
 from apps.currencies.models import Currency
 from apps.strategies.models import Parameter
 
@@ -32,6 +32,18 @@ class PortfolioParameterViewSet(viewsets.ModelViewSet):
 
     serializer_class = PortfolioParameterSerializer
     queryset = PortfolioParameter.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_queryset(self):
+        return self.queryset.all()
+
+
+class PortfolioLogEntryViewSet(viewsets.ModelViewSet):
+
+    serializer_class = PortfolioLogEntrySerializer
+    queryset = PortfolioLogEntry.objects.all()
 
     def perform_create(self, serializer):
         serializer.save()
@@ -91,6 +103,7 @@ class CredentialsViewSet(viewsets.ModelViewSet):
 class BotPortfolioList(mixins.ListModelMixin, generics.GenericAPIView):
     permission_classes = [IsAdminUser]
 
+    # fix, not workinng with new portfolioasset
     def get(self, request):
         try:
             portfolios = Portfolio.objects.filter(strategy__isnull=False)
@@ -104,7 +117,7 @@ class BotPortfolioList(mixins.ListModelMixin, generics.GenericAPIView):
                 data[cred.portfolio.id]['credentials'][cred.exchange.name] = {
                     'key': cred.api_key, 'secret': cred.api_secret, 'payload': cred.api_payload}
 
-            for asset in PortfolioAsset.objects.filter(portfolio__in=portfolio_ids, active=True):
+            for asset in PortfolioAsset.objects.filter(portfolio__in=portfolio_ids, close_time__isnnull=True):
                 if asset.exchange.name not in data[asset.portfolio.id]['assets'].keys():
                     data[asset.portfolio.id]['assets'][asset.exchange.name] = {}
                 if asset.currency.name not in data[asset.portfolio.id]['assets'][asset.exchange.name].keys():

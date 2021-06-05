@@ -31,8 +31,8 @@ class Api():
             res = requests.get(self.base_url+endpoint, headers={
                 'Authorization': f'Token {self.token}'})
         elif method == "POST":
-            res = requests.post(self.base_url+endpoint, data=data, headers={
-                'Authorization': f'Token {self.token}'})
+            res = requests.post(self.base_url+endpoint, data=data,
+                                headers={'Authorization': f'Token {self.token}', "content-type": "application/json"})
         elif method == "PATCH":
             res = requests.patch(self.base_url+endpoint, data=data, headers={
                 'Authorization': f'Token {self.token}'})
@@ -42,6 +42,6 @@ class Api():
             res = res.json()
         except JSONDecodeError:
             res = {'error': 'JSONDecodeError', 'msg': res}
-        print(f"Request: {method}: {endpoint} {data}")
+        print(f"Request: {method} {self.base_url}{endpoint} Data: {data}")
         print(f"Response: {res}")
         return res

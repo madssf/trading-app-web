@@ -1,5 +1,6 @@
+from django.db.models import fields
 from rest_framework import serializers
-from .models import Deposit, Portfolio, PortfolioAsset, PortfolioParameter, Trade, Credentials
+from .models import Deposit, Portfolio, PortfolioAsset, PortfolioLogEntry, PortfolioParameter, Trade, Credentials
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
@@ -21,8 +22,13 @@ class PortfolioAssetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PortfolioAsset
-        fields = ['id', 'portfolio', 'currency', 'timestamp', 'exchange', 'locked', 'flex', 'spot',
-                  'average', 'flex_apr', 'flex_start', 'locked_apr', 'locked_start', 'locked_end']
+        fields = '__all__'
+
+
+class PortfolioLogEntrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PortfolioLogEntry
+        fields = '__all__'
 
 
 class TradeSerializer(serializers.ModelSerializer):

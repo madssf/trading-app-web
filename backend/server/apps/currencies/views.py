@@ -1,18 +1,15 @@
-from django.http.response import JsonResponse
 from apps.users.permissions import AdminCUD_AuthR
+from rest_framework.permissions import IsAdminUser
+from rest_framework import viewsets
+
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.decorators import action
 from .models import Currency, MCAPTotal, Tag, TagGroup, CurrencyTag
 from .serializers import CurrencySerializer, MCAPTotalSerializer, TagSerializer, TagGroupSerializer, CurrencyTagSerializer
-from rest_framework import viewsets
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.text import slugify
-from django.views.generic import CreateView, DetailView, UpdateView
-from rest_framework.permissions import IsAdminUser
 
-from .forms import CurrencyForm
-from .models import Currency
 
-'''
 class CurrencyViewSet(viewsets.ModelViewSet):
 
     serializer_class = CurrencySerializer
@@ -26,7 +23,9 @@ class CurrencyViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.all()
-'''
+
+    def perform_update(self, serializer):
+        serializer.save()
 
 
 class TagGroupViewSet(viewsets.ModelViewSet):
@@ -80,46 +79,31 @@ class MCAPTotalViewSet(viewsets.ModelViewSet):
         return self.queryset.all()
 
 
-class CurrencyCreateView(LoginRequiredMixin, CreateView):
+class CurrencyBatchViewSet(viewsets.ViewSet):
 
-    model = Currency
-    form_class = CurrencyForm
+    queryset = Currency.objects.all()
+    serializer_class = CurrencySerializer
 
-    def form_valid(self, form):
-        currency = form.save(commit=False)
+    @action(detail=True, methods=['post'])
+    def batch_update(self, request, pk=None):
 
-        try:
-            Currency.objects.get(symbol=currency.symbol)
-            return JsonResponse({'msg': 'already exists'}, safe=False)
-        except Currency.DoesNotExist:
-            currency.slug = slugify(currency.symbol)
+        recent_users = User.objects.all().order_by('-last_login')
 
-            # Save again - this time to the database
-            currency.save()
-            return super().form_valid(form)
+        page = self.paginate_queryset(recent_users)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(recent_users, many=True)
+        return Response(serializer.data)
 
 
-class CurrencyUpdateView(LoginRequiredMixin, UpdateView):
-    model = Currency
-    form_class = CurrencyForm
+class CurrencyBatchView(APIView):
+    """
+    A view that can accept POST requests with JSON content.
+    """
     permission_classes = [IsAdminUser]
+    parser_classes = [JSONParser]
 
-    def get_object(self):
-        return get_object_or_404(Currency,
-                                 slug=self.kwargs['slug'],
-                                 )
-
-    def form_valid(self, form):
-        # Update the slug if the symbol has changed.
-        currency = form.save(commit=False)
-        currency.slug = slugify(currency.symbol)
-        currency.save()
-        return super().form_valid(form)
-
-
-class CurrencyDetailView(DetailView):
-    model = Currency
-
-    def get_object(self):
-        return get_object_or_404(Currency,
-                                 slug=self.kwargs['slug'],)
+    def post(self, request, format=None):
+        return Response({'received data': request.data})
