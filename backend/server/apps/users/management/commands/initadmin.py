@@ -20,4 +20,4 @@ class Command(BaseCommand):
             admin.is_admin = True
             admin.save()
         else:
-            print('User exists in DB - not creating new superuser.')
+            print('User alrerady exists in DB.')

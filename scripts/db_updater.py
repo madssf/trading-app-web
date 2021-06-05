@@ -7,14 +7,14 @@ api_credentials = {'username': Superuser.USER2,
                    'password': Superuser.PW2}
 
 
-class Seed():
+class Updater():
 
     def __init__(self):
         self.api = Api(api_credentials, Endpoints.BASE, Endpoints.LOGIN)
         self.cg = CoinGecko(Parameters.BASE_FIAT, Parameters.STABLECOINS)
 
     def update_currencies(self, n=5):
-        market = self.cg.get_market_data(max=n)
+        market = self.cg.get_market_data(max=min(n, 250))  # coingecko 250 max
         i = 0
         for coin in market:
             name = "".join(re.findall("[a-zA-Z.]+", coin['name']))
@@ -29,6 +29,9 @@ class Seed():
         self.api.make_request(
             "POST", "bot/currencies", data=market)
 
+    def update_portfolio_assets(self):
+        pass
 
-s = Seed()
+
+s = Updater()
 s.update_currencies(n=250)

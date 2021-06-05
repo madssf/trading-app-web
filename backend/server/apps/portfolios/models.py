@@ -64,10 +64,6 @@ class PortfolioAsset(models.Model):
     amount = models.DecimalField(
         max_digits=18, decimal_places=10, blank=True, null=True)
 
-    # average price of this position
-    average = models.DecimalField(
-        max_digits=18, decimal_places=10, blank=True, null=True)
-
     # staking info
     apr = models.DecimalField(
         max_digits=7, decimal_places=4, default=0, blank=True, null=True)
@@ -77,7 +73,8 @@ class PortfolioAsset(models.Model):
         auto_now_add=False, blank=True, null=True)
 
     def __str__(self):
-        return str(self.portfolio) + "/" + str(self.timestamp) + "/" + str(self.exchange) + "/" + str(self.currency)
+        status = "OPEN" if not self.close_time else "CLOSED"
+        return str(self.portfolio) + "/" + status + "/" + str(self.exchange) + "/" + str(self.currency) + "/" + str(self.status)
 
 
 class PortfolioLogEntry(models.Model):

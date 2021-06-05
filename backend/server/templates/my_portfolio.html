@@ -9,14 +9,18 @@
       <div class='pfName'>
         <h1>  {{name}} </h1>
       </div>
-    {% for i in assets %}
+    {% for asset in assets %}
     	<div class="row">
-      {{i.symbol}}/{{i.name}}
-      |
-      Coins: {{i.total}}
-      {%if i.data.average%}
-      Average: i.data.average
-      {%endif%}
+      {{asset.symbol}}/{{asset.name}}
+      <ul>
+        <li>Amount: {{asset.amount}}</li>
+        <li>Status: {{asset.status}}</li>
+        <li>APR: {{asset.apr}}</li>
+        <li>$ value: {{asset.value}}</li>
+        <li>Stake expiry: {{asset.stake_start}}</li>
+        <!-- <li>{{asset.stake_end}}</li> -->
+      </ul>
+
 	    </div>
     {% endfor %}
 	</div>
