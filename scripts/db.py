@@ -1,16 +1,18 @@
-import json
-from config import Superuser, Endpoints, Parameters
 from backend.django_api import Api
 from backend.coingecko import CoinGecko
+import ccxt
+
+from config import Superuser, Endpoints, Parameters
+
 import re
-api_credentials = {'username': Superuser.USERS[1],
-                   'password': Superuser.PASSWORDS[1]}
+import json
 
 
 class DBConnection():
 
     def __init__(self):
-        self.api = Api(api_credentials, Endpoints.BASE, Endpoints.LOGIN)
+        self.api = Api(
+            {'username': Superuser.USERS[1], 'password': Superuser.PASSWORDS[1]}, Endpoints.BASE, Endpoints.LOGIN)
         self.cg = CoinGecko(Parameters.BASE_FIAT, Parameters.STABLECOINS)
 
     def update_currencies(self, n=5):
@@ -32,20 +34,37 @@ class DBConnection():
     def get_credentials(self):
         return self.api.make_request("GET", "bot/credentials")
 
-    def update_exchange_assets(self):
+    def get_exchange_assets(self):
 
-        # get all portfolios with credentials
-        # all_assets = []
-        # for portfolio in portfolios:
-        #   portfolio_assets = []
-        #   for creds in credentials:
-        #       portfolio_assets.append(get_assets(creds.exchange, credentials))
-        #   if len(portfolio_assets > 0):
-        #       all_assets.append(portfolio_assets)
+        creds = self.get_credentials()
+        assets = {}
 
-        # deal with coins getting unstaked in post view
-        # if new amount is almost equal to staked
-        pass
+        for cred in creds:
+            if not cred['portfolio_id'] in assets.keys():
+                assets[cred['portfolio_id']] = []
+            raw_assets = self.get_assets(
+                exchange=cred['exchange'], key=cred['key'], secret=cred['secret'])
+
+            # Cleaning assets
+            cleaned_assets = []
+            if cred['exchange'].lower() == 'binance':
+                for symbol in raw_assets.items():
+                    if isinstance(symbol[1], dict):
+                        try:
+                            if symbol[1]['total'] > 0:
+                                cleaned_assets.append(
+                                    {symbol[0]: symbol[1]['total']})
+                        except (KeyError):
+                            # loads of stuff in binance response
+                            pass
+
+            else:
+                raise ValueError(f"Invalid exchange {cred['exchange']}")
+            if len(cleaned_assets) > 0:
+                assets[cred['portfolio_id']].append(
+                    {'exchange': cred['exchange'], 'assets': cleaned_assets})
+
+        return assets
 
     def get_tradeable_portfolios(self):
         pass
@@ -53,9 +72,17 @@ class DBConnection():
     def post_trades(self):
         pass
 
+    def get_assets(self, exchange, key, secret):
+        exchange_class = getattr(ccxt, exchange.lower())
+        exchange = exchange_class({
+            'apiKey': key,
+            'secret': secret,
+        })
+        return exchange.fetch_balance()
+
 
 db = DBConnection()
 
 
-data = db.get_credentials()
+data = db.get_exchange_assets()
 print(data)
