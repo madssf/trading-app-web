@@ -2,7 +2,7 @@
 
 ## Docker
 
-Go to /backend/, create a .env file, add:
+1. Go to /backend/, make a file called 'project.env', add the following (fill in the blanks):
 
 ```.env
 POSTGRES_USER=
@@ -38,16 +38,14 @@ cd server
 # set up db
 ./manage.py makemigrations
 ./manage.py migrate
-
-# create super user
 ./manage.py createsuperuser
-#./manage.py loaddata seed.json
+
 ./manage.py runserver
 ```
 
 ## Scripts:
 
-1. Make a new file in /scripts/ called config.py, add the following:
+1. Go to /scripts/, make a file called 'config.py', add the following:
 
 ```python
 # Make a new instance, edit config.py to match project.env for Docker
@@ -61,13 +59,15 @@ class Endpoints:
 
 
 class Parameters:
-
+    # For coingecko
     BASE_FIAT = "USD"
+    # Coins we don't need in our database, leave empty list if none.
     STABLECOINS = ['USDT', 'USDC', 'BUSD',
                    'TUSD', 'DAI', 'CUSDC', 'CDAI', 'CUSDC']
 
 
 class Superuser:
+    # Users for Django requests
     USERS = ['insert', 'usernames']
     PASSWORDS = ['insert', "passwords"]
 
