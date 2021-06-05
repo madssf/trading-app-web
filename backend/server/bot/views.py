@@ -66,10 +66,10 @@ class PortfolioCredentials(mixins.ListModelMixin, generics.GenericAPIView):
             creds = []
             credentials = Credentials.objects.filter(portfolio=p.id)
             for cred in credentials:
-                creds.append({'exchange': cred.exchange.api_url, 'key': cred.key,
+                creds.append({'exchange': cred.exchange.name, 'api': cred.exchange.api_url, 'key': cred.key,
                               'secret': cred.secret, 'data': cred.data})
             data.append(
-                {'user': p.owner.name, 'email': p.owner.email, 'creds': creds if len(creds) > 0 else None})
+                {'user': p.owner.username, 'email': p.owner.email, 'creds': creds if len(creds) > 0 else None})
         return JsonResponse(data, safe=False)
 
         '''
