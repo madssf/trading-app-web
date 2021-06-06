@@ -47,3 +47,12 @@ Make sure you are in /scripts/
 ## lambda_func.py
 
 ## db.py
+
+```Python
+db = DBConnection()
+# Gets top 250 currencies from Coingecko and updates/creates records in database.
+db.update_currencies()
+# Gets all assets from all registered portfolio credentials and updates/creates records in database.
+db.update_exchange_assets()
+
+```

@@ -36,6 +36,11 @@ class PortfolioParameter(models.Model):
 
 
 class PortfolioAsset(models.Model):
+
+    class Meta:
+        unique_together = [['portfolio', 'currency', 'exchange', 'status',
+                            'close_time', 'stake_end', 'stake_start', 'apr']]
+
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     exchange = models.ForeignKey(
@@ -74,7 +79,7 @@ class PortfolioAsset(models.Model):
 
     def __str__(self):
         status = "OPEN" if not self.close_time else "CLOSED"
-        return str(self.portfolio) + "/" + status + "/" + str(self.exchange) + "/" + str(self.currency) + "/" + str(self.status)
+        return str(self.portfolio) + "/" + status + "/" + str(self.exchange) + "/" + str(self.status) + "/" + str(self.currency)
 
 
 class PortfolioLogEntry(models.Model):

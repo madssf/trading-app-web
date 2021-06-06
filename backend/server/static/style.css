@@ -1,11 +1,16 @@
-.baseClass {
+.base {
   text-align: center;
-  color: red;
+  color: rgb(20, 14, 116);
+}
+
+div {
+  text-align: center;
+  color: rgb(20, 14, 116);
 }
 
 .nav {
   margin: 10px;
   text-align: center;
   justify-content: right;
-  color: darkcyan;
+  color: rgb(5, 41, 41);
 }

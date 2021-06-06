@@ -27,6 +27,10 @@ class DBConnection():
             market[i]['last_price'] = coin['price']
             del market[i]['price']
             i += 1
+
+        # check if db has currencies that we haven't included
+        # add those to market
+
         market = json.dumps(market)
         self.api.make_request(
             "POST", "bot/currencies", data=market)
@@ -51,13 +55,21 @@ class DBConnection():
                 for symbol in raw_assets.items():
                     if isinstance(symbol[1], dict):
                         try:
-                            if symbol[1]['total'] > 0:
-                                status = "SPOT"
-                                # set status to something else if needed
-                                # not doing apr, stake start, stake end
-                                cleaned_assets.append(
+                            amount = symbol[1]['total']
+                            symbol = symbol[0]
 
-                                    {'symbol': symbol[0], 'status': status, 'amount': symbol[1]['total']})
+                            if amount > 0:
+                                status = "SPOT"
+
+                                # set status to something else if needed
+                                if symbol[:2] == "LD":
+                                    status = "FLEX"
+                                    symbol = symbol[2:]
+                                if symbol == "BETH":
+                                    status = "LOCK"
+                                    symbol = "ETH"
+                                cleaned_assets.append(
+                                    {'symbol': symbol, 'status': status, 'amount': amount})
                         except (KeyError):
                             # loads of stuff in binance response
                             pass
@@ -79,7 +91,7 @@ class DBConnection():
             "POST", "bot/exchange_assets", data=json.dumps(data))
         return res
 
-    def get_tradeable_portfolios(self):
+    def get_strategy_portfolios(self):
         pass
 
     def post_trades(self):

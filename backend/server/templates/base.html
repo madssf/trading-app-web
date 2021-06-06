@@ -9,20 +9,23 @@
   <title>{% block title %}Trading App{% endblock %}</title>
 </head>
 <body>
-  <main className='base'>
-<div className='baseClass'>
+  <main>
+  <div classname='base'>
     {% if user.is_authenticated %}
-  <div className='nav'>user: {{ user.username }}</div>
+      <div classname='nav'>
+      user: {{ user.username }}
+      </div>
   {% block content %}
   {% endblock %}
+  <div classname='nav'>
   <p><a href="{% url 'home'%}">Home</a></p>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
-
+  </div>
   {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">Log In</a>
   {% endif %}
-</div>
+  </div>
   </main>
 </body>
 </html>

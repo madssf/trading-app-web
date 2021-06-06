@@ -81,22 +81,31 @@ class ExchangeAssetsBotView(APIView):
     parser_classes = [JSONParser]
 
     def post(self, request, format=None):
-        failed = 0
         new = 0
-        updated = []
+        changed = 0
+        checked = 0
+        failed_creates = []
+        failed_updates = []
         unknown_currencies = []
 
         for portfolio in request.data:
-            # return Response({'data': portfolio.keys()})
             for exchange in portfolio['exchanges']:
                 for coin in exchange['assets']:
+
+                    # Try to update:
                     try:
                         currency = Currency.objects.get(symbol=coin['symbol'])
                         asset = PortfolioAsset.objects.get(
-                            close_time=None, portfolio=portfolio['portfolio'], exchange=Exchange.objects.get(name=exchange['name']), currency=currency)
-                        updated.append(str(asset))
-                        # self.handle_update_asset(asset, exchane)
+                            close_time=None, portfolio=Portfolio.objects.get(id=portfolio['portfolio']), exchange=Exchange.objects.get(name=exchange['name']), currency=currency, status=coin['status'])
+                        change, failed_symbol = self.handle_update_asset(Portfolio.objects.get(id=portfolio['portfolio']), Exchange.objects.get(
+                            name=exchange['name']), coin['symbol'], coin['amount'], coin['status'], asset)
+                        # if updated, write log entry:
+                        checked -= -1+change
+                        changed += change
+                        if failed_symbol:
+                            failed_updates.append(failed_symbol)
 
+                    # Try to create if update fails:
                     except (Currency.DoesNotExist, PortfolioAsset.DoesNotExist):
                         try:
                             asset_obj = PortfolioAsset.objects.create(
@@ -106,11 +115,30 @@ class ExchangeAssetsBotView(APIView):
                             )
                             asset_obj.save()
                             new += 1
+
+                        # Fail if currency does not exist:
                         except (Currency.DoesNotExist):
-                            failed += 1
+                            failed_creates.append(coin['symbol'])
                             unknown_currencies.append(coin['symbol'])
 
-        return Response({'updated': updated, 'new': new, 'failed': failed, 'unknowns': unknown_currencies})
+        return Response({'new': new, 'checked': checked, 'changed': changed, 'failed_updates': failed_updates, 'failed_creates': failed_creates, 'unknown_currencies': unknown_currencies})
 
+    def handle_update_asset(self, portfolio, exchange, symbol, amount, status, asset_obj):
+        if float(asset_obj.amount) == float(amount) and asset_obj.status == status:
+            return 0, None
 
-#        return Response({'data': data})
+        # Check stake expiry
+
+        if exchange.name.lower() == 'binance':
+            try:
+
+                asset_obj.portfolio = portfolio
+                asset_obj.exchange = exchange
+                asset_obj.currency = Currency.objects.get(symbol=symbol)
+                asset_obj.amount = amount
+                asset_obj.save()
+                return 1, None
+            except IntegrityError as e:
+                return 1, symbol
+        else:
+            raise ValueError(f'Invalid exchange: {exchange.name.lower()}')
