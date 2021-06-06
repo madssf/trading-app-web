@@ -7,7 +7,6 @@ import { Container} from "react-bootstrap";
 
 
 
-import Sidebar from '../Sidebar';
 import { logout } from "../login/LoginActions";
 
 class Home extends Component {
@@ -18,7 +17,6 @@ class Home extends Component {
     const { user } = this.props.auth;
     return (
       <div>
-        <Sidebar />
         <Container>
           <div className='home'> 
           <h1>Home</h1>

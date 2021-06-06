@@ -8,9 +8,6 @@ import { logout } from "./LoginActions.js";
 
 
 
-
-import Sidebar from '../Sidebar';
-
 class Logout extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +24,6 @@ class Logout extends Component {
     const { user } = this.props.auth;
     return (
       <div>
-        <Sidebar />
         <Container>
           <div className='home'> 
           <Button color="primary" onClick={this.onLogout}>Log out</Button>

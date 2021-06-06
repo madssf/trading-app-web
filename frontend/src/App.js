@@ -8,7 +8,7 @@ import Landing from "./components/Landing";
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Home from "./components/home/Home";
-import MyPortfolioList from "./components/home/MyPortfolioList";
+//import MyPortfolioList from "./components/home/MyPortfolioList";
 
 import Explore from "./components/explore/Explore";
 import Research from "./components/research/Research";
@@ -16,7 +16,7 @@ import Guide from "./components/guide/Guide";
 import Logout from "./components/login/Logout";
 
 import axios from "axios";
-axios.defaults.baseURL = "http://127.0.0.1:8000";
+axios.defaults.baseURL = "http://127.0.0.1:1337";
 
 
 class App extends Component {
@@ -30,12 +30,7 @@ class App extends Component {
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/home" component={requireAuth(Home)}/>
-            <Route path="/my_portfolios" component={requireAuth(MyPortfolioList)}/>
-
-            <Route path="/explore" component={requireAuth(Explore)}/>
-            
-            <Route path="/research" component={requireAuth(Research)}/>
-            <Route path="/guide" component={requireAuth(Guide)}/>
+    
             <Route path="/logout" component={requireAuth(Logout)}/>
 
             <Route path="*">Ups</Route>

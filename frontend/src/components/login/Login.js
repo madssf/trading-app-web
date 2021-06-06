@@ -25,7 +25,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    this.props.login(userData, "/dashboard");
+    this.props.login(userData, "/home");
   };
   render() {
     return (
