@@ -1,11 +1,7 @@
-from django.http.response import HttpResponse
 from django.shortcuts import render
-from apps.portfolios.models import Portfolio, PortfolioAsset, Credentials, PortfolioParameter
+from apps.portfolios.models import Portfolio, PortfolioAsset, PortfolioParameter
 from apps.currencies.models import Currency
 from apps.strategies.models import Strategy, Parameter
-
-from django.http import HttpResponse, JsonResponse
-from django.core.serializers import json
 
 
 def MyPortfoliosView(request):
