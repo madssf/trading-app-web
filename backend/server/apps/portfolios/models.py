@@ -51,9 +51,9 @@ class PortfolioAsset(models.Model):
     FLEX = 'FLEX'
     LOCK = 'LOCK'
     STATUS_CHOICES = (
-        (SPOT, 'Instantly tradeable'),
-        (FLEX, 'Tradeable with action'),
-        (LOCK, 'Not tradeable'),
+        (SPOT, 'SPOT'),
+        (FLEX, 'FLEX'),
+        (LOCK, 'LOCK'),
     )
     status = models.CharField(
         max_length=4,

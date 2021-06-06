@@ -1,3 +1,4 @@
+from apps.portfolios.models import PortfolioAsset
 from rest_framework.permissions import IsAdminUser
 from django.db.utils import IntegrityError
 from rest_framework.parsers import JSONParser
@@ -9,13 +10,15 @@ from django.http.response import JsonResponse
 from rest_framework.permissions import IsAdminUser
 from apps.portfolios.models import Portfolio, Credentials
 from apps.currencies.models import Currency
+from apps.exchanges.models import Exchange
+
 from django.contrib.auth import get_user_model
 
 
 User = get_user_model()
 
 
-class CurrencyBatchView(APIView):
+class CurrencyBotView(APIView):
     """
     A view that can accept POST requests with JSON content.
     """
@@ -56,7 +59,7 @@ class CurrencyBatchView(APIView):
         return Response({'updated': updated, 'new': new, 'failed': failed, 'name_changed': name_changed})
 
 
-class PortfolioCredentials(mixins.ListModelMixin, generics.GenericAPIView):
+class CredentialsBotView(mixins.ListModelMixin, generics.GenericAPIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request):
@@ -66,46 +69,48 @@ class PortfolioCredentials(mixins.ListModelMixin, generics.GenericAPIView):
             credentials = Credentials.objects.filter(portfolio=p.id)
             for cred in credentials:
                 data.append(
-                    {'portfolio_id': p.id, 'portfolio_name': p.name, 'user': p.owner.username, 'email': p.owner.email, 'exchange': cred.exchange.name, 'api': cred.exchange.api_url, 'key': cred.key,
-                     'secret': cred.secret, 'data': cred.data})
+                    {'portfolio_id': p.id, 'exchange': cred.exchange.name, 'key': cred.key, 'secret': cred.secret, 'data': cred.data})
         return JsonResponse(data, safe=False)
 
-        '''
-                portfolio_ids = [p.id]
-            for cred in Credentials.objects.filter(portfolio__in=portfolio_ids):
-                data[cred.portfolio.id]['credentials'][cred.exchange.name] = {
-                    'key': cred.api_key, 'secret': cred.api_secret, 'payload': cred.api_payload}
 
-            for asset in PortfolioAsset.objects.filter(portfolio__in=portfolio_ids, close_time__isnnull=True):
-                if asset.exchange.name not in data[asset.portfolio.id]['assets'].keys():
-                    data[asset.portfolio.id]['assets'][asset.exchange.name] = {}
-                if asset.currency.name not in data[asset.portfolio.id]['assets'][asset.exchange.name].keys():
-                    data[asset.portfolio.id]['assets'][asset.exchange.name][asset.currency.name] = {
-                    }
-                else:
-                    raise KeyError(
-                        'Trying to overwrite existing key - duplicate active asset.')
-                # spot
-                data[asset.portfolio.id]['assets'][asset.exchange.name][asset.currency.name]['spot'] = asset.spot
-                # flex
-                data[asset.portfolio.id]['assets'][asset.exchange.name][asset.currency.name]['flex'] = asset.flex
-                # lock
-                data[asset.portfolio.id]['assets'][asset.exchange.name][asset.currency.name]['locked'] = asset.locked
-
-            for param in PortfolioParameter.objects.filter(portfolio__in=portfolio_ids):
-                if param.parameter.parameter.name not in data[param.portfolio.id]['parameters'].keys():
-                    data[param.portfolio.id]['parameters'][param.parameter.parameter.name] = param.value
-                else:
-                    raise KeyError(
-                        'Trying to overwrite existing parameter - duplicate portfolio parameter.')
-        except KeyError as e:
-            data = {'error': e}
-            '''
-
-
-# for updating portfolio assets, makes a new record and sets previous Active=False
-class BotPortfolioAssetList():
+class ExchangeAssetsBotView(APIView):
+    """
+    Takes in a json object with PortfolioAssets from exchanges and updates, closes, opens new positions.
+    """
     permission_classes = [IsAdminUser]
+    parser_classes = [JSONParser]
 
-    def post(self, request):
-        return
+    def post(self, request, format=None):
+        failed = 0
+        new = 0
+        updated = []
+        unknown_currencies = []
+
+        for portfolio in request.data:
+            # return Response({'data': portfolio.keys()})
+            for exchange in portfolio['exchanges']:
+                for coin in exchange['assets']:
+                    try:
+                        currency = Currency.objects.get(symbol=coin['symbol'])
+                        asset = PortfolioAsset.objects.get(
+                            close_time=None, portfolio=portfolio['portfolio'], exchange=Exchange.objects.get(name=exchange['name']), currency=currency)
+                        updated.append(str(asset))
+                        # self.handle_update_asset(asset, exchane)
+
+                    except (Currency.DoesNotExist, PortfolioAsset.DoesNotExist):
+                        try:
+                            asset_obj = PortfolioAsset.objects.create(
+                                portfolio=Portfolio.objects.get(id=portfolio['portfolio']), exchange=Exchange.objects.get(name=exchange['name']), currency=Currency.objects.get(symbol=coin['symbol']),
+                                amount=coin['amount'],
+                                status=coin['status']
+                            )
+                            asset_obj.save()
+                            new += 1
+                        except (Currency.DoesNotExist):
+                            failed += 1
+                            unknown_currencies.append(coin['symbol'])
+
+        return Response({'updated': updated, 'new': new, 'failed': failed, 'unknowns': unknown_currencies})
+
+
+#        return Response({'data': data})

@@ -1,15 +1,18 @@
-from .views import CurrencyBatchView, PortfolioCredentials
+from .views import CredentialsBotView, CurrencyBotView, ExchangeAssetsBotView
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 
-batch_update_currencies = [path(
+currencies = [path(
     "api/v1/bot/currencies", csrf_exempt
-    (CurrencyBatchView.as_view()), name='bot-currencies')]
+    (CurrencyBotView.as_view()), name='bot-currencies')]
 
-portfolio_credentials = [path(
-    "api/v1/bot/credentials", PortfolioCredentials.as_view(), name='bot-credentials')]
+credentials = [path(
+    "api/v1/bot/credentials", CredentialsBotView.as_view(), name='bot-credentials')]
 
+exchange_assets = [path(
+    "api/v1/bot/exchange_assets", ExchangeAssetsBotView.as_view(), name='exchange-assets')]
 
 bot_urls = []
-bot_urls += batch_update_currencies
-bot_urls += portfolio_credentials
+bot_urls += currencies
+bot_urls += credentials
+bot_urls += exchange_assets

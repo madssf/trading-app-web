@@ -37,11 +37,11 @@ class DBConnection():
     def get_exchange_assets(self):
 
         creds = self.get_credentials()
-        assets = {}
+        portfolios = {}
 
         for cred in creds:
-            if not cred['portfolio_id'] in assets.keys():
-                assets[cred['portfolio_id']] = []
+            if not cred['portfolio_id'] in portfolios.keys():
+                portfolios[cred['portfolio_id']] = []
             raw_assets = self.get_assets(
                 exchange=cred['exchange'], key=cred['key'], secret=cred['secret'])
 
@@ -52,8 +52,12 @@ class DBConnection():
                     if isinstance(symbol[1], dict):
                         try:
                             if symbol[1]['total'] > 0:
+                                status = "SPOT"
+                                # set status to something else if needed
+                                # not doing apr, stake start, stake end
                                 cleaned_assets.append(
-                                    {symbol[0]: symbol[1]['total']})
+
+                                    {'symbol': symbol[0], 'status': status, 'amount': symbol[1]['total']})
                         except (KeyError):
                             # loads of stuff in binance response
                             pass
@@ -61,10 +65,19 @@ class DBConnection():
             else:
                 raise ValueError(f"Invalid exchange {cred['exchange']}")
             if len(cleaned_assets) > 0:
-                assets[cred['portfolio_id']].append(
-                    {'exchange': cred['exchange'], 'assets': cleaned_assets})
+                portfolios[cred['portfolio_id']].append(
+                    {'name': cred['exchange'], 'assets': cleaned_assets})
+
+        assets = [{'portfolio': p, 'exchanges': portfolios[p]}
+                  for p in portfolios]
 
         return assets
+
+    def update_exchange_assets(self):
+        data = self.get_exchange_assets()
+        res = self.api.make_request(
+            "POST", "bot/exchange_assets", data=json.dumps(data))
+        return res
 
     def get_tradeable_portfolios(self):
         pass
@@ -84,5 +97,5 @@ class DBConnection():
 db = DBConnection()
 
 
-data = db.get_exchange_assets()
+data = db.update_exchange_assets()
 print(data)

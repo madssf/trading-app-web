@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 TEMPLATE_DIR = path.join(BASE_DIR, "templates")
 
 
-SECRET_KEY = Secrets.SECRET_KEY
+SECRET_KEY = "Ar3KeY+$up3r"  # Secrets.SECRET_KEY
 
 DEBUG = True
 
