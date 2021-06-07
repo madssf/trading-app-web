@@ -1,2 +1,0 @@
-export const GET_PORTFOLIOS = "GET_PORTFOLIOS";
-export const GET_PORTFOLIO_BY_ID = "GET_PORTFOLIO_BY_ID";

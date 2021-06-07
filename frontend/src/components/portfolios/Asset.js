@@ -5,9 +5,7 @@ export const Asset = (props) => {
   const asset = props.asset
   return (
     <div>
-    <b>{asset.symbol}</b> {asset.name}
-    <p>Value: {asset.value} $</p>
-    <p>Status: {asset.status}</p>
+    <b>{asset.symbol}</b> {asset.name} {asset.status}: {asset.value} $
     </div>
     
   )
