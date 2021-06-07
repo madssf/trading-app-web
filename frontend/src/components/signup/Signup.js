@@ -5,14 +5,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux"; 
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import {
-  Container,
-  Button,
-  Row,
-  Col,
-  Form,
-  FormControl
-} from "react-bootstrap";
+import { Container, Button, Form,FormControl} from "react-bootstrap";
 
 import { signupNewUser } from "./SignupActions";
 
@@ -39,8 +32,7 @@ class Signup extends Component {
   render() {
     return (
       <Container>
-        <Row>
-          <Col md="4">
+       <div>
             <h1>Sign up</h1>
             <Form>
               <Form.Group controlId="usernameId">
@@ -75,8 +67,7 @@ class Signup extends Component {
             <p className="mt-2">
               Already have account? <Link to="/login">Login</Link>
             </p>
-          </Col>
-        </Row>
+            </div>  
       </Container>
     );
   }

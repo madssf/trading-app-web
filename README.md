@@ -19,7 +19,7 @@ SUPERUSER_EMAIL=
 DJANGO_SECRET_KEY=
 ```
 
-Go to main folder:
+Terminal to /backend/ folder:
 
 ```bash
 docker-compose up --build

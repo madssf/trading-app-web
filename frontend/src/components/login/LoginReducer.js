@@ -1,6 +1,6 @@
 // frontend/src/components/login/LoginReducer.js file
 
-import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
+import * as LoginTypes from "./LoginTypes";
 
 const initialState = {
   isAuthenticated: false,
@@ -10,18 +10,18 @@ const initialState = {
 
 export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_TOKEN:
+    case LoginTypes.SET_TOKEN:
       return {
         ...state,
         isAuthenticated: true,
         token: action.payload
       };
-    case SET_CURRENT_USER:
+    case LoginTypes.SET_CURRENT_USER:
       return {
         ...state,
         user: action.payload
       };
-    case UNSET_CURRENT_USER:
+    case LoginTypes.UNSET_CURRENT_USER:
       return initialState;
     default:
       return state;

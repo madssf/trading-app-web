@@ -3,6 +3,8 @@ import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { createBrowserHistory } from "history";
 import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 import { routerMiddleware, ConnectedRouter } from "connected-react-router";
 
 import rootReducer from "./Reducer";
@@ -16,8 +18,9 @@ const Root = ({ children, initialState = {} }) => {
   const store = createStore(
     rootReducer(history),
     initialState,
-    applyMiddleware(...middleware)
-  );
+    composeWithDevTools(
+  applyMiddleware(...middleware),
+  ));
 
   if (!isEmpty(localStorage.getItem("token"))) {
     store.dispatch(setToken(localStorage.getItem("token")));

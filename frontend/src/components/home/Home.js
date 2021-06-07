@@ -7,24 +7,21 @@ import { Container} from "react-bootstrap";
 
 
 
-import { logout } from "../login/LoginActions";
-
 class Home extends Component {
-  onLogout = () => {
-    this.props.logout();
-  };
+
+
+ 
   render() {
     const { user } = this.props.auth;
+    
     return (
-      <div>
-        <Container>
+          <Container>
           <div className='home'> 
           <h1>Home</h1>
-          <p>{user.username}</p>
-          </div>        
-      </Container>
-  
-    </div>
+          <p>Welcome, {user.username}</p>
+          <p>Email: {user.email}</p>
+          </div> 
+          </Container>
 
      
   );
@@ -32,14 +29,11 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps, {
-  logout
-})(withRouter(Home));
+export default connect(mapStateToProps)(withRouter(Home));

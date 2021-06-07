@@ -72,6 +72,7 @@ class DBConnection():
                                     {'symbol': symbol, 'status': status, 'amount': amount})
                         except (KeyError):
                             # loads of stuff in binance response
+                            # ignoring everything that is not a dict
                             pass
 
             else:
@@ -107,5 +108,5 @@ class DBConnection():
 
 
 db = DBConnection()
-db.update_currencies(n=250)
-# db.update_exchange_assets()
+# db.update_currencies(n=250)
+db.update_exchange_assets()

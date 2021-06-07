@@ -1,15 +1,9 @@
-// frontend/src/components/signup/SignupActions.js
-
 import axios from "axios";
 import { toast } from "react-toastify";
-import {
-  CREATE_USER_ERROR,
-  CREATE_USER_SUBMITTED,
-  CREATE_USER_SUCCESS
-} from "./SignupTypes";
+import * as SignupTypes from "./SignupTypes";
 
 export const signupNewUser = userData => dispatch => {
-  dispatch({ type: CREATE_USER_SUBMITTED }); // set submitted state
+  dispatch({ type: SignupTypes.CREATE_USER_SUBMITTED }); // set submitted state
   axios
     .post("/api/v1/users/", userData)
     .then(response => {
@@ -18,7 +12,7 @@ export const signupNewUser = userData => dispatch => {
           userData.username +
           " created successfully. Please login."
       );
-      dispatch({ type: CREATE_USER_SUCCESS });
+      dispatch({ type: SignupTypes.CREATE_USER_SUCCESS });
     })
     .catch(error => {
       if (error.response) {
@@ -26,7 +20,7 @@ export const signupNewUser = userData => dispatch => {
         // that falls out of the range of 2xx
         toast.error(JSON.stringify(error.response.data));
         dispatch({
-          type: CREATE_USER_ERROR,
+          type: SignupTypes.CREATE_USER_ERROR,
           errorData: error.response.data
         });
       } else if (error.message) {

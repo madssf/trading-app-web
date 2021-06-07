@@ -4,13 +4,18 @@ import { connectRouter } from "connected-react-router";
 
 import { signupReducer } from "./components/signup/SignupReducer";
 import { loginReducer } from "./components/login/LoginReducer";
+import { currenciesReducer } from "./components/currencies/CurrenciesReducer"
+import { portfoliosReducer } from "./components/portfolios/PortfoliosReducer"
 
 
 const createRootReducer = history =>
   combineReducers({
     router: connectRouter(history),
     createUser: signupReducer,
-    auth: loginReducer
+    auth: loginReducer,
+    currencies: currenciesReducer,
+    portfolios: portfoliosReducer
+
   });    
 
 export default createRootReducer;
