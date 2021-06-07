@@ -10,7 +10,7 @@ import Login from "./components/login/Login";
 import Home from "./components/home/Home";
 import CurrenciesList from "./components/currencies/CurrenciesList";
 import PortfoliosList from './components/portfolios/PortfoliosList';
-
+import PortfolioDetail from './components/portfolios/PortfolioDetail'
 import NavBar from "./components/NavBar";
 
 import axios from "axios";
@@ -31,7 +31,8 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/home" component={requireAuth(Home)}/>
             <Route path="/currencies" component={requireAuth(CurrenciesList)}/>
-            <Route path="/portfolios" component={requireAuth(PortfoliosList)}/>
+            <Route exact path="/portfolios" component={requireAuth(PortfoliosList)}/>
+            <Route exact path="/portfolios/:id" component={requireAuth(PortfolioDetail)}/>
 
             <Route path="*">404 - Not Found</Route>
           </Switch>

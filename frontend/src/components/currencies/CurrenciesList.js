@@ -8,7 +8,7 @@ import {getCurrencies} from './CurrenciesActions'
 import Currency from './Currency'
 
 
-class Currencies extends Component {
+class CurrenciesList extends Component {
   componentDidMount() {
     this.props.getCurrencies();
   }
@@ -36,7 +36,7 @@ class Currencies extends Component {
 }
 }
 
-Currencies.propTypes = {
+CurrenciesList.propTypes = {
   currencies: PropTypes.object.isRequired,
   getCurrencies: PropTypes.func.isRequired,
 };
@@ -45,4 +45,4 @@ const mapStateToProps = state => ({
   currencies: state.currencies,
 });
 
-export default connect(mapStateToProps, {getCurrencies})(withRouter(Currencies));
+export default connect(mapStateToProps, {getCurrencies})(withRouter(CurrenciesList));

@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+
 import { Container} from "react-bootstrap";
 import {getPortfolios} from './PortfoliosActions'
-import Portfolio from './Portfolio'
+import PortfolioListEntry from './PortfolioListEntry'
 
 
 class PortfoliosList extends Component {
@@ -20,7 +21,7 @@ class PortfoliosList extends Component {
       return <p>No portfolios yet.</p>
     }
     let items = portfolios.map(portfolio => {
-      return <Portfolio key={portfolio.id} portfolio={portfolio}/>;
+      return <PortfolioListEntry key={portfolio.id} portfolio={portfolio}/>;
     })
     return (
           <Container>

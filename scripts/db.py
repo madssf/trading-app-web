@@ -108,5 +108,5 @@ class DBConnection():
 
 
 db = DBConnection()
-# db.update_currencies(n=250)
+db.update_currencies(n=250)
 db.update_exchange_assets()

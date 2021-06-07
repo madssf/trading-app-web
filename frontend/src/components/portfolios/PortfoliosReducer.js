@@ -1,7 +1,7 @@
 import { GET_PORTFOLIOS } from "./PortfoliosTypes";
 
 const initialState = {
-  portfolios: []
+  portfolios: [],
 };
 
 export const portfoliosReducer = (state = initialState, action) => {
@@ -11,6 +11,7 @@ export const portfoliosReducer = (state = initialState, action) => {
         ...state,
         portfolios: action.payload
       };
+   
 
     default:
       return state;
