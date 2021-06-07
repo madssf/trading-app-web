@@ -1,5 +1,7 @@
 # trading-app-web
 
+- Django, React-Redux, Python, PostgreSQL
+
 ## Docker
 
 1. Go to /backend/, make a file called 'project.env', add the following (fill in the blanks):
@@ -19,13 +21,27 @@ SUPERUSER_EMAIL=
 DJANGO_SECRET_KEY=
 ```
 
-Terminal to /backend/ folder:
+Terminal to /backend/:
 
 ```bash
 docker-compose up --build
 ```
 
-## Running backend without Docker:
+## Running scripts
+
+See:
+[Running scripts](scripts/README.md)
+
+## Business goals
+
+- Make coin research easier and social
+- Automated trading strategies based on research
+- Ability to have your portfolio use other peoples strategies
+- Staking optimizing
+- Minimizing market risk
+- Encouraging fundamental view and hodling???
+
+## Running backend without Docker
 
 ```bash
 cd backend
@@ -42,21 +58,3 @@ cd server
 
 ./manage.py runserver
 ```
-
-## Running scripts
-
-See:
-[Running scripts](scripts/README.md)
-
-## Stack:
-
-- Django, React, Python, PostgreSQL
-
-## Business goals:
-
-- Make coin research easier and social
-- Automated trading strategies based on research
-- Ability to have your portfolio use other peoples strategies
-- Staking optimizing
-- Minimizing market risk
-- Encouraging fundamental view and hodling???
