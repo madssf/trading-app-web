@@ -15,8 +15,12 @@ class DBConnection():
             {'username': Superuser.USERS[1], 'password': Superuser.PASSWORDS[1]}, Endpoints.BASE, Endpoints.LOGIN)
         self.cg = CoinGecko(Parameters.BASE_FIAT, Parameters.STABLECOINS)
 
-    def update_currencies(self, n=5):
-        market = self.cg.get_market_data(max=min(n, 250))  # coingecko 250 max
+    def update_currencies(self, per_page=250, pages=2):
+        market = []
+        for i in range(pages):
+            # coingecko 250 max
+            market += self.cg.get_market_data(i+1, max=min(per_page, 250))
+
         print(f"Market size: {len(market)}")
         i = 0
         for coin in market:
@@ -108,5 +112,5 @@ class DBConnection():
 
 
 db = DBConnection()
-db.update_currencies(n=250)
+db.update_currencies()
 db.update_exchange_assets()

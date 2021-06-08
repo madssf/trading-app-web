@@ -3,12 +3,8 @@ import axios from 'axios';
 import { toastOnError } from "../../utils/Utils";
 
 export default class AddAsset extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(this.props);
-  }
+  
   state = {
-    currency: null,
     exchange: null,
     status: null,
     amount: null,
@@ -26,7 +22,7 @@ export default class AddAsset extends React.Component {
 
     const asset = {
       portfolio: this.props.portfolio, 
-      currency: this.state.currency,
+      currency: this.props.currency,
       exchange: this.state.exchange,
       status: this.state.status,
       amount: this.state.amount,

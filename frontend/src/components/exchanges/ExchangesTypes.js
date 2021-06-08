@@ -1,0 +1,1 @@
+export const GET_EXCHANGES = "GET_EXCHANGES";

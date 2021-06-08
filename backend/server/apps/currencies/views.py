@@ -1,4 +1,4 @@
-from apps.users.permissions import AdminCUD_AuthR
+from apps.users.permissions import AdminCUD_AuthR, AdminCUD_AnyR
 from rest_framework import viewsets
 from .models import Currency, MCAPTotal, Tag, TagGroup, CurrencyTag
 from .serializers import CurrencySerializer, MCAPTotalSerializer, TagSerializer, TagGroupSerializer, CurrencyTagSerializer
@@ -10,7 +10,7 @@ class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
 
     def get_permissions(self):
-        return AdminCUD_AuthR(self, super())
+        return AdminCUD_AnyR(self, super())
 
     def perform_create(self, serializer):
         serializer.save(added_by=self.request.user)

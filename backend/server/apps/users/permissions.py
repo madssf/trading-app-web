@@ -8,6 +8,14 @@ class IsOwner(permissions.BasePermission):
         return obj.owner == request.user
 
 
+def AdminCUD_AnyR(view, view_super):
+    if view.action in ['create', 'update', 'partial_update', 'destroy']:
+        view.permission_classes = [permissions.IsAdminUser]
+    elif view.action in ['list']:
+        view.permission_classes = [permissions.AllowAny]
+    return view_super.get_permissions()
+
+
 def OwnerCUD_AuthR(view, view_super):
     if view.action in ['create', 'update', 'partial_update', 'destroy']:
         view.permission_classes = [IsOwner]

@@ -25,7 +25,7 @@ export default class PortfoliosList extends React.Component {
   render() {
     return (
       <ul>
-        { this.state.portfolios.map(portfolio => <Link to={`/portfolios/${portfolio.id}`}>{portfolio.name}</Link>)}
+        { this.state.portfolios.map(portfolio => <Link key={portfolio.id} to={`/portfolios/${portfolio.id}`}>{portfolio.name}</Link>)}
       </ul>
     )
   }
