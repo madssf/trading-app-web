@@ -44,14 +44,17 @@ class PortfolioDetail extends Component {
 
 
     return (
-      <div>
-      <h1>{this.state.portfolio.name}</h1>
-  
+      <div className="portfolioDetail">
+      <h1 className="pageTitle">{this.state.portfolio.name}</h1>
+      <div className="portfolioDetailGrid">
+      <div className="portfolioDetailGrid1">
       {this.state.assets !== undefined && this.props.exchanges !== undefined ? <Assets assets={this.state.assets} exchanges={this.props.exchanges}/> : "No assets"}
-
+      </div>
+      <div className="portfolioDetailGrid2">
       <AddAsset portfolio={this.props.match.params.id} currencies={currencies} exchanges={exchanges}/>
       </div>
-
+      </div>
+      </div>
     )
   }
 }

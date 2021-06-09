@@ -1,9 +1,54 @@
-.tinyText {
-  text-size-adjust: 10%;
+div.asset {
+  font-size: 12px;
+  background-color: #687b92;
+  color: #ffffff;
+}
+
+p.asset {
+  float: top;
 }
 
 .addAssetForm {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+div.assets {
+  align-items: left;
+  justify-content: left;
+  width: 220px;
+}
+
+div.portfolioDetail {
+  margin: 10px;
+}
+
+div.portfolioDetailGrid {
+  justify-content: center;
+  display: inline-grid;
+}
+
+div.portfolioDetailGrid1 {
+  grid-column: 1 / 1;
+}
+div.portfolioDetailGrid2 {
+  align-items: center;
+  justify-content: center;
+  grid-column: 7 / 7;
+}
+Button.currencyAssetBtn {
+  margin: 10px;
+  width: 100px;
+  text-align: center;
+}
+
+div.dropdowns {
+  width: 250px;
+}
+
+.amountInput {
+  justify-content: center;
+  margin: 8px;
+  padding: 8px;
 }

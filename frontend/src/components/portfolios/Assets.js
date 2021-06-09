@@ -35,10 +35,10 @@ export default function Assets(props) {
       }
      } 
     totals = totals.sort(sortBy("value", false))
-    const currencyTotals = totals.map(coin => {return <CurrencyAsset key ={coin.id} symbol={coin.symbol} value={coin.value} positions={coin.positions}/>})
+    const currencyTotals = totals.map(coin => {return <CurrencyAsset key ={coin.id} symbol={coin.symbol} value={coin.value} positions={coin.positions} exchanges={props.exchanges}/>})
       
     return (
-        <div>
+        <div className="assets">
           {currencyTotals}    
         </div>
       )

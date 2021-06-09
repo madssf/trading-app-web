@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
+import PortfoliosList from '../portfolios/PortfoliosList';
 
 
 
@@ -21,6 +22,7 @@ class Home extends Component {
           <p>Welcome, {user.username}</p>
           <p>Email: {user.email}</p>
           </div> 
+          <PortfoliosList/>
           </Container>
 
      

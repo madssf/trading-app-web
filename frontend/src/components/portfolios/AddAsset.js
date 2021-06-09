@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import {Container} from "react-bootstrap";
+import {Container, Button} from "react-bootstrap";
 import DateTimePicker from "../../utils/DateTimePicker";
 import {toastOnError} from "../../utils/Utils";
 
@@ -11,8 +11,15 @@ import 'react-datetime/css/react-datetime.css';
 import Dropdown from '../dropdown/Dropdown';
 import "./style.css"
 export default class AddAsset extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+        stakeDisplay: false,
+    }
+}
   
   state = {
+    staked: true, 
     currency: null,
     exchange: null,
     status: null,
@@ -22,9 +29,17 @@ export default class AddAsset extends React.Component {
     stakeEnd: moment()
   }
 
+
+
+
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
+  setShowStaked = event => {
+    let staked = !this.state.showStaked
+    this.setState({showStaked: staked})
+  }
 
   handleSubmit = event => {
     event.preventDefault();
@@ -59,8 +74,21 @@ export default class AddAsset extends React.Component {
       <div className="addAssetForm">
       <Container>
 
-        <span>Add an asset manually:</span>
-        <div className="dropdowns" style={{}}>
+        <span>
+          <h2 className="addAssetHeader">Add an asset manually:</h2>
+        </span>
+        <input className="amountInput" type="number" step="0.001"name="amount" placeholder="Amount" onChange={this.handleChange} />
+
+        <form onSubmit={this.handleSubmit}>
+      
+      <label>
+      <button type="submit">Add</button>
+
+      </label>
+
+    </form>
+
+        <div className="dropdowns" >
           
           <Dropdown 
           options={this.props.currencies} 
@@ -93,9 +121,11 @@ export default class AddAsset extends React.Component {
           />
         </div>
 
-        
+        <Button className="currencyAssetBtn" onClick={() => this.setShowStaked(prev => !prev)}>{this.state.showStaked ? "Hide staked info" : "Show staked info"}</Button>
+
         <div className="stakedForm">
-          <Container>
+
+        {this.state.showStaked ? <Container>
           <div className="DateTimePicker">
             <DatePicker
             inputProps={{
@@ -118,15 +148,13 @@ export default class AddAsset extends React.Component {
             onChange={val => this.setState({stakeEnd: val.format('DD-MM-YYYY, hh:mm')})}
             /> 
           </div>
-          </Container>
+          </Container> : ""}
 
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            <input type="number" step="0.001"name="amount" placeholder="Amount" onChange={this.handleChange} />
-            <input type="number" step="0.01" name="apr" placeholder="APR" onChange={this.handleChange} />
-          </label>
-          <button type="submit">Add</button>
-        </form>
+        {this.state.showStaked ? <input type="number" step="0.01" name="apr" placeholder="APR" onChange={this.handleChange} /> : ""}
+
+
+
+      
         </div>
 
       </Container>

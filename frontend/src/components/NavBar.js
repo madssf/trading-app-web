@@ -18,7 +18,6 @@ class NavBar extends Component {
         <p><Link to="/">Front Page</Link></p>
         {this.props.auth.isAuthenticated === true ? <p><Link to="/home">Home</Link></p> : ""}
         {this.props.auth.isAuthenticated === true ? <p><Link to="/currencies">Currencies</Link></p> : ""}
-        {this.props.auth.isAuthenticated === true ? <p><Link to="/portfolios">Portfolios</Link></p> : ""}
         
         {this.props.auth.isAuthenticated === true ? <p> user: {this.props.auth.user.username}</p>: ""}
         {this.props.auth.isAuthenticated === false ? <p><Link to="/login">Log in</Link></p>: ""}
