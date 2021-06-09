@@ -1,22 +1,29 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-export const Asset = (props) => {
+const Asset = (props) => {
+  if (props.asset !== undefined && props.exchanges !== undefined){
   const asset = props.asset
-  return (
-    <div>
-    <b>{asset.symbol}</b> {asset.name} {asset.status}: {asset.value} $
-    </div>
-    
-  )
-}
-
-const mapStateToProps = (state) => ({
+  let exchange = "Unknown"
+  for(var i = 0; i < props.exchanges.exchanges.length ; i++){
+    if (props.exchanges.exchanges[i].id === asset.exchange) {
+      exchange = props.exchanges.exchanges[i].name
+    }
+  }
+    return (
+      <div>
+      <b>{asset.symbol}</b> 
+      <p>{asset.name}</p>
+      <p>{exchange}</p>
   
-})
-
-const mapDispatchToProps = {
+      <p>{asset.status}</p>
+      <p>{asset.value} $</p>
+      </div>
+      
+    )
+  } else {
+    return <p>'No assets'</p>
+  }
   
 }
+export default Asset
 
-export default connect(mapStateToProps, mapDispatchToProps)(Asset)
