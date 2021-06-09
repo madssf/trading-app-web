@@ -32,15 +32,6 @@ docker-compose up --build
 See:
 [Running scripts](scripts/README.md)
 
-## Business goals
-
-- Make coin research easier and social
-- Automated trading strategies based on research
-- Ability to have your portfolio use other peoples strategies
-- Staking optimizing
-- Minimizing market risk
-- Encouraging fundamental view and hodling???
-
 ## Running backend without Docker
 
 ```bash
