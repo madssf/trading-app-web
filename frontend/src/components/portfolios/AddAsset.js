@@ -4,6 +4,10 @@ import {Container} from "react-bootstrap";
 import DateTimePicker from "../../utils/DateTimePicker";
 import {toastOnError} from "../../utils/Utils";
 
+import DatePicker from 'react-datetime';
+import moment from 'moment';
+import 'react-datetime/css/react-datetime.css';
+
 import Dropdown from '../dropdown/Dropdown';
 import "./style.css"
 export default class AddAsset extends React.Component {
@@ -14,8 +18,8 @@ export default class AddAsset extends React.Component {
     status: null,
     amount: null,
     apr: null,
-    stakeStart: null,
-    stakeEnd: null
+    stakeStart: moment(),
+    stakeEnd: moment()
   }
 
   handleChange = event => {
@@ -37,6 +41,8 @@ export default class AddAsset extends React.Component {
       close_time: null
     };
 
+    // do validation
+/*
     axios.post(`http://localhost:1337/api/v1/portfolio_assets/`, asset, {headers: {
       'Content-Type': 'application/json'
   }})
@@ -44,62 +50,87 @@ export default class AddAsset extends React.Component {
       }).catch(error => {
         toastOnError(error);
       });
-
+*/
+    console.log(asset)
   }
 
   render() {
     return (
-      <Container >
-      <div className="addAssetForm" style={{}}>
+      <div className="addAssetForm">
+      <Container>
+
         <span>Add an asset manually:</span>
-        <div style={{width: 300}}>
-        <Dropdown 
-        options={this.props.currencies} 
-        prompt="Select a currency..."
-        id='id'
-        label='name'
-        value={this.state.currency}
-        onChange={val => this.setState({currency
-          : val})}
-        />
-         <Dropdown 
-        options={this.props.exchanges} 
-        prompt="Select an exchange..."
-        id='id'
-        label='name'
-        value={this.state.exchange}
-        onChange={val => this.setState({exchange
-          : val})}
-        />
-         <Dropdown 
-        options={[{'id': 1, 'status': 'SPOT'},{'id': 2, 'status': 'FLEX'},{'id': 3, 'status': 'LOCK'}]} 
-        prompt="Select status..."
-        id='id'
-        label='status'
-        value={this.state.status}
-        onChange={val => this.setState({status
-          : val})}
-        />
+        <div className="dropdowns" style={{}}>
+          
+          <Dropdown 
+          options={this.props.currencies} 
+          prompt="Select a currency..."
+          id='id'
+          label='name'
+          value={this.state.currency}
+          onChange={val => this.setState({currency
+            : val})}
+          />
+
+           <Dropdown 
+          options={this.props.exchanges} 
+          prompt="Select an exchange..."
+          id='id'
+          label='name'
+          value={this.state.exchange}
+          onChange={val => this.setState({exchange
+            : val})}
+          />
+
+           <Dropdown 
+          options={[{'id': 1, 'status': 'SPOT'},{'id': 2, 'status': 'FLEX'},{'id': 3, 'status': 'LOCK'}]} 
+          prompt="Select status..."
+          id='id'
+          label='status'
+          value={this.state.status}
+          onChange={val => this.setState({status
+            : val})}
+          />
         </div>
-        <div>
 
-          <DateTimePicker />
-          <DateTimePicker />
-          <DateTimePicker />
+        
+        <div className="stakedForm">
+          <Container>
+          <div className="DateTimePicker">
+            <DatePicker
+            inputProps={{
+              style: { width: 250 }
+            }}
+            value={this.state.stakeStart}
+            dateFormat="DD-MM-YYYY"
+            timeFormat="hh:mm A"
+            onChange={val => this.setState({stakeStart: val})}
+            /> 
+          </div>
+          <div className="DateTimePicker">
+            <DatePicker
+            inputProps={{
+              style: { width: 250 }
+            }}
+            value={this.state.stakeEnd}
+            dateFormat="DD-MM-YYYY"
+            timeFormat="hh:mm A"
+            onChange={val => this.setState({stakeEnd: val.format('DD-MM-YYYY, hh:mm')})}
+            /> 
+          </div>
+          </Container>
 
-
-        </div>
         <form onSubmit={this.handleSubmit}>
           <label>
             <input type="number" step="0.001"name="amount" placeholder="Amount" onChange={this.handleChange} />
             <input type="number" step="0.01" name="apr" placeholder="APR" onChange={this.handleChange} />
-            <input type="text" name="stake_start" placeholder="Stake start" onChange={this.handleChange} />
-            <input type="text" name="stake_end" placeholder="Stake end" onChange={this.handleChange} />
           </label>
           <button type="submit">Add</button>
         </form>
-      </div>
+        </div>
+
       </Container>
+      </div>
     )
   }
 }

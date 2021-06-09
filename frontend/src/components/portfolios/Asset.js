@@ -1,9 +1,11 @@
 import React from 'react'
 
 const Asset = (props) => {
-  const value = props.value
-  let exchange = props.exchange
-  const status = props.status
+  const value = props.asset.value
+  const amount = Math.round(props.asset.amount *10000)/10000
+
+  let exchange = props.asset.exchange
+  const status = props.asset.status
   /*
   for(var i = 0; i < props.exchanges.exchanges.length ; i++){
     if (props.exchanges.exchanges[i].id === exchange) {
@@ -13,7 +15,7 @@ const Asset = (props) => {
   */
   return (
       <div className="tinyText">
-     {value} | {status} | {exchange}
+     {value} | {amount} | {status} | {exchange}
 
       </div>
       

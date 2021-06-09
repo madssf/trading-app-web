@@ -1,16 +1,21 @@
-import React from 'react'
+import React, {useState} from 'react'
+import {Button} from 'react-bootstrap'
+
 import Asset from './Asset'
 export const CurrencyAsset = (props) => {
   const symbol = props.symbol
-  const value = props.value
+  const value = Math.round(props.value *100)/100
+  const positions = props.positions.map(asset => {return <Asset key={asset.id+asset.status+asset.exchange} symbol={props.symbol} asset={asset}/>})
 
-  const positions = props.positions.map(asset => {return <Asset key={asset.id+asset.status+asset.exchange} symbol={props.symbol} value={asset.value} exchange={asset.exchange} status={asset.status}/>})
-    
+  const [open, setOpen] = useState(false);
+  
   return (
     <div>
 
-    <b>{symbol}</b> {value} $     
-    {props.positions !== undefined ? positions : []}
+    <b>{symbol}</b> { value} $     
+    <Button onClick={() => setOpen(prev => !prev)} />
+    
+    {props.positions !== undefined && open ? positions : []}
 
     </div>
     
