@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { toastOnError } from "../../utils/Utils";
+import {Container} from "react-bootstrap";
+import {toastOnError} from "../../utils/Utils";
 
+import Dropdown from '../dropdown/Dropdown';
+import "./style.css"
 export default class AddAsset extends React.Component {
   
   state = {
@@ -45,8 +48,9 @@ export default class AddAsset extends React.Component {
 
   render() {
     return (
-      <div>
-        <span>Add asset:</span>
+      <Container >
+      <div className="addAssetForm" style={{}}>
+        <span>Add an asset manually:</span>
         <div style={{width: 300}}>
         <Dropdown 
         options={this.props.currencies} 
@@ -76,16 +80,25 @@ export default class AddAsset extends React.Component {
           : val})}
         />
         </div>
+        <div>
+
+          <DateTimePicker />
+          <DateTimePicker />
+          <DateTimePicker />
+
+
+        </div>
         <form onSubmit={this.handleSubmit}>
           <label>
-            <input type="text" name="amount" placeholder="Amount" onChange={this.handleChange} />
-            <input type="text" name="apr" placeholder="APR" onChange={this.handleChange} />
+            <input type="number" step="0.001"name="amount" placeholder="Amount" onChange={this.handleChange} />
+            <input type="number" step="0.01" name="apr" placeholder="APR" onChange={this.handleChange} />
             <input type="text" name="stake_start" placeholder="Stake start" onChange={this.handleChange} />
             <input type="text" name="stake_end" placeholder="Stake end" onChange={this.handleChange} />
           </label>
           <button type="submit">Add</button>
         </form>
       </div>
+      </Container>
     )
   }
 }

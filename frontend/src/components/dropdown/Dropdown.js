@@ -1,4 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react'
+import {Container} from 'react-bootstrap'
 import "./style.css"
 
 
@@ -47,6 +48,7 @@ export default function Dropdown({
   }
 
   return ( 
+    <Container>
     <div className="dropdown">
       <div className="control">
         <div className="selected-value">
@@ -77,5 +79,6 @@ export default function Dropdown({
           ))}
     </div>
   </div>
+  </Container>
   );
 }
