@@ -1,5 +1,3 @@
-_Only Binance for now, makes dealing with market data easier_
-
 # Before running scripts:
 
 1. Go to /scripts/, make a file called 'config.py', add the following:
