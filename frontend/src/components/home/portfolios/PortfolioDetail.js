@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
 import './style.css';
 
-import { toastOnError } from "../../utils/Utils";
+import { toastOnError } from "../../../utils/Utils";
 import axios from 'axios';
 import PropTypes from "prop-types";
 import {Container, Button} from "react-bootstrap";
 
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {getCurrencies} from '../currencies/CurrenciesActions'
-import {getExchanges} from '../exchanges/ExchangesActions'
+import {getCurrencies} from '../../store/CurrenciesActions'
+import {getExchanges} from '../../store/ExchangesActions'
 
-import PortfolioDetailView from './PortfolioDetailView/PortfolioDetailView'
-import Assets from '../assets/Assets'
-import AddAsset from '../assets/AddAsset';
-import BatchAddAsset from '../assets/BatchAddAsset';
+import PortfolioDetailView from './graphs/PortfolioGraphs'
+import Assets from './assets/Assets'
+import AddAsset from './assets/AddAsset';
+import BatchAddAsset from './assets/BatchAddAsset';
 import Credentials from './Credentials';
-import Strategy from './Strategy';
+import Strategy from './strategy/Strategy';
 
 class PortfolioDetail extends Component {
 

@@ -4,16 +4,16 @@ import Root from "./Root";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import requireAuth from "./utils/RequireAuth";
-import LandingPage from "./components/LandingPage";
-import Signup from "./components/signup/Signup";
-import Login from "./components/login/Login";
+import LandingPage from "./components/ui/LandingPage";
+import Signup from "./components/auth/signup/Signup";
+import Login from "./components/auth/login/Login";
 import Home from "./components/home/Home";
-import CurrenciesList from "./components/currencies/CurrenciesList";
-import PortfolioDetail from './components/portfolios/PortfolioDetail'
-import NavBar from "./components/NavBar";
+import CurrenciesList from "./components/pages/currencies/CurrenciesList";
+import StrategiesList from './components/pages/strategies/StrategiesList';
+import PortfolioDetail from './components/home/portfolios/PortfolioDetail'
+import NavBar from "./components/ui/NavBar";
 
 import axios from "axios";
-import StrategiesList from './components/strategies/StrategiesList';
 axios.defaults.baseURL = "http://127.0.0.1:1337";
 
 

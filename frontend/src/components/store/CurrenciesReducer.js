@@ -1,4 +1,4 @@
-import { GET_CURRENCIES } from "./CurrenciesTypes";
+import { GET_CURRENCIES } from "../store/CurrenciesTypes";
 
 const initialState = {
   currencies: []

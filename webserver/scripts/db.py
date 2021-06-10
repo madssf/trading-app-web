@@ -1,8 +1,8 @@
-from backend.django_api import Api
-from backend.coingecko import CoinGecko
+from .backend.django_api import Api
+from .backend.coingecko import CoinGecko
 import ccxt
 
-from config import Superuser, Endpoints, Parameters
+from .config import Superuser, Endpoints, Parameters
 
 import re
 import json
@@ -10,9 +10,11 @@ import json
 
 class DBConnection():
 
-    def __init__(self):
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
         self.api = Api(
-            {'username': Superuser.USERS[1], 'password': Superuser.PASSWORDS[1]}, Endpoints.BASE, Endpoints.LOGIN)
+            {'username': self.username, 'password': self.password}, Endpoints.BASE, Endpoints.LOGIN)
         self.cg = CoinGecko(Parameters.BASE_FIAT, Parameters.STABLECOINS)
 
     def update_currencies(self, per_page=250, pages=2):
@@ -111,6 +113,6 @@ class DBConnection():
         return exchange.fetch_balance()
 
 
-db = DBConnection()
-db.update_currencies()
-db.update_exchange_assets()
+# db = DBConnection()
+# db.update_currencies()
+# db.update_exchange_assets()

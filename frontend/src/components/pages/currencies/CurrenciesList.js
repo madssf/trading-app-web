@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
-import {getCurrencies} from './CurrenciesActions'
+import {getCurrencies} from '../../store/CurrenciesActions'
 import Currency from './Currency'
 
 

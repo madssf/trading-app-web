@@ -4,7 +4,7 @@ import axios from "axios";
 import { push } from "connected-react-router";
 import { toast } from "react-toastify";
 import * as LoginTypes from "./LoginTypes";
-import { setAxiosAuthToken, toastOnError } from "../../utils/Utils";
+import { setAxiosAuthToken, toastOnError } from "../../../utils/Utils";
 
 export const login = (userData, redirectTo) => dispatch => {
   axios

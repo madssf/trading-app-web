@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { toastOnError } from "../../utils/Utils";
+import { toastOnError } from "../../../utils/Utils";
 import { Link } from "react-router-dom";
 
 import axios from 'axios';

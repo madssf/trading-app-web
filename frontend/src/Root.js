@@ -8,7 +8,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware, ConnectedRouter } from "connected-react-router";
 
 import rootReducer from "./Reducer";
-import { setCurrentUser, setToken } from "./components/login/LoginActions";
+import { setCurrentUser, setToken } from "./components/auth/login/LoginActions";
 import { isEmpty } from "./utils/Utils"; 
 
 const Root = ({ children, initialState = {} }) => {

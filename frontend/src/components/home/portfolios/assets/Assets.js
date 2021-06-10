@@ -2,7 +2,7 @@ import React from 'react'
 import {Container} from 'react-bootstrap'
 import CurrencyAsset from './CurrencyAsset.js'
 
-import sortBy from '../../utils/SortBy'
+import sortBy from '../../../../utils/SortBy'
 
 
 export default function Assets(props) {
@@ -15,7 +15,7 @@ export default function Assets(props) {
     
     sum = Math.round(sum*100)/100
 
-    
+    console.log(props.assets)
     let totals = [{'id':props.assets[0].id, 'value': props.assets[0].value, 'symbol': props.assets[0].symbol, 'positions': [{'id': props.assets[0].id, 'value': props.assets[0].value, 'exchange': props.assets[0].exchange, 'status':  props.assets[0].status, 'amount': props.assets[0].amount, 'source': props.assets[0].source}]}]
     let totalsSymbols = [props.assets[0].symbol]
     let assetIds = [props.assets[0].id]

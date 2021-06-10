@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { toastOnError } from "../../utils/Utils";
+import { toastOnError } from "../../../../utils/Utils";
 import axios from 'axios';
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {getExchanges} from '../exchanges/ExchangesActions'
+import {getExchanges} from '../../../store/ExchangesActions'
 import { Container } from 'react-bootstrap';
 
 
