@@ -23,8 +23,11 @@ class PortfolioDetail extends Component {
     selectedCurrency: null,
     selectedExchange: null,
     showAdd: false,
-    showBatchAdd: false
+    showBatchAdd: false,
+    executing: false,
+    refreshing: false
   }
+
   componentDidMount() {
     this.props.getCurrencies();
     this.props.getExchanges();
@@ -43,7 +46,15 @@ class PortfolioDetail extends Component {
     });
   }
 
+  execute() {
+    this.setState({executing: true})
+    console.log('executing')
+  }
 
+  refresh() {
+    this.setState({refreshing: true})
+    console.log('refreshing')
+  }
 
   
   render() {
@@ -59,6 +70,7 @@ class PortfolioDetail extends Component {
       <div className="portfolioDetailGrid">
       
       <div className="portfolioDetailGrid1">
+        
       {this.state.assets !== undefined && this.props.exchanges !== undefined ? 
       
       <Assets assets={this.state.assets} exchanges={this.props.exchanges}/> 
@@ -68,13 +80,16 @@ class PortfolioDetail extends Component {
 
       </div>
 
-      <div className="portfolioDetailGrid3">
+      <div className="portfolioDetailGrid2">
         {this.state.portfolio !== undefined ? <PortfolioDetailView portfolio={this.state.portfolio}/> : ""}
         {this.state.portfolio !== undefined ? <Strategy portfolio={this.state.portfolio}/> : ""}
 
       </div>
 
-      <div className="portfolioDetailGrid2">
+      <div className="portfolioDetailGrid3">
+
+        <Button className="executeBtn" disabled={this.state.executing} onClick={() => this.execute()}>Execute</Button>
+        <Button className="refreshBtn" disabled={this.state.refreshing} onClick={() => this.refresh()}>Refresh</Button>
         <Button className="toggleView" onClick={() => this.setState({showAdd: !this.state.showAdd})}>{this.state.showAdd ? "Close" : "Add assets"}</Button>
           {this.state.showAdd ?  
           <AddAsset portfolio={this.props.match.params.id} currencies={currencies} exchanges={exchanges}/>

@@ -11,7 +11,7 @@ export default class AddAsset extends React.Component {
     super(props);
     this.state={
      exchange: null,
-     data: false,
+     data: "",
      res: ""
     }
 }
@@ -54,7 +54,7 @@ export default class AddAsset extends React.Component {
           />
         : ""}
         <br></br>
-        <Button deactivate={this.state.data}onClick={this.handleSubmit} value="Submit">Add</Button>
+        <button disabled={!(this.state.data && this.state.exchange !== null)} onClick={this.handleSubmit} value="Submit">Add</button>
       </form>
       </Container>
     </div>

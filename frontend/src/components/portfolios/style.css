@@ -1,29 +1,3 @@
-div.asset {
-  font-size: 12px;
-  background-color: #687b92;
-  color: #ffffff;
-  text-align: center;
-}
-
-p.asset {
-  float: top;
-}
-p.assetText {
-  text-align: center;
-}
-
-.addAssetForm {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-div.assets {
-  align-items: left;
-  justify-content: left;
-  width: 220px;
-}
-
 div.portfolioDetail {
   margin: 10px;
 }
@@ -40,14 +14,63 @@ div.portfolioDetailGrid1 {
 div.portfolioDetailGrid2 {
   align-items: center;
   justify-content: center;
-  grid-column: 4/4;
-  width: 250px;
+  grid-column: 2/6;
+  width: 600px;
 }
 div.portfolioDetailGrid3 {
+  align-items: right;
+  justify-content: right;
+  grid-column: 7/7;
+}
+
+div.assets {
+  align-items: left;
+  justify-content: left;
+  width: 220px;
+  padding: 10px;
+  margin: 10px;
+}
+
+div.currencyAsset {
+  justify-content: center;
+  align-items: left;
+}
+
+div.asset {
+  font-size: 12px;
+  background-color: #687b92;
+  color: #ffffff;
+  text-align: center;
+  align-items: center;
+}
+
+div.positions {
+  width: 200px;
   align-items: center;
   justify-content: center;
-  grid-column: 3/4;
-  width: 250px;
+  color: #687b92;
+}
+
+.deleteAssetBtn {
+  position: relative;
+  right: 0;
+  justify-content: right;
+  background-color: #af7c78;
+  border: black;
+}
+
+p.asset {
+  float: right;
+}
+p.assetText {
+  text-align: center;
+  justify-content: center;
+}
+
+.addAssetForm {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 Button.currencyBtn {
@@ -59,7 +82,8 @@ Button.currencyBtn {
 
 Button.toggleView {
   margin: 10px;
-  width: 200px;
+  width: 150px;
+  font-size: 14px;
   text-align: center;
   justify-content: center;
 }
@@ -73,11 +97,6 @@ div.dropdowns {
   margin: 8px;
   padding: 8px;
   width: 100px;
-}
-
-.deleteAssetBtn {
-  position: relative;
-  right: 0;
 }
 
 .sumText {

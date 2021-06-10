@@ -39,6 +39,7 @@ export default function Assets(props) {
       
     return (
         <div className="assets">
+          <h2>Assets</h2>
           {currencyTotals}    
         </div>
       )
