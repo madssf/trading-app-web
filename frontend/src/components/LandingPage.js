@@ -13,9 +13,7 @@ class Landing extends Component {
         <p>
           <Link to="/signup">Sign up</Link>
         </p>
-        <p>
-          <Link to="/home">Home</Link>
-        </p>
+       
       </Container>
     );
   }

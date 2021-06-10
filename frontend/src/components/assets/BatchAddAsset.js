@@ -54,7 +54,7 @@ export default class AddAsset extends React.Component {
           />
         : ""}
         <br></br>
-        <button disabled={!(this.state.data && this.state.exchange !== null)} onClick={this.handleSubmit} value="Submit">Add</button>
+        <Button className="action" disabled={!(this.state.data && this.state.exchange !== null)} onClick={this.handleSubmit} value="Submit">Add</Button>
       </form>
       </Container>
     </div>

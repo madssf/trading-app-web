@@ -11,17 +11,29 @@
 }
 
 .nav {
-  align-items: right;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   background-color: black;
   color: white;
-  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 20px;
 }
 
 .nav p {
   margin: 10px;
 }
 
+button.navLogout {
+  background-color: gray;
+  color: white;
+}
+
 .pageTitle {
   text-align: center;
+}
+
+div.dropdowns {
+  width: 250px;
 }

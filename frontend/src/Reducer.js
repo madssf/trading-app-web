@@ -6,6 +6,7 @@ import { signupReducer } from "./components/signup/SignupReducer";
 import { loginReducer } from "./components/login/LoginReducer";
 import { currenciesReducer } from "./components/currencies/CurrenciesReducer"
 import { exchangesReducer } from "./components/exchanges/ExchangesReducer"
+import { strategiesReducer } from "./components/strategies/StrategiesReducer";
 const createRootReducer = history =>
   combineReducers({
     router: connectRouter(history),
@@ -13,6 +14,8 @@ const createRootReducer = history =>
     auth: loginReducer,
     currencies: currenciesReducer,
     exchanges: exchangesReducer,
+    strategies: strategiesReducer,
+
 
   });    
 

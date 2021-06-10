@@ -49,9 +49,26 @@ class PortfolioAsset(models.Model):
     # None if this is a current position.
     close_time = models.DateTimeField(
         auto_now_add=False, blank=True, null=True)
+
+    # Batch added assets for and exchange, or from bot
+    BATCH = 'BATCH'
+    BOT = 'BOT'
+    OTHER = 'OTHER'
+    SOURCE_CHOICES = (
+        (BATCH, 'BATCH'),
+        (BOT, 'BOT'),
+        (OTHER, 'OTHER')
+    )
+    source = models.CharField(
+        max_length=5,
+        choices=SOURCE_CHOICES,
+        default=OTHER
+    )
+
     # Last time this position was updated.
     modified = models.DateTimeField(auto_now=True)
-    # Constants in Model class
+
+    # Instantly tradeable, tradeable with action, not tradeable.
     SPOT = 'SPOT'
     FLEX = 'FLEX'
     LOCK = 'LOCK'

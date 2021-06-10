@@ -7,27 +7,25 @@ class StrategySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Strategy
-        fields = ['created_at', 'created_by', 'name',
-                  'description']
+        fields = '__all__'
 
 
 class ParameterTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ParameterType
-        fields = ['created_at', 'created_by', 'name']
+        fields = '__all__'
 
 
 class ParameterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Parameter
-        fields = ['created_at', 'created_by',
-                  'name', 'description', 'parameter_type']
+        fields = '__all__'
 
 
 class StrategyParameterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StrategyParameter
-        fields = ['strategy', 'parameter']
+        fields = '__all__'

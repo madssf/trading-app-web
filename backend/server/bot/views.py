@@ -109,10 +109,9 @@ class ExchangeAssetsBotView(APIView):
                     except (Currency.DoesNotExist, PortfolioAsset.DoesNotExist):
                         try:
                             asset_obj = PortfolioAsset.objects.create(
-                                portfolio=Portfolio.objects.get(id=portfolio['portfolio']), exchange=Exchange.objects.get(name=exchange['name']), currency=Currency.objects.get(symbol=coin['symbol']),
+                                portfolio=Portfolio.objects.get(id=portfolio['portfolio']), exchange=Exchange.objects.get(name=exchange['name']), currency=Currency.objects.get(symbol=coin['symbol']), source="BOT",
                                 amount=coin['amount'],
-                                status=coin['status']
-                            )
+                                status=coin['status'])
                             asset_obj.save()
                             new += 1
 

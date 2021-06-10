@@ -64,17 +64,22 @@ class Asset extends Component {
   
     return (
       <Container>
-      <div className="asset">
-        <span>
-       {this.state.name !== "" ? this.state.name +" ": "uknown"} 
-  
-       | <b>{Math.round(this.props.asset.value*100)/100}   </b>
-      | {this.props.asset.status}
-
-       <button className="deleteAssetBtn" onClick={this.handleDeleteClick} type="submit">{this.state.deleteConfirm ? "Sure?" : "Delete"}</button>
-
-     </span>
-
+      <div className="assetGrid">
+        <div clasName="assetGrid1">
+         {this.state.name !== "" ? this.state.name +" ": "unknown"} 
+        </div>
+        <div clasName="assetGrid2">
+        <b>{Math.round(this.props.asset.value*100)/100} $ </b>
+       </div>
+       <div clasName="assetGrid3">
+       {this.props.asset.status}    
+       </div>
+       <div clasName="assetGrid4">
+       {this.props.asset.source}   
+       </div>
+       <div clasName="assetGrid5">
+       <button className="deleteAssetBtn" onClick={this.handleDeleteClick} type="submit">{this.state.deleteConfirm ? "Confirm" : "Delete"}</button>
+       </div>
       </div>      
       </Container>
       

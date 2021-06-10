@@ -1,95 +1,45 @@
 div.portfolioDetail {
   margin: 10px;
-}
-
-div.portfolioDetailGrid {
-  justify-content: center;
-  display: inline-grid;
-}
-
-div.portfolioDetailGrid1 {
-  grid-column: 1 / 1;
-}
-
-div.portfolioDetailGrid2 {
-  align-items: center;
-  justify-content: center;
-  grid-column: 2/6;
-  width: 600px;
-}
-div.portfolioDetailGrid3 {
-  align-items: right;
-  justify-content: right;
-  grid-column: 7/7;
-}
-
-div.assets {
-  align-items: left;
-  justify-content: left;
-  width: 220px;
-  padding: 10px;
-  margin: 10px;
-}
-
-div.currencyAsset {
-  justify-content: center;
-  align-items: left;
-}
-
-div.asset {
-  font-size: 12px;
-  background-color: #687b92;
-  color: #ffffff;
-  text-align: center;
-  align-items: center;
-}
-
-div.positions {
-  width: 200px;
-  align-items: center;
-  justify-content: center;
-  color: #687b92;
-}
-
-.deleteAssetBtn {
-  position: relative;
-  right: 0;
-  justify-content: right;
-  background-color: #af7c78;
-  border: black;
-}
-
-p.asset {
-  float: right;
-}
-p.assetText {
-  text-align: center;
   justify-content: center;
 }
 
-.addAssetForm {
-  justify-content: center;
-  align-items: center;
+div.portfolioGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+  grid-auto-rows: minmax(500px, auto);
   text-align: center;
 }
 
-Button.currencyBtn {
-  margin: 10px;
-  width: 200px;
-  text-align: center;
-  justify-content: center;
+div.portfolioGrid1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+div.portfolioGrid2 {
+  grid-column: 1;
+  grid-row: 2;
+}
+div.portfolioGrid3 {
+  grid-column: 1;
+  grid-row: 3;
 }
 
 Button.toggleView {
-  margin: 10px;
-  width: 150px;
+  margin: 5px;
+  padding: 5px;
+  width: 180px;
   font-size: 14px;
   text-align: center;
   justify-content: center;
+  border-radius: 2px;
+  background-color: rgb(56, 75, 184);
 }
 
-div.dropdowns {
-  width: 250px;
+Button.action {
+  margin: 5px;
+  font-size: 18px;
+  border-color: white;
+  border-radius: 8px;
 }
 
 .amountInput {
@@ -97,15 +47,4 @@ div.dropdowns {
   margin: 8px;
   padding: 8px;
   width: 100px;
-}
-
-.sumText {
-  font-size: 36px;
-  padding: 10px;
-  text-align: center;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 30px;
-  color: darkblue;
 }

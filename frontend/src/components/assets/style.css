@@ -1,0 +1,94 @@
+div.assets {
+  margin: 10px;
+  text-align: center;
+  align-items: center;
+}
+
+div.assetsHeader {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+p.sumText {
+  background-color: aquamarine;
+  color: rgb(0, 6, 39);
+  font-size: 36px;
+  padding-left: 200px;
+  padding-right: 200px;
+  padding: 20px;
+
+  line-height: 30px;
+  margin: 10px;
+}
+
+div.currencyAsset {
+  justify-content: center;
+  align-items: center;
+}
+
+button.currencyBtn {
+  color: white;
+  width: 500px;
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 16px;
+  background-color: rgb(118, 155, 255);
+  cursor: pointer;
+}
+
+div.positions {
+  align-items: center;
+  justify-content: center;
+  color: #323d4b;
+}
+
+div.asset {
+  font-size: 12px;
+  background-color: #4d719c;
+  color: #ffffff;
+  text-align: center;
+  align-items: center;
+}
+
+.assetGrid {
+  display: grid;
+  place-content: center;
+  grid-gap: 1px;
+  grid-template-columns: repeat(5, 70px);
+  gap: 1px;
+  grid-auto-rows: minmax(10px, auto);
+  align-items: right;
+}
+
+.assetGrid1 {
+  grid-column: 1;
+}
+.assetGrid2 {
+  grid-column: 2;
+}
+
+.assetGrid3 {
+  grid-column: 3;
+}
+
+.assetGrid4 {
+  grid-column: 4;
+}
+.assetGrid5 {
+  grid-column: 5;
+}
+
+.deleteAssetBtn {
+}
+
+p.assetText {
+  text-align: center;
+  justify-content: center;
+}
+
+.addAssetForm {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

@@ -44,7 +44,8 @@ class MyPortfolioID(mixins.ListModelMixin, generics.GenericAPIView):
                     'stake_start': asset['stake_start'],
                     'stake_end': asset['stake_end'],
                     'value': round(float(asset['amount']*currency.last_price), 3),
-                    'exchange': asset['exchange_id']
+                    'exchange': asset['exchange_id'],
+                    'source': asset['source']
                 }
             )
         params_qs = PortfolioParameter.objects.filter(
@@ -110,7 +111,7 @@ class BatchAddAssetsView(APIView):
                     exchange=exchange, currency=currency, portfolio=portfolio, amount=element['amount'], status="LOCK")
             except PortfolioAsset.DoesNotExist:
                 asset = PortfolioAsset.objects.create(currency=currency, portfolio=portfolio, amount=float(
-                    element['amount']), apr=element['apr'], status="LOCK",  exchange=exchange)
+                    element['amount']), apr=element['apr'], status="LOCK",  exchange=exchange, source="BATCH")
                 asset.save()
                 added.append(str(asset))
 

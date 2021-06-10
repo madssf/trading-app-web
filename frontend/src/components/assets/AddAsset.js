@@ -94,7 +94,7 @@ export default class AddAsset extends React.Component {
         <Container>
         <span>
         <input className="amountInput" type="number" step="0.001"name="amount" placeholder="Amount" onChange={this.handleChange} />
-      <button onClick={this.handleSubmit} disabled={!this.state.canSubmit} type="submit">Add</button>
+      <Button className="action" onClick={this.handleSubmit} disabled={!this.state.canSubmit} type="submit">Add</Button>
 
       </span>
       </Container>

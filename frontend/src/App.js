@@ -13,6 +13,7 @@ import PortfolioDetail from './components/portfolios/PortfolioDetail'
 import NavBar from "./components/NavBar";
 
 import axios from "axios";
+import StrategiesList from './components/strategies/StrategiesList';
 axios.defaults.baseURL = "http://127.0.0.1:1337";
 
 
@@ -30,6 +31,8 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/home" component={requireAuth(Home)}/>
             <Route path="/currencies" component={requireAuth(CurrenciesList)}/>
+            <Route path="/strategies" component={requireAuth(StrategiesList)}/>
+
             <Route exact path="/portfolios/:id" component={requireAuth(PortfolioDetail)}/>
             </div>
             <Route path="*">404 - Not Found</Route>

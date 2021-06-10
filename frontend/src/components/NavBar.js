@@ -17,12 +17,14 @@ class NavBar extends Component {
       <div className='nav'>
         <p><Link to="/">Front Page</Link></p>
         {this.props.auth.isAuthenticated === true ? <p><Link to="/home">Home</Link></p> : ""}
+        {this.props.auth.isAuthenticated === true ? <p><Link to="/strategies">Strategies</Link></p> : ""}
+
         {this.props.auth.isAuthenticated === true ? <p><Link to="/currencies">Currencies</Link></p> : ""}
         
-        {this.props.auth.isAuthenticated === true ? <p> user: {this.props.auth.user.username}</p>: ""}
+        {this.props.auth.isAuthenticated === true ? <p> User: {this.props.auth.user.username}</p>: ""}
         {this.props.auth.isAuthenticated === false ? <p><Link to="/login">Log in</Link></p>: ""}
         {this.props.auth.isAuthenticated === false ? <p><Link to="/signup">Sign up</Link></p>: ""}
-        {this.props.auth.isAuthenticated === true ? <p><Button onClick={this.onLogout}>Logout</Button></p> : ""}
+        {this.props.auth.isAuthenticated === true ? <p><button className="navLogout" onClick={this.onLogout}>Logout</button></p> : ""}
       </div>
     );
   }

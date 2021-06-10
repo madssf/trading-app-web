@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import './style.css';
+
 import { toastOnError } from "../../utils/Utils";
 import axios from 'axios';
 import PropTypes from "prop-types";
@@ -10,9 +12,9 @@ import {getCurrencies} from '../currencies/CurrenciesActions'
 import {getExchanges} from '../exchanges/ExchangesActions'
 
 import PortfolioDetailView from './PortfolioDetailView/PortfolioDetailView'
-import Assets from './Assets'
-import AddAsset from './AddAsset';
-import BatchAddAsset from './BatchAddAsset';
+import Assets from '../assets/Assets'
+import AddAsset from '../assets/AddAsset';
+import BatchAddAsset from '../assets/BatchAddAsset';
 import Credentials from './Credentials';
 import Strategy from './Strategy';
 
@@ -67,42 +69,49 @@ class PortfolioDetail extends Component {
       <div className="portfolioDetail">
       <h1 className="pageTitle">{this.state.portfolio.name}</h1>
 
-      <div className="portfolioDetailGrid">
+      <div className="portfolioGrid">
       
-      <div className="portfolioDetailGrid1">
+        <div className="portfolioGrid1">
+          <Container>
         
       {this.state.assets !== undefined && this.props.exchanges !== undefined ? 
       
       <Assets assets={this.state.assets} exchanges={this.props.exchanges}/> 
-      
-      
+    
       : ""}
 
-      </div>
+          <Button className="refreshBtn" disabled={this.state.refreshing} onClick={() => this.refresh()}>Refresh</Button>
 
-      <div className="portfolioDetailGrid2">
-        {this.state.portfolio !== undefined ? <PortfolioDetailView portfolio={this.state.portfolio}/> : ""}
-        {this.state.portfolio !== undefined ? <Strategy portfolio={this.state.portfolio}/> : ""}
-
-      </div>
-
-      <div className="portfolioDetailGrid3">
-
-        <Button className="executeBtn" disabled={this.state.executing} onClick={() => this.execute()}>Execute</Button>
-        <Button className="refreshBtn" disabled={this.state.refreshing} onClick={() => this.refresh()}>Refresh</Button>
-        <Button className="toggleView" onClick={() => this.setState({showAdd: !this.state.showAdd})}>{this.state.showAdd ? "Close" : "Add assets"}</Button>
-          {this.state.showAdd ?  
+          <Button className="toggleView" onClick={() => this.setState({showAdd: !this.state.showAdd})}>{this.state.showAdd ? "Close" : "Add assets"}</Button>
+         
+        <Button className="toggleView" onClick={() => this.setState({showBatchAdd: !this.state.showBatchAdd})}>{this.state.showBatchAdd ? "Close" : "Batch add assets"}</Button>
+        {this.state.showAdd ?  
           <AddAsset portfolio={this.props.match.params.id} currencies={currencies} exchanges={exchanges}/>
             : ""}
-        <Button className="toggleView" onClick={() => this.setState({showBatchAdd: !this.state.showBatchAdd})}>{this.state.showBatchAdd ? "Close" : "Batch add assets"}</Button>
           {this.state.showBatchAdd ?  
           <BatchAddAsset portfolio={this.props.match.params.id} exchanges={exchanges}/>
             : ""}
+          </Container>
+        </div>
 
-        <Button className="toggleView" onClick={() => this.setState({showCredentials: !this.state.showCredentials})}>{this.state.showCredentials ? "Close" : "Manage credentials"}</Button>
+      <div className="portfolioGrid2">
+        <Container>
+        {this.state.portfolio !== undefined ? <PortfolioDetailView portfolio={this.state.portfolio}/> : ""}
+        {this.state.portfolio !== undefined ? <Strategy portfolio={this.state.portfolio}/> : ""}
+        </Container>
+      </div>
+
+      <div className="portfolioGrid3">
+      <Container>
+
+        <Button className="action" disabled={this.state.executing} onClick={() => this.execute()}>Execute</Button>
+       
+               <Button className="toggleView" onClick={() => this.setState({showCredentials: !this.state.showCredentials})}>{this.state.showCredentials ? "Close" : "Manage credentials"}</Button>
           {this.state.showCredentials ?  
           <Credentials portfolio={this.props.match.params.id} exchanges={exchanges}/>
           : ""}
+                  </Container>
+
       </div>
 
 

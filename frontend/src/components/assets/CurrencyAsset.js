@@ -17,9 +17,9 @@ export const CurrencyAsset = (props) => {
     <div className="currencyAsset">
 
          
-    <Button className="currencyBtn" onClick={() => setOpen(prev => !prev)}>
+    <button className="currencyBtn" onClick={() => setOpen(prev => !prev)}>
       <b>{symbol}</b> | {value} $ | {props.positions.length}
-    </Button>
+    </button>
     <div className="positions">
     {props.positions !== undefined && open ? positions : []}
     </div>

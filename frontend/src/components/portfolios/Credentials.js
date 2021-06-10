@@ -1,11 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 export const Credentials = (props) => {
   return (
     <div>
-      {props.portfolio}
+      COMING SOON {props.portfolio}
     </div>
   )
 }
