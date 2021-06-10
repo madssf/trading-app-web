@@ -1,9 +1,14 @@
+from .parsers import AssetBatchParser
 from django.shortcuts import render
 from apps.portfolios.models import Portfolio, PortfolioAsset, PortfolioParameter
 from apps.currencies.models import Currency
 from apps.strategies.models import Strategy, Parameter
 from django.http.response import JsonResponse
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, permissions
+from django.views.generic.edit import DeleteView
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 def MyPortfoliosView(request):
@@ -59,3 +64,47 @@ class MyPortfolioID(mixins.ListModelMixin, generics.GenericAPIView):
             "parameters": parameters
         }
         return JsonResponse(data, safe=False)
+
+
+class DeleteAssetView(DeleteView):
+
+    model = PortfolioAsset
+
+    # can specify success url
+    # url to redirect after sucessfully
+    # deleting object
+    success_url = "/"
+
+
+class BatchAddAssetsView(APIView):
+    """
+    A view that can accept POST requests with JSON content.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [JSONParser]
+
+    def post(self, request, portfolio_id, exchange_id, format=None):
+
+        try:
+            portfolio = Portfolio.objects.get(id=portfolio_id)
+        except Portfolio.DoesNotExist:
+            return Response({'message': 'unknown portfolio'})
+        data = AssetBatchParser.parse_binance_txt(request.data)
+        missing_currencies = []
+        for element in data:
+            try:
+                currency = Currency.objects.get(
+                    symbol=element['symbol'].upper())
+            except Currency.DoesNotExist:
+                missing_currencies.append(element['symbol'])
+                continue
+
+            try:
+                PortfolioAsset.objects.get(
+                    exchange=element['exchange'], currency=currency, portfolio=portfolio, amount=element['amount'], status="LOCK")
+            except PortfolioAsset.DoesNotExist:
+                asset = PortfolioAsset.objects.create(currency=currency, portfolio=portfolio, amount=float(
+                    element['amount']), apr=element['apr'], status="LOCK", exchange=element['exchange'])
+                asset.save()
+
+        return Response({'id': id, 'parsed': data})

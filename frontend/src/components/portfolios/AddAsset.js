@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import axios from 'axios';
 import {Container, Button} from "react-bootstrap";
-import DateTimePicker from "../../utils/DateTimePicker";
 import {toastOnError} from "../../utils/Utils";
 
 import DatePicker from 'react-datetime';
@@ -11,37 +10,54 @@ import 'react-datetime/css/react-datetime.css';
 import Dropdown from '../dropdown/Dropdown';
 import "./style.css"
 export default class AddAsset extends React.Component {
+
   constructor(props){
     super(props);
     this.state={
-        stakeDisplay: false,
+        showStaked: false,
+        staked: true, 
+        currency: null,
+        exchange: null,
+        status: null,
+        amount: null,
+        apr: null,
+        stakeStart: moment(),
+        stakeEnd: moment(),
+        canSubmit: false
     }
 }
   
-  state = {
-    staked: true, 
-    currency: null,
-    exchange: null,
-    status: null,
-    amount: null,
-    apr: null,
-    stakeStart: moment(),
-    stakeEnd: moment()
-  }
 
 
 
+   checkForm() {
+    if (this.state.currency !== undefined && this.state.exchange!==undefined && this.state.status !== undefined && this.state.amount !== undefined){
+      this.setState({canSubmit:true})
+    } else {
+      this.setState({canSubmit:false})
+
+    }
+  }   
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    this.checkForm()
   };
 
   setShowStaked = event => {
     let staked = !this.state.showStaked
-    this.setState({showStaked: staked})
+    this.setState({showStaked: staked, stakeStart: moment(), stakeEnd: moment()})
   }
 
+  handleState (data){
+    this.setState(data)
+    this.checkForm()
+
+  }
+
+
   handleSubmit = event => {
+   
     event.preventDefault();
 
     const asset = {
@@ -55,39 +71,33 @@ export default class AddAsset extends React.Component {
       stake_end: this.state.stakeEnd,
       close_time: null
     };
+    console.log(asset)
 
-    // do validation
-/*
     axios.post(`http://localhost:1337/api/v1/portfolio_assets/`, asset, {headers: {
       'Content-Type': 'application/json'
   }})
       .then(res => {
+        window.location.reload();
       }).catch(error => {
         toastOnError(error);
       });
-*/
-    console.log(asset)
+      console.log(asset)
+
+    
   }
+
 
   render() {
     return (
       <div className="addAssetForm">
       <Container>
-
+        <Container>
         <span>
-          <h2 className="addAssetHeader">Add an asset manually:</h2>
-        </span>
         <input className="amountInput" type="number" step="0.001"name="amount" placeholder="Amount" onChange={this.handleChange} />
+      <button onClick={this.handleSubmit} disabled={!this.state.canSubmit} type="submit">Add</button>
 
-        <form onSubmit={this.handleSubmit}>
-      
-      <label>
-      <button type="submit">Add</button>
-
-      </label>
-
-    </form>
-
+      </span>
+      </Container>
         <div className="dropdowns" >
           
           <Dropdown 
@@ -96,7 +106,7 @@ export default class AddAsset extends React.Component {
           id='id'
           label='name'
           value={this.state.currency}
-          onChange={val => this.setState({currency
+          onChange={val => this.handleState({currency
             : val})}
           />
 
@@ -106,7 +116,7 @@ export default class AddAsset extends React.Component {
           id='id'
           label='name'
           value={this.state.exchange}
-          onChange={val => this.setState({exchange
+          onChange={val => this.handleState({exchange
             : val})}
           />
 
@@ -116,13 +126,13 @@ export default class AddAsset extends React.Component {
           id='id'
           label='status'
           value={this.state.status}
-          onChange={val => this.setState({status
+          onChange={val => this.handleState({status
             : val})}
           />
         </div>
-
-        <Button className="currencyAssetBtn" onClick={() => this.setShowStaked(prev => !prev)}>{this.state.showStaked ? "Hide staked info" : "Show staked info"}</Button>
-
+        <Container>
+        <Button className="toggleView" onClick={() => this.setShowStaked(prev => !prev)}>{this.state.showStaked ? "Hide staked info" : "Show staked info"}</Button>
+        </Container>
         <div className="stakedForm">
 
         {this.state.showStaked ? <Container>

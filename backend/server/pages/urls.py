@@ -9,6 +9,9 @@ pages_urls = [
          MyPortfoliosView, name="my_portfolios"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('api/v1/my_portfolios/<int:id>',
-         MyPortfolioID.as_view(), name='portfolioid')
-
+         MyPortfolioID.as_view(), name='portfolioid'),
+    path('api/v1/asset/<int:id>/delete',
+         DeleteAssetView.as_view(), name='delete_asset'),
+    path('api/v1/asset/batch_post/<int:portfolio_id>/<int:exchange_id>',
+         BatchAddAssetsView.as_view(), name='batch_assets')
 ]

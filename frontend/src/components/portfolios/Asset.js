@@ -14,6 +14,7 @@ class Asset extends Component {
     super(props);
     this.state = {
       name: "",
+      deleteConfirm: false,
     };
   }
 
@@ -23,31 +24,58 @@ class Asset extends Component {
 
     const exchanges = this.props.exchanges.exchanges
     for (var i = 0; i < exchanges.length; i++){
-      console.log(this.props.asset.exchange)
-      console.log(exchanges[i].id)
 
       if (this.props.asset.exchange === exchanges[i].id) {
         this.setState({name: exchanges[i].name})
-        console.log('lels')
       }
     }
-   
   }
+  
+    handleDeleteClick= event => {
+      if (this.state.deleteConfirm) {
+        this.handleDelete()
+      } else {
+        this.setState({deleteConfirm: true})
+      }
+    }
+    handleDelete= event => {
+
+      
+   
+  
+      const asset = {
+        id: this.props.asset.id, 
+       };
+      console.log(asset)
+  
+      axios.delete(`http://localhost:1337/api/v1/portfolio_assets/${asset.id}/`)
+        .then(res => {
+          window.location.reload();
+        }).catch(error => {
+          toastOnError(error);
+        });
+        console.log(asset)
+  
+      
+    }   
   
   render() {
     
-    
-
-
+  
     return (
       <Container>
       <div className="asset">
-      <p className="assetText">
-     {this.props.asset.value}  
-     {this.state.name !== "" ? this.state.name : "uknown"}
-    
-     </p>
-      </div>
+        <span>
+       {this.state.name !== "" ? this.state.name +" ": "uknown"} 
+  
+       | <b>{Math.round(this.props.asset.value*100)/100}   </b>
+      | {this.props.asset.status}
+
+       <button className="deleteAssetBtn" onClick={this.handleDeleteClick} type="submit">{this.state.deleteConfirm ? "Sure?" : "Delete"}</button>
+
+     </span>
+
+      </div>      
       </Container>
       
     
