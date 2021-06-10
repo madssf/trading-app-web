@@ -3,6 +3,7 @@ from django.shortcuts import render
 from apps.portfolios.models import Portfolio, PortfolioAsset, PortfolioParameter
 from apps.currencies.models import Currency
 from apps.strategies.models import Strategy, Parameter
+from apps.exchanges.models import Exchange
 from django.http.response import JsonResponse
 from rest_framework import mixins, generics, permissions
 from django.views.generic.edit import DeleteView
@@ -81,7 +82,7 @@ class BatchAddAssetsView(APIView):
     A view that can accept POST requests with JSON content.
     """
     permission_classes = [permissions.IsAuthenticated]
-    parser_classes = [JSONParser]
+    #parser_classes = [JSONParser]
 
     def post(self, request, portfolio_id, exchange_id, format=None):
 
@@ -89,9 +90,14 @@ class BatchAddAssetsView(APIView):
             portfolio = Portfolio.objects.get(id=portfolio_id)
         except Portfolio.DoesNotExist:
             return Response({'message': 'unknown portfolio'})
-        data = AssetBatchParser.parse_binance_txt(request.data)
+        try:
+            exchange = Exchange.objects.get(id=exchange_id)
+        except Exchange.DoesNotExist:
+            return Response({'message': 'unknown exchange'})
+        parsed = AssetBatchParser.parse_binance_txt(request.data)
         missing_currencies = []
-        for element in data:
+        added = []
+        for element in parsed:
             try:
                 currency = Currency.objects.get(
                     symbol=element['symbol'].upper())
@@ -101,10 +107,11 @@ class BatchAddAssetsView(APIView):
 
             try:
                 PortfolioAsset.objects.get(
-                    exchange=element['exchange'], currency=currency, portfolio=portfolio, amount=element['amount'], status="LOCK")
+                    exchange=exchange, currency=currency, portfolio=portfolio, amount=element['amount'], status="LOCK")
             except PortfolioAsset.DoesNotExist:
                 asset = PortfolioAsset.objects.create(currency=currency, portfolio=portfolio, amount=float(
-                    element['amount']), apr=element['apr'], status="LOCK", exchange=element['exchange'])
+                    element['amount']), apr=element['apr'], status="LOCK",  exchange=exchange)
                 asset.save()
+                added.append(str(asset))
 
-        return Response({'id': id, 'parsed': data})
+        return Response({'exchange': exchange.name, 'portfolio': portfolio.name, 'parsed': parsed, 'added': added, 'unknown currencies': missing_currencies})
