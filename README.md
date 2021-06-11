@@ -1,6 +1,13 @@
 # trading-app-web
 
-- Django, React-Redux, Python, PostgreSQL
+- Django, React, Python, PostgreSQL
+
+- Demo account:
+
+```
+username: demo
+password: 1234
+```
 
 ## Docker
 
