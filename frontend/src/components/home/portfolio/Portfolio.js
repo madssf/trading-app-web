@@ -11,14 +11,15 @@ import { withRouter } from "react-router-dom";
 import {getCurrencies} from '../../store/CurrenciesActions'
 import {getExchanges} from '../../store/ExchangesActions'
 
-import PortfolioDetailView from './graphs/PortfolioGraphs'
+import PortfolioNav from './PortfolioNav';
 import Assets from './assets/Assets'
+import Graphs from './graphs/Graphs'
 import AddAsset from './assets/AddAsset';
 import BatchAddAsset from './assets/BatchAddAsset';
 import Credentials from './Credentials';
 import Strategy from './strategy/Strategy';
 
-class PortfolioDetail extends Component {
+class Portfolio extends Component {
 
   state = {
     portfolio: {assets:[]},
@@ -27,25 +28,38 @@ class PortfolioDetail extends Component {
     showAdd: false,
     showBatchAdd: false,
     executing: false,
-    refreshing: false
+    refreshing: false,
+    sum: ""
   }
 
   componentDidMount() {
     this.props.getCurrencies();
     this.props.getExchanges();
 
+
+
     axios
     .get(`/api/v1/my_portfolios/${this.props.match.params.id}`)
     .then(res => {
       const portfolio = res.data;
-      const assets = portfolio.assets
-      this.setState({ portfolio });
-      this.setState({ assets });
+      this.setState({ portfolio: portfolio });
+      this.setState({ assets: portfolio.assets });
+      for(var x = 0; x<this.state.assets.length; x++){
+        sum += this.state.assets[x].value
+      }
+      
+      this.setState({sum: Math.round(sum*100)/100})
+  
 
     })
     .catch(error => {
       toastOnError(error);
     });
+
+    let sum = 0
+    
+   
+
   }
 
   execute() {
@@ -66,10 +80,14 @@ class PortfolioDetail extends Component {
 
 
     return (
-      <div className="portfolioDetail">
-      <h1 className="pageTitle">{this.state.portfolio.name}</h1>
 
-      <div className="portfolioGrid">
+      <div className="portfolioDetail">
+        <div className="portfolioHeader">
+      
+      <h1 className="pageTitle headerLeft">{this.state.portfolio.name}</h1><p className="sumText headerRight">{this.state.sum} $</p>
+    
+      </div>
+        <PortfolioNav /> 
       
         <div className="portfolioGrid1">
           <Container>
@@ -96,7 +114,7 @@ class PortfolioDetail extends Component {
 
       <div className="portfolioGrid2">
         <Container>
-        {this.state.portfolio !== undefined ? <PortfolioDetailView portfolio={this.state.portfolio}/> : ""}
+        {this.state.portfolio !== undefined ? <Graphs portfolio={this.state.portfolio}/> : ""}
         {this.state.portfolio !== undefined ? <Strategy portfolio={this.state.portfolio}/> : ""}
         </Container>
       </div>
@@ -118,12 +136,11 @@ class PortfolioDetail extends Component {
     
 
       </div>
-      </div>
     )
   }
 }
 
-PortfolioDetail.propTypes = {
+Portfolio.propTypes = {
   currencies: PropTypes.object.isRequired,
   getCurrencies: PropTypes.func.isRequired,
   exchanges: PropTypes.object.isRequired,
@@ -134,4 +151,4 @@ const mapStateToProps = state => ({
   exchanges: state.exchanges
 
 });
-export default connect(mapStateToProps, {getCurrencies, getExchanges})(withRouter(PortfolioDetail))
+export default connect(mapStateToProps, {getCurrencies, getExchanges})(withRouter(Portfolio))

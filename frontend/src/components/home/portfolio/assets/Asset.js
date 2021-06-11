@@ -65,19 +65,19 @@ class Asset extends Component {
     return (
       <Container>
       <div className="assetGrid">
-        <div clasName="assetGrid1">
+        <div className="assetGrid1">
          {this.state.name !== "" ? this.state.name +" ": "unknown"} 
         </div>
-        <div clasName="assetGrid2">
+        <div className="assetGrid2">
         <b>{Math.round(this.props.asset.value*100)/100} $ </b>
        </div>
-       <div clasName="assetGrid3">
+       <div className="assetGrid3">
        {this.props.asset.status}    
        </div>
-       <div clasName="assetGrid4">
+       <div className="assetGrid4">
        {this.props.asset.source}   
        </div>
-       <div clasName="assetGrid5">
+       <div className="assetGrid5">
        <button className="deleteAssetBtn" onClick={this.handleDeleteClick} type="submit">{this.state.deleteConfirm ? "Confirm" : "Delete"}</button>
        </div>
       </div>      

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
-import PortfoliosList from './portfolios/PortfoliosList';
+import PortfoliosList from './PortfoliosList';
 
 
 
@@ -23,6 +23,11 @@ class Home extends Component {
           <p>Email: {user.email}</p>
           </div> 
           <PortfoliosList/>
+          <ul>
+            <li><Link to="/currencies">Currencies</Link></li>
+            <li><Link to="/strategies">Strategies</Link></li>
+
+          </ul>
           </Container>
 
      

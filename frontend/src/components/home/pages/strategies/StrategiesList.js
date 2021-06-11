@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
-import {getStrategies} from '../../store/StrategiesActions'
+import {getStrategies} from '../../../store/StrategiesActions'
 import Strategy from './Strategy'
 
 

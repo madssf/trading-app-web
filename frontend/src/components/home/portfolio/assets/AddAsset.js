@@ -7,7 +7,7 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 
-import Dropdown from '../../../ui/dropdown/Dropdown';
+import Dropdown from '../../../ui/Dropdown';
 import "./style.css"
 export default class AddAsset extends React.Component {
 

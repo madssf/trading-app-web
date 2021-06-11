@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react'
 import {Container} from 'react-bootstrap'
+import "./dropdown_style.css"
 import "./style.css"
-
 
 export default function Dropdown({
   options, 

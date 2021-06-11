@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Container, Button} from "react-bootstrap";
 import {toastOnError} from "../../../../utils/Utils";
 
-import Dropdown from '../../../ui/dropdown/Dropdown';
+import Dropdown from '../../../ui/Dropdown'
 import "./style.css"
 export default class AddAsset extends React.Component {
 

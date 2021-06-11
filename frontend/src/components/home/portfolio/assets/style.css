@@ -10,18 +10,6 @@ div.assetsHeader {
   justify-content: center;
 }
 
-p.sumText {
-  background-color: aquamarine;
-  color: rgb(0, 6, 39);
-  font-size: 36px;
-  padding-left: 200px;
-  padding-right: 200px;
-  padding: 20px;
-
-  line-height: 30px;
-  margin: 10px;
-}
-
 div.currencyAsset {
   justify-content: center;
   align-items: center;
@@ -53,6 +41,7 @@ div.asset {
 
 .assetGrid {
   display: grid;
+  margin: 5px;
   place-content: center;
   grid-gap: 1px;
   grid-template-columns: repeat(5, 70px);
@@ -80,6 +69,9 @@ div.asset {
 }
 
 .deleteAssetBtn {
+  cursor: pointer;
+  background-color: rgb(126, 30, 30);
+  color: white;
 }
 
 p.assetText {
