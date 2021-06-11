@@ -18,7 +18,7 @@ class NavBar extends Component {
         {this.props.auth.isAuthenticated !== true ? <p><Link to="/">Front Page</Link></p> : <p><Link to="/home">Home</Link></p>}
          {this.props.auth.isAuthenticated === true ? <p> user: {this.props.auth.user.username}</p>: ""}
         {this.props.auth.isAuthenticated === true ? <Updated />: ""}
-        {this.props.auth.isAuthenticated === true ? <p><button className="navLogout" onClick={this.onLogout}>Logout</button></p> : ""}
+        {this.props.auth.isAuthenticated === true ? <p><Button className="navLogout" onClick={this.onLogout}>Logout</Button></p> : ""}
       </div>
     );
   }

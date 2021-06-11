@@ -17,15 +17,25 @@
 button.navLogout {
   background-color: gray;
   color: white;
+  border-color: white;
+}
+
+button.navLogout:hover {
+  background-color: rgb(92, 82, 82);
+  color: white;
+  border-color: white;
 }
 
 p.updatedText {
-  background-color: aquamarine;
-  color: rgb(0, 6, 39);
+  color: white;
   font-size: 12px;
   padding-left: 10px;
   padding-right: 10px;
-  padding: 10px;
+  padding: 2px;
   line-height: 10px;
-  margin: 10px;
+  margin: 2px;
+}
+
+p.infoText {
+  color: rgb(187, 187, 187);
 }

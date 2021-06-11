@@ -32,6 +32,7 @@ class Updated extends Component {
 
     return (
           <div> 
+          <p className="updatedText infoText">updated</p>
           <p className="updatedText">{updated.format("hh:mm:ss")}</p>
           </div> 
 

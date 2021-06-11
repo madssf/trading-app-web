@@ -7,7 +7,7 @@ export class PortfolioNav extends Component {
   render() {
     return (
       <div className="portfolioNav">
-        <h2 onClick={this.handleClick} className="portfolioNavTitle pfNav1">Assets</h2>
+        <h2 className="portfolioNavTitle pfNav1">Assets</h2>
         <h2 className="portfolioNavTitle pfNav2">Graphs</h2>
         <h2 className="portfolioNavTitle pfNav3">Strategy</h2>
         <h2 className="portfolioNavTitle pfNav4">Settings</h2>
