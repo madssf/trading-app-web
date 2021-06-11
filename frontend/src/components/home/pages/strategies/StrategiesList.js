@@ -17,7 +17,7 @@ class StrategiesList extends Component {
   render() {
     const {strategies} = this.props.strategies
     if (strategies.length === 0){
-      return <p>No currencies yet.</p>
+      return "No currencies yet."
     }
     let items = strategies.map(strategy => {     
       console.log(strategy);

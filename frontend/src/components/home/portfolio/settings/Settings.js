@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Button} from 'react-bootstrap'
 
-export class Strategy extends Component {
+import Credentials from './Credentials'
+
+export class Settings extends Component {
   render() {
     return (
       <div>
-        <Button className="action">Execute</Button>
-     
+        <Credentials/>
       </div>
     )
   }
@@ -21,4 +21,4 @@ const mapDispatchToProps = {
   
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Strategy)
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

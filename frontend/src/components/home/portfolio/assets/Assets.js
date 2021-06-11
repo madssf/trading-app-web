@@ -2,9 +2,15 @@ import React from 'react'
 import CurrencyAsset from './CurrencyAsset.js'
 
 import sortBy from '../../../../utils/SortBy'
+import PieChart from '../graphs/PieChart.js'
 
 
 export default function Assets(props) {
+
+    if (props.assets.length === 0) {
+      return <div style={{margin: "20px"}}>Please add your first asset, or register credentials to fetch balances automatically.</div>
+    }
+
 
     let totals = [{'id':props.assets[0].id, 'value': props.assets[0].value, 'symbol': props.assets[0].symbol, 'positions': [{'id': props.assets[0].id, 'value': props.assets[0].value, 'exchange': props.assets[0].exchange, 'status':  props.assets[0].status, 'amount': props.assets[0].amount, 'source': props.assets[0].source}]}]
     let totalsSymbols = [props.assets[0].symbol]
@@ -35,9 +41,13 @@ export default function Assets(props) {
      } 
     totals = totals.sort(sortBy("value", false))
     const currencyTotals = totals.map(coin => {return <CurrencyAsset key ={coin.id} symbol={coin.symbol} value={coin.value} positions={coin.positions} exchanges={props.exchanges}/>})
+
+    const chartLabels = totals.map(coin => coin.symbol)
+    const chartData = totals.map(coin => coin.value)
       
     return (
         <div className="assets">
+          <PieChart labels={chartLabels} data={chartData}/>
           {currencyTotals}    
         </div>
       )

@@ -64,6 +64,8 @@ class Asset extends Component {
   
     return (
       <Container>
+              <hr />
+
       <div className="assetGrid">
         <div className="assetGrid1">
          {this.state.name !== "" ? this.state.name +" ": "unknown"} 
@@ -81,6 +83,7 @@ class Asset extends Component {
        <button className="deleteAssetBtn" onClick={this.handleDeleteClick} type="submit">{this.state.deleteConfirm ? "Confirm" : "Delete"}</button>
        </div>
       </div>      
+      <hr />
       </Container>
       
     

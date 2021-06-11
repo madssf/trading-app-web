@@ -32,7 +32,6 @@ class App extends Component {
             <Route path="/home" component={requireAuth(Home)}/>
             <Route path="/currencies" component={requireAuth(CurrenciesList)}/>
             <Route path="/strategies" component={requireAuth(StrategiesList)}/>
-
             <Route exact path="/portfolio/:id" component={requireAuth(Portfolio)}/>
             </div>
             <Route path="*">404 - Not Found</Route>

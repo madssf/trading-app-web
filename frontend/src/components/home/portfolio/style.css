@@ -1,6 +1,9 @@
-div.portfolioDetail {
+div.portfolio {
   margin: 10px;
   justify-content: center;
+  align-items: center;
+
+  text-align: center;
 }
 
 div.portfolioHeader {
@@ -21,36 +24,24 @@ div.portfolioHeader {
 }
 
 .portfolioNav {
+  align-items: center;
   margin: 10px;
   text-align: center;
-  display: grid;
-  grid-template-columns: repeat(4, 0.25fr);
-}
-
-pfNav1 {
-  grid-column: 1;
-}
-pfNav2 {
-  grid-column: 2;
-}
-pfNav3 {
-  grid-column: 3;
-}
-pfNav4 {
-  grid-column: 4;
+  max-width: 800px;
+  display: inline-block;
 }
 
 p.sumText {
   background-color: aquamarine;
   color: rgb(0, 6, 39);
-  font-size: 36px;
-  padding-left: 200px;
-  padding-right: 200px;
+  font-size: 32px;
+  padding-left: 50px;
+  padding-right: 50px;
   padding: 20px;
   width: 250px;
   line-height: 30px;
-  margin: 10px;
-  font-weight: bolder;
+  margin: 5px;
+  font-weight: bold;
   border: 1px solid rgb(0, 6, 39);
 }
 
