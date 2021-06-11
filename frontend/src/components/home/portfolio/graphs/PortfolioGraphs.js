@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 export const PortfolioGraphs = (props) => {
   return (
     <div>
-      <h3>Graphs</h3>
     </div>
   )
 }

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component } from 'react';
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
-import PortfoliosList from './portfolios/PortfoliosList';
-
+import PortfoliosList from './PortfoliosList';
+import './style.css'
 
 
 class Home extends Component {
@@ -19,10 +19,17 @@ class Home extends Component {
           <Container>
           <div className='home'> 
           <h1>Home</h1>
-          <p>Welcome, {user.username}</p>
-          <p>Email: {user.email}</p>
+          <p className="username">user: <b>{user.username}</b></p>
+          <p className="email">email: <b>{user.email}</b></p>
+
           </div> 
+          <h2>Portfolios</h2>
           <PortfoliosList/>
+          <h3>Explore</h3>
+          <ul>
+          <li><Link to="/currencies/">Currencies</Link></li>
+          <li><Link to="/strategies/">Strategies</Link></li>
+          </ul>
           </Container>
 
      

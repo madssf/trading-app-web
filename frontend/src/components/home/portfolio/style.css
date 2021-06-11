@@ -1,0 +1,105 @@
+div.portfolioDetail {
+  margin: 10px;
+  justify-content: center;
+}
+
+p.sumText {
+  background-color: aquamarine;
+  text-align: center;
+  color: rgb(0, 6, 39);
+  font-size: 36px;
+  padding-left: 200px;
+  padding-right: 200px;
+  padding: 20px;
+  width: 250px;
+  line-height: 30px;
+  margin: 10px;
+}
+
+.portfolioNav {
+  text-align: center;
+  justify-content: center;
+  color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+Button.tabTitle {
+  width: 120px;
+}
+h1.pageTitle {
+  font-size: 32px;
+  width: 100px;
+}
+
+div.portfolioTitleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 0.5fr);
+  gap: 10 px;
+  grid-auto-rows: minmax(100px, auto);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+div.portfolioTitleGrid1 {
+  float: right;
+  grid-column: 1;
+  grid-row: 1;
+  align-items: right;
+  text-align: right;
+}
+
+div.portfolioTitleGridw {
+  grid-column: 2;
+  grid-row: 1;
+  align-items: left;
+  text-align: right;
+}
+div.portfolioGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+  grid-auto-rows: minmax(500px, auto);
+  text-align: center;
+}
+
+div.portfolioGrid1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+div.portfolioGrid2 {
+  grid-column: 1;
+  grid-row: 2;
+}
+div.portfolioGrid3 {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+Button.toggleView {
+  margin: 5px;
+  padding: 5px;
+  width: 180px;
+  font-size: 14px;
+  text-align: center;
+  justify-content: center;
+  border-radius: 2px;
+  background-color: rgb(56, 75, 184);
+}
+
+Button.action {
+  margin: 5px;
+  font-size: 18px;
+  border-color: white;
+  border-radius: 8px;
+}
+
+.amountInput {
+  justify-content: center;
+  margin: 8px;
+  padding: 8px;
+  width: 100px;
+}

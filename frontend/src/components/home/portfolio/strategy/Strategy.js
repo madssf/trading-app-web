@@ -5,7 +5,6 @@ export class Strategy extends Component {
   render() {
     return (
       <div>
-        <h3>Strategy</h3>
       </div>
     )
   }

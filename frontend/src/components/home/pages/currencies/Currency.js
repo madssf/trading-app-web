@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import moment from 'moment'
 
 class Currency extends Component {
   render() {
@@ -10,7 +11,7 @@ class Currency extends Component {
       <div>
         <hr />
         <p>
-        <b>{currency.symbol}</b>: {currency.name}
+        <b>{currency.symbol}</b>: {currency.name} | updated: {moment(currency.modified).format("hh:mm:ss")} 
         </p>
       </div>
     );

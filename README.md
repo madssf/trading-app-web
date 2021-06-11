@@ -2,6 +2,13 @@
 
 - Django, React-Redux, Python, PostgreSQL
 
+## demo account
+
+```
+username: demo
+password: P4$$w0rD
+```
+
 ## Docker
 
 1. Go to /backend/, make a file called 'project.env', add the following (fill in the blanks):

@@ -4,39 +4,43 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
-import {getCurrencies} from '../../store/CurrenciesActions'
-import Currency from './Currency'
+import {getCurrencies} from '../store/CurrenciesActions'
+import moment from 'moment';
 
 
-class CurrenciesList extends Component {
+class Updated extends Component {
   componentDidMount() {
     this.props.getCurrencies();
   }
+
 
  
   render() {
     const {currencies} = this.props.currencies
     if (currencies.length === 0){
-      return <p>No currencies yet.</p>
+      return <p>-</p>
     }
-    let items = currencies.map(currency => {
-      return <Currency key={currency.id} currency={currency}/>;
-    })
+    
+    let items = currencies.map(currency => {return moment(currency.modified)})
+    let updated = moment("2006-07-05")
+    for(var i = 0; i < items.length; i++) {
+        if (items[i].isAfter(updated)) {
+          updated = items[i]
+        } 
+    }
+  
+
     return (
-          <Container>
           <div> 
-          <h1>Currencies</h1>
-          <p>Displaying {currencies.length} currencies</p>
-          {items}
+          <p className="updatedText">{updated.format("hh:mm:ss")}</p>
           </div> 
-          </Container>
 
      
   );
 }
 }
 
-CurrenciesList.propTypes = {
+Updated.propTypes = {
   currencies: PropTypes.object.isRequired,
   getCurrencies: PropTypes.func.isRequired,
 };
@@ -45,4 +49,4 @@ const mapStateToProps = state => ({
   currencies: state.currencies,
 });
 
-export default connect(mapStateToProps, {getCurrencies})(withRouter(CurrenciesList));
+export default connect(mapStateToProps, {getCurrencies})(withRouter(Updated));

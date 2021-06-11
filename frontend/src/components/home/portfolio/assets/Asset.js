@@ -39,14 +39,10 @@ class Asset extends Component {
       }
     }
     handleDelete= event => {
-
-      
-   
   
       const asset = {
         id: this.props.asset.id, 
        };
-      console.log(asset)
   
       axios.delete(`http://localhost:1337/api/v1/portfolio_assets/${asset.id}/`)
         .then(res => {
@@ -54,7 +50,6 @@ class Asset extends Component {
         }).catch(error => {
           toastOnError(error);
         });
-        console.log(asset)
   
       
     }   

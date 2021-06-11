@@ -71,7 +71,6 @@ export default class AddAsset extends React.Component {
       stake_end: this.state.stakeEnd,
       close_time: null
     };
-    console.log(asset)
 
     axios.post(`http://localhost:1337/api/v1/portfolio_assets/`, asset, {headers: {
       'Content-Type': 'application/json'
@@ -81,7 +80,6 @@ export default class AddAsset extends React.Component {
       }).catch(error => {
         toastOnError(error);
       });
-      console.log(asset)
 
     
   }

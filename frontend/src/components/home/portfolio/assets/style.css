@@ -10,18 +10,6 @@ div.assetsHeader {
   justify-content: center;
 }
 
-p.sumText {
-  background-color: aquamarine;
-  color: rgb(0, 6, 39);
-  font-size: 36px;
-  padding-left: 200px;
-  padding-right: 200px;
-  padding: 20px;
-
-  line-height: 30px;
-  margin: 10px;
-}
-
 div.currencyAsset {
   justify-content: center;
   align-items: center;
@@ -59,6 +47,9 @@ div.asset {
   gap: 1px;
   grid-auto-rows: minmax(10px, auto);
   align-items: right;
+  padding: 10px;
+  background-color: #e2edfa;
+  border-radius: 2px;
 }
 
 .assetGrid1 {

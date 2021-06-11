@@ -15,61 +15,25 @@ import PortfolioDetailView from './graphs/PortfolioGraphs'
 import Assets from './assets/Assets'
 import AddAsset from './assets/AddAsset';
 import BatchAddAsset from './assets/BatchAddAsset';
-import Credentials from './Credentials';
+import Credentials from './credentials/Credentials';
 import Strategy from './strategy/Strategy';
 
 class PortfolioDetail extends Component {
 
-  state = {
-    portfolio: {assets:[]},
-    selectedCurrency: null,
-    selectedExchange: null,
-    showAdd: false,
-    showBatchAdd: false,
-    executing: false,
-    refreshing: false
-  }
 
-  componentDidMount() {
-    this.props.getCurrencies();
-    this.props.getExchanges();
 
-    axios
-    .get(`/api/v1/my_portfolios/${this.props.match.params.id}`)
-    .then(res => {
-      const portfolio = res.data;
-      const assets = portfolio.assets
-      this.setState({ portfolio });
-      this.setState({ assets });
-
-    })
-    .catch(error => {
-      toastOnError(error);
-    });
-  }
-
-  execute() {
-    this.setState({executing: true})
-    console.log('executing')
-  }
-
-  refresh() {
-    this.setState({refreshing: true})
-    console.log('refreshing')
-  }
+  
 
   
   render() {
 
+  
+
     const {currencies} = this.props.currencies
     const {exchanges} = this.props.exchanges
 
-
     return (
       <div className="portfolioDetail">
-      <h1 className="pageTitle">{this.state.portfolio.name}</h1>
-
-      <div className="portfolioGrid">
       
         <div className="portfolioGrid1">
           <Container>
@@ -80,8 +44,7 @@ class PortfolioDetail extends Component {
     
       : ""}
 
-          <Button className="refreshBtn" disabled={this.state.refreshing} onClick={() => this.refresh()}>Refresh</Button>
-
+         
           <Button className="toggleView" onClick={() => this.setState({showAdd: !this.state.showAdd})}>{this.state.showAdd ? "Close" : "Add assets"}</Button>
          
         <Button className="toggleView" onClick={() => this.setState({showBatchAdd: !this.state.showBatchAdd})}>{this.state.showBatchAdd ? "Close" : "Batch add assets"}</Button>
@@ -118,9 +81,10 @@ class PortfolioDetail extends Component {
     
 
       </div>
-      </div>
     )
   }
+
+  
 }
 
 PortfolioDetail.propTypes = {

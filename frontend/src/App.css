@@ -10,28 +10,20 @@
   height: 90vh;
 }
 
-.nav {
-  align-items: center;
-  justify-content: center;
-  background-color: black;
-  color: white;
-  padding-top: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin-bottom: 20px;
-}
-
-.nav p {
-  margin: 10px;
-}
-
-button.navLogout {
-  background-color: gray;
-  color: white;
-}
-
 .pageTitle {
   text-align: center;
+}
+
+p.sumText {
+  background-color: aquamarine;
+  color: rgb(0, 6, 39);
+  font-size: 36px;
+  padding-left: 200px;
+  padding-right: 200px;
+  padding: 20px;
+
+  line-height: 30px;
+  margin: 10px;
 }
 
 div.dropdowns {

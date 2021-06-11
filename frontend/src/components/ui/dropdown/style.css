@@ -4,6 +4,7 @@
   color: #333;
   cursor: default;
   width: 250px;
+  align-items: center;
 }
 
 .dropdown .arrow {

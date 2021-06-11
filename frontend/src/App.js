@@ -8,9 +8,9 @@ import LandingPage from "./components/ui/LandingPage";
 import Signup from "./components/auth/signup/Signup";
 import Login from "./components/auth/login/Login";
 import Home from "./components/home/Home";
-import CurrenciesList from "./components/pages/currencies/CurrenciesList";
-import StrategiesList from './components/pages/strategies/StrategiesList';
-import PortfolioDetail from './components/home/portfolios/PortfolioDetail'
+import CurrenciesList from "./components/home/pages/currencies/CurrenciesList";
+import StrategiesList from './components/home/pages/strategies/StrategiesList';
+import Portfolio from './components/home/portfolio/Portfolio'
 import NavBar from "./components/ui/NavBar";
 
 import axios from "axios";
@@ -33,7 +33,7 @@ class App extends Component {
             <Route path="/currencies" component={requireAuth(CurrenciesList)}/>
             <Route path="/strategies" component={requireAuth(StrategiesList)}/>
 
-            <Route exact path="/portfolios/:id" component={requireAuth(PortfolioDetail)}/>
+            <Route exact path="/portfolios/:id" component={requireAuth(Portfolio)}/>
             </div>
             <Route path="*">404 - Not Found</Route>
           </Switch>

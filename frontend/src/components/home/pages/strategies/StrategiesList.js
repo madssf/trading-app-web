@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
-import {getStrategies} from '../../store/StrategiesActions'
+import {getStrategies} from '../../../store/StrategiesActions'
 import Strategy from './Strategy'
 
 
@@ -20,7 +20,6 @@ class StrategiesList extends Component {
       return <p>No currencies yet.</p>
     }
     let items = strategies.map(strategy => {     
-      console.log(strategy);
       return <Strategy key={strategy.id} strategy={strategy}/>;
     })
     return (
