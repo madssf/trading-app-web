@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 export const PortfolioGraphs = (props) => {
   return (
     <div>
-      <h3>Graphs</h3>
+      <p>Performance vs index line chart</p>
+      <p>Total value historic chart</p>
+
     </div>
   )
 }

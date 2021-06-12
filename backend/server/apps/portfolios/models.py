@@ -21,8 +21,8 @@ class Portfolio(models.Model):
     public = models.BooleanField(default=False)
 
     def get_data(self):
-        data = {"name": self.name, "created_at": self.created_at, "owner": self.owner.id,
-                "description": "", "assets": [], "strategy": {"name": "", "description": "", "parameters": []}}
+        data = {"id": self.id, "name": self.name, "created_at": self.created_at, "owner": self.owner.id,
+                "description": "", "assets": [], "strategy": {"id": "", "name": "", "description": "", "parameters": []}}
         data['description'] = self.description if self.description else ""
 
         assets = []
@@ -53,14 +53,19 @@ class Portfolio(models.Model):
             strategy=self.strategy)
         for param in strat_params:
             try:
-                value = PortfolioParameter.objects.get(
-                    portfolio=self, parameter=param).value
+                pf_param = PortfolioParameter.objects.get(
+                    portfolio=self, parameter=param)
+                pf_param_value = pf_param.value
+                pf_param_id = pf_param.id
             except PortfolioParameter.DoesNotExist:
-                value = ""
+                pf_param_value = None
+                pf_param_id = None
             params.append({"name": param.parameter.name, "description": param.parameter.description,
-                          "type": param.parameter.parameter_type.name, "value": value})
+                          "type": param.parameter.parameter_type.name,
+                           "strat_param_id": param.parameter.id, "value": pf_param_value, "pf_param_id": pf_param_id})
 
         data['strategy'] = {
+            'id': self.strategy.id,
             'name': self.strategy.name,
             "description": self.strategy.description,
             "parameters": params

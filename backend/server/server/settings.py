@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'bot'
 ]
 
+
 CORS_ALLOWED_ORIGINS = [
     # STREAMLIT
     "http://localhost:8500",
@@ -52,6 +53,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

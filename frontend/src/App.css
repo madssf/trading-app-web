@@ -28,3 +28,10 @@
 div.dropdowns {
   width: 250px;
 }
+
+Button.action {
+  margin: 5px;
+  font-size: 18px;
+  border-color: white;
+  border-radius: 8px;
+}

@@ -1,10 +1,12 @@
 import React from 'react'
+import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
 
 export const Credentials = (props) => {
+  console.log(props)
   return (
     <div>
-      COMING SOON {props.portfolio}
+      <Button>Edit credentials</Button>
     </div>
   )
 }

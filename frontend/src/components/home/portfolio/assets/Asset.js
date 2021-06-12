@@ -68,7 +68,7 @@ class Asset extends Component {
 
       <div className="assetGrid">
         <div className="assetGrid1">
-         {this.state.name !== "" ? this.state.name +" ": "unknown"} 
+         {this.props.asset.exchange} 
         </div>
         <div className="assetGrid2">
         <b>{Math.round(this.props.asset.value*100)/100} $ </b>

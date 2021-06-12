@@ -30,6 +30,9 @@ class PortfolioParameterViewSet(viewsets.ModelViewSet):
     serializer_class = PortfolioParameterSerializer
     queryset = PortfolioParameter.objects.all()
 
+    def get_permissions(self):
+        return OwnerCUD_AuthR(self, super())
+
     def perform_create(self, serializer):
         serializer.save()
 

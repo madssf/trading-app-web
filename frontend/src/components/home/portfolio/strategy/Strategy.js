@@ -4,23 +4,38 @@ import StrategyParameter from './StrategyParameter'
 export default function Strategy(props) {
 
 
-    if (props.data.parameters.length === 0 || props.data.parameters === undefined) {
+
+    if (props.data.strategy.parameters.length === 0 || props.data.strategy.parameters === undefined) {
       return "No parameters for this strategy."
     }
 
-    console.log(props)
       
-    let params = props.data.parameters.map(param => {return <StrategyParameter key={param.name} data={param} />})
+    let params = props.data.strategy.parameters.map(param => {
+      
+      return <StrategyParameter key={param.strat_param_id} portfolio={props.data} data={param} />
+
+    })
     return (
         <div className="strategy">
           
           <h1>{props.data.name}</h1>
+          <Button className="action ">Change</Button>
 
 
+          <p>Difference bar chart</p>
+          <p>Balanced portfolio chart</p>
+
+          <div className="strategyBtns">
+          <Button className="action">Execute</Button>
+          <Button className="action">Schedule</Button>
+          <Button className="action">Simulate</Button>
+
+          </div>
+
+       
           {params}
-          <Button>Simulate</Button>
-          <Button>Execute</Button>
 
+       
         </div>
 
         

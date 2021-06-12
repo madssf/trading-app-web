@@ -77,13 +77,6 @@ Button.toggleView {
   background-color: rgb(56, 75, 184);
 }
 
-Button.action {
-  margin: 5px;
-  font-size: 18px;
-  border-color: white;
-  border-radius: 8px;
-}
-
 .amountInput {
   justify-content: center;
   margin: 8px;

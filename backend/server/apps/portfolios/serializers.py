@@ -15,7 +15,7 @@ class PortfolioParameterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PortfolioParameter
-        fields = ['portfolio', 'parameter', 'value']
+        fields = "__all__"
 
 
 class PortfolioAssetSerializer(serializers.ModelSerializer):

@@ -5,7 +5,15 @@ class IsOwner(permissions.BasePermission):
     """Checks whether the requesting user is also the owner of the existing object"""
 
     def has_object_permission(self, request, view, obj):
-        return obj.owner == request.user
+        try:
+            obj.owner == request.user
+            return True
+        except AttributeError:
+            try:
+                obj.portfolio.owner == request.user
+                return True
+            except AttributeError:
+                return False
 
 
 def AdminCUD_AnyR(view, view_super):

@@ -1,0 +1,38 @@
+.strategyBtns {
+  margin: 10px;
+  padding: 10px;
+}
+
+.strategyParameter {
+  align-items: center;
+  text-align: center;
+}
+
+.stratParam {
+  margin: 10 px;
+  display: grid;
+  grid-template-columns: repeat(4, 0.33fr);
+  align-items: center;
+}
+
+.name {
+  grid-column: 1;
+}
+
+.value {
+  grid-column: 2;
+}
+
+.input {
+  grid-column: 3/4;
+}
+
+.description {
+  font-size: 10px;
+  grid-column: 1/6;
+  text-align: left;
+}
+
+.updateParamsBtn {
+  font-size: 8px;
+}
