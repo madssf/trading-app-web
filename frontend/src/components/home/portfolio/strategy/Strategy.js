@@ -1,25 +1,36 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 import {Button} from 'react-bootstrap'
+import StrategyParameter from './StrategyParameter'
+export default function Strategy(props) {
 
-export class Strategy extends Component {
-  render() {
+
+    if (props.data.parameters.length === 0 || props.data.parameters === undefined) {
+      return "No parameters for this strategy."
+    }
+
+    console.log(props)
+      
+    let params = props.data.parameters.map(param => {return <StrategyParameter key={param.name} data={param} />})
     return (
-      <div>
-        <Button className="action">Simulate</Button>
-        <Button className="action">Execute</Button>
+        <div className="strategy">
+          
+          <h1>{props.data.name}</h1>
 
-      </div>
-    )
+
+          {params}
+          <Button>Simulate</Button>
+          <Button>Execute</Button>
+
+        </div>
+
+        
+      )
+      
+
   }
-}
 
-const mapStateToProps = (state) => ({
   
-})
-
-const mapDispatchToProps = {
   
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Strategy)
+
+    

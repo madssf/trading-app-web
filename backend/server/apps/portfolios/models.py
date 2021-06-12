@@ -57,7 +57,8 @@ class Portfolio(models.Model):
                     portfolio=self, parameter=param).value
             except PortfolioParameter.DoesNotExist:
                 value = ""
-            params.append({param.parameter.name: value})
+            params.append({"name": param.parameter.name, "description": param.parameter.description,
+                          "type": param.parameter.parameter_type.name, "value": value})
 
         data['strategy'] = {
             'name': self.strategy.name,

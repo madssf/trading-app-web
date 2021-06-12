@@ -130,9 +130,10 @@ class Portfolio extends Component {
 
           {this.state.selectedTab === 1 ? 
           <div className="strategy">
-        
-            <Strategy/>
-
+            
+            {this.state.portfolio.strategy !== undefined ? 
+            <Strategy data={this.state.portfolio.strategy}/>
+            : ""}
           </div>
 
           : ""}
