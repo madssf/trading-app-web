@@ -6,8 +6,9 @@ export class Strategy extends Component {
   render() {
     return (
       <div>
+        <Button className="action">Simulate</Button>
         <Button className="action">Execute</Button>
-     
+
       </div>
     )
   }

@@ -55,6 +55,8 @@ class Portfolio extends Component {
     axios
     .get(`/api/v1/my_portfolios/${this.props.match.params.id}`)
     .then(res => {
+
+      console.log(res)
       const portfolio = res.data;
       this.setState({ portfolio: portfolio });
       this.setState({ assets: portfolio.assets });

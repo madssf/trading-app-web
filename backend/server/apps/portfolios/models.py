@@ -20,6 +20,53 @@ class Portfolio(models.Model):
     description = models.TextField(blank=True, null=True)
     public = models.BooleanField(default=False)
 
+    def get_data(self):
+        data = {"name": self.name, "created_at": self.created_at, "owner": self.owner.id,
+                "description": "", "assets": [], "strategy": {"name": "", "description": "", "parameters": []}}
+        data['description'] = self.description if self.description else ""
+
+        assets = []
+        for asset in PortfolioAsset.objects.filter(portfolio_id=self.id, close_time=None):
+            currency = Currency.objects.get(id=asset.currency.id)
+            assets.append(
+                {
+                    'id': asset.id,
+                    'symbol': currency.symbol,
+                    'name': currency.name,
+                    'status': asset.status,
+                    'amount': asset.amount,
+                    'apr': asset.apr,
+                    'stake_start': asset.stake_start,
+                    'stake_end': asset.stake_end,
+                    'value': round(float(asset.amount*currency.last_price), 3),
+                    'exchange': asset.exchange.name,
+                    'exchange_id': asset.exchange.id,
+                    'source': asset.source
+                })
+        data['assets'] = assets
+
+        if not self.strategy:
+            return data
+
+        params = []
+        strat_params = StrategyParameter.objects.filter(
+            strategy=self.strategy)
+        for param in strat_params:
+            try:
+                value = PortfolioParameter.objects.get(
+                    portfolio=self, parameter=param).value
+            except PortfolioParameter.DoesNotExist:
+                value = ""
+            params.append({param.parameter.name: value})
+
+        data['strategy'] = {
+            'name': self.strategy.name,
+            "description": self.strategy.description,
+            "parameters": params
+        }
+
+        return data
+
     def __str__(self):
         return str(self.owner) + "/" + self.name
 
