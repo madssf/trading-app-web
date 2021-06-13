@@ -11,7 +11,7 @@ export default function StrategyParameter(props) {
 
     const [val, setVal] = useState(props.data.value)
 
-     const handleChange = (event) => {
+    const handleChange = (event) => {
       setVal(event.target.value)
     }
     const handleDelete = event => {

@@ -67,14 +67,12 @@ class BatchAddAssetsView(APIView):
                     symbol=element['symbol'].upper())
             except Currency.DoesNotExist:
                 missing_currencies.append(element['symbol'])
-                continue
-
             try:
                 PortfolioAsset.objects.get(
-                    exchange=exchange, currency=currency, portfolio=portfolio, amount=element['amount'], status="LOCK")
+                    exchange=exchange, currency=currency, portfolio=portfolio, amount=element['amount'], status="LOCK", stake_end=element['stake_end'], stake_start=element['stake_start'], source="BATCH")
             except PortfolioAsset.DoesNotExist:
                 asset = PortfolioAsset.objects.create(currency=currency, portfolio=portfolio, amount=float(
-                    element['amount']), apr=element['apr'], status="LOCK",  exchange=exchange, source="BATCH")
+                    element['amount']), apr=element['apr'], status="LOCK",  exchange=exchange, stake_end=element['stake_end'], stake_start=element['stake_start'], source="BATCH")
                 asset.save()
                 added.append(str(asset))
 

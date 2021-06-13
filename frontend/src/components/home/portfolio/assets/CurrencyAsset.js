@@ -8,6 +8,7 @@ export const CurrencyAsset = (props) => {
 
   const [open, setOpen] = useState(false);
   
+  
   if (props.positions !== undefined) {
     positions = props.positions.map(asset => {return <Asset key={asset.id+asset.status+asset.exchange} symbol={props.symbol} asset={asset}/>})
   }

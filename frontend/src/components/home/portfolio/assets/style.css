@@ -50,22 +50,29 @@ div.asset {
   align-items: right;
 }
 
-.assetGrid1 {
+.assetGrid1_1 {
   grid-column: 1;
 }
-.assetGrid2 {
+.assetGrid2_1 {
   grid-column: 2;
 }
 
-.assetGrid3 {
+.assetGrid3_1 {
   grid-column: 3;
 }
 
-.assetGrid4 {
+.assetGrid4_1 {
   grid-column: 4;
 }
-.assetGrid5 {
+.assetGrid5_1 {
   grid-column: 5;
+}
+
+.assetGrid1_2 {
+  grid-column: 1/4;
+}
+.assetGrid2_2 {
+  grid-column: 4/6;
 }
 
 .deleteAssetBtn {

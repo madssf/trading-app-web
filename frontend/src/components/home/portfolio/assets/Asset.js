@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { toastOnError } from "../../../../utils/Utils";
 import axios from 'axios';
 import PropTypes from "prop-types";
-
+import moment from 'moment'
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import {getExchanges} from '../../../store/ExchangesActions'
@@ -46,7 +46,6 @@ class Asset extends Component {
       const asset = {
         id: this.props.asset.id, 
        };
-      console.log(asset)
   
       axios.delete(`http://localhost:1337/api/v1/portfolio_assets/${asset.id}/`)
         .then(res => {
@@ -64,24 +63,35 @@ class Asset extends Component {
   
     return (
       <Container>
-              <hr />
+        <hr />
 
       <div className="assetGrid">
-        <div className="assetGrid1">
+        <div className="assetGrid1_1">
          {this.props.asset.exchange} 
         </div>
-        <div className="assetGrid2">
+        <div className="assetGrid2_1">
         <b>{Math.round(this.props.asset.value*100)/100} $ </b>
        </div>
-       <div className="assetGrid3">
+       <div className="assetGrid3_1">
        {this.props.asset.status}    
        </div>
-       <div className="assetGrid4">
+       <div className="assetGrid4_1">
        {this.props.asset.source}   
        </div>
-       <div className="assetGrid5">
+       <div className="assetGrid5_1">
        <button className="deleteAssetBtn" onClick={this.handleDeleteClick} type="submit">{this.state.deleteConfirm ? "Confirm" : "Delete"}</button>
        </div>
+       {this.props.asset.stake_end !== null ? 
+      <> 
+       <div className="assetGrid1_2">
+       Expires: {moment(this.props.asset.stake_end).format("DD/MM/yy")}   
+       </div>
+       <div className="assetGrid2_2">
+       APR: {this.props.asset.apr*100} %   
+       </div>
+       </>
+
+       : ""}
       </div>      
       <hr />
       </Container>
