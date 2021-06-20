@@ -1,13 +1,11 @@
 from .parsers import AssetBatchParser
 from django.shortcuts import render
-from apps.portfolios.models import Portfolio, PortfolioAsset, PortfolioParameter, StrategyParameter
+from apps.portfolios.models import Portfolio, PortfolioAsset
 from apps.currencies.models import Currency
-from apps.strategies.models import Strategy, Parameter
 from apps.exchanges.models import Exchange
 from django.http.response import JsonResponse
 from rest_framework import mixins, generics, permissions
 from django.views.generic.edit import DeleteView
-from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -28,7 +26,7 @@ class MyPortfolioID(mixins.ListModelMixin, generics.GenericAPIView):
         portfolio = Portfolio.objects.get(
             id=id, owner=request.user)
 
-        return JsonResponse(portfolio.get_data(), safe=False)
+        return JsonResponse(portfolio.get_detail_view_data(), safe=False)
 
 
 class DeleteAssetView(DeleteView):

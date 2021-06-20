@@ -1,4 +1,4 @@
-from .views import CredentialsBotView, CurrencyBotView, ExchangeAssetsBotView
+from .views import CredentialsBotView, CurrencyBotView, ExchangeAssetsBotView, StrategyPortfoliosBotView
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 
@@ -12,7 +12,12 @@ credentials = [path(
 exchange_assets = [path(
     "api/v1/bot/exchange_assets", ExchangeAssetsBotView.as_view(), name='exchange-assets')]
 
+strategy_portfolios = [path(
+    "api/v1/bot/strategy_portfolios", StrategyPortfoliosBotView.as_view(), name='strategy-portfolios')]
+
+
 bot_urls = []
 bot_urls += currencies
 bot_urls += credentials
 bot_urls += exchange_assets
+bot_urls += strategy_portfolios

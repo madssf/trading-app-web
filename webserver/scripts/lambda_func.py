@@ -1,23 +1,37 @@
-import backend
-
-# Get portfolios from API
-
-# Get market data
+from .config import Superuser
+from .db import DBConnection
+from .strategies.MCAPRebalancer import MCAPRebalancer
 
 
-def main(context, market_data):
-    pass
+def main():
+    db = DBConnection(Superuser.USERNAME, Superuser.PASSWORD)
+    market = db.update_currencies()
+    db.update_exchange_assets()
+    portfolios = db.get_strategy_portfolios()
+    for portfolio in portfolios:
+        if len(portfolio['assets']) > 0:
+            strategy = MCAPRebalancer(portfolio['strategy']['parameters'])
+            instructions = strategy.instruct(portfolio['assets'], market)
+
+            print(strategy.parameters)
+            if instructions:
+                if portfolio['email_notify']:
+                    # send email
+                    pass
+                if portfolio['execute_trades']:
+                    # execute trades
+                    pass
 
 
 if __name__ == "__main__":
-    main({'source': 'main function - cmd line'}, 0)
+    main({'source': 'main function - commmand line'})
 
 
-def lambda_handler(context, event):
+def lambda_handler(context):
     '''
-    :param context: {'source': string} optional: timeoffset
-    :param event: backend.cmc_market_data()
+    : param context: {'source': string} optional: timeoffset
+    : param event: backend.cmc_market_data()
     '''
     print(f"lambda_func.py invoked | context: {context}")
 
-    main(context, event)
+    main()

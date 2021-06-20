@@ -3,7 +3,7 @@ from pycoingecko import CoinGeckoAPI
 
 class CoinGecko():
 
-    def __init__(self, base_fiat, stablecoins):
+    def __init__(self, base_fiat, stablecoins=[]):
         self.base_fiat = base_fiat
         self.stablecoins = stablecoins
         self.cg = CoinGeckoAPI()

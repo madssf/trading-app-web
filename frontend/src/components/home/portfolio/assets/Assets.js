@@ -27,12 +27,10 @@ export default function Assets(props) {
             totals[j].value = totals[j].value + props.assets[i].value
             totals[j].positions.push(props.assets[i])
 
-          }
+            }
           j++
-
+          }
         }
-
-      }
     }
 
     totals = totals.sort(sortBy("value", false))

@@ -4,7 +4,7 @@ from django.db.models.deletion import SET_DEFAULT
 from django_cryptography.fields import encrypt
 from apps.strategies.models import Strategy, StrategyParameter
 from apps.exchanges.models import Exchange
-from apps.currencies.models import Currency
+from apps.currencies.models import Currency, Tag, CurrencyTag
 
 User = get_user_model()
 
@@ -18,9 +18,11 @@ class Portfolio(models.Model):
         Strategy, default=None, blank=True, null=True, on_delete=SET_DEFAULT)
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
+    bot_execute_trades = models.BooleanField(default=False)
+    bot_email_notify = models.BooleanField(default=False)
     public = models.BooleanField(default=False)
 
-    def get_data(self):
+    def get_detail_view_data(self):
         data = {"id": self.id, "name": self.name, "created_at": self.created_at, "owner": self.owner.id,
                 "description": "", "assets": [], "strategy": {"id": "", "name": "", "description": "", "parameters": []}}
         data['description'] = self.description if self.description else ""
@@ -70,6 +72,60 @@ class Portfolio(models.Model):
             "description": self.strategy.description,
             "parameters": params
         }
+
+        return data
+
+    def get_strategy_bot_data(self):
+        data = {
+            "id": self.id,
+            "name": self.name,
+            "owner": self.owner.id,
+            'execute_trades': self.bot_execute_trades,
+            'email_notify': self.bot_email_notify,
+            "assets": {},
+            "strategy": {
+                'id': self.strategy.id,
+                'name': self.strategy.name,
+                'parameters': {}
+            }
+        }
+        for asset in PortfolioAsset.objects.filter(portfolio_id=self.id, close_time=None):
+            position = {
+                'status': asset.status,
+                'amount': asset.amount,
+                'exchange': asset.exchange.name
+            }
+            symbol = asset.currency.symbol
+            if symbol not in data['assets'].keys():
+                data['assets'][symbol] = [position]
+            else:
+                data['assets'][symbol].append(position)
+
+        for param in StrategyParameter.objects.filter(strategy=self.strategy):
+            try:
+                value = PortfolioParameter.objects.get(
+                    portfolio=self, parameter=param
+                ).value
+            except PortfolioParameter.DoesNotExist:
+                value = None
+            data['strategy']['parameters'][param.parameter.name] = value
+        # getting banned coins from tags
+        try:
+            tags = data['strategy']['parameters']['banned_tags'].split(",")
+            symbols = []
+            for tag in tags:
+                try:
+                    symbols += [c.currency.symbol for c in CurrencyTag.objects.filter(
+                        tag=Tag.objects.get(name=tag))]
+                except (CurrencyTag.DoesNotExist, Tag.DoesNotExist):
+                    pass
+            if data['strategy']['parameters']['banned']:
+                data['strategy']['parameters']['banned'] += ',' + \
+                    ','.join(symbols)
+            else:
+                data['strategy']['parameters']['banned'] = ','.join(symbols)
+        except (KeyError, AttributeError):
+            pass
 
         return data
 

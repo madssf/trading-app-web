@@ -2,7 +2,7 @@ from .backend.django_api import Api
 from .backend.coingecko import CoinGecko
 import ccxt
 
-from .config import Superuser, Endpoints, Parameters
+from .config import Endpoints, Parameters
 
 import re
 import json
@@ -15,7 +15,7 @@ class DBConnection():
         self.password = password
         self.api = Api(
             {'username': self.username, 'password': self.password}, Endpoints.BASE, Endpoints.LOGIN)
-        self.cg = CoinGecko(Parameters.BASE_FIAT, Parameters.STABLECOINS)
+        self.cg = CoinGecko(Parameters.BASE_FIAT)
 
     def update_currencies(self, per_page=250, pages=2):
         market = []
@@ -40,6 +40,7 @@ class DBConnection():
         market = json.dumps(market)
         self.api.make_request(
             "POST", "bot/currencies", data=market)
+        return market
 
     def get_credentials(self):
         return self.api.make_request("GET", "bot/credentials")
@@ -98,8 +99,10 @@ class DBConnection():
             "POST", "bot/exchange_assets", data=json.dumps(data))
         return res
 
+    # returns all portfolios with strategies, credentials, parameters and assets
     def get_strategy_portfolios(self):
-        pass
+        res = self.api.make_request("GET", "bot/strategy_portfolios")
+        return res
 
     def post_trades(self):
         pass
@@ -111,8 +114,3 @@ class DBConnection():
             'secret': secret,
         })
         return exchange.fetch_balance()
-
-
-# db = DBConnection()
-# db.update_currencies()
-# db.update_exchange_assets()
