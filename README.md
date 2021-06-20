@@ -2,13 +2,6 @@
 
 - Django, React, Python, PostgreSQL
 
-- Demo account:
-
-```
-username: demo
-password: 1234
-```
-
 ## Docker
 
 1. Go to /backend/, make a file called 'project.env', add the following (fill in the blanks):
