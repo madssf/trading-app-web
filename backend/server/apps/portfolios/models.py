@@ -29,18 +29,17 @@ class Portfolio(models.Model):
 
         assets = []
         for asset in PortfolioAsset.objects.filter(portfolio_id=self.id, close_time=None):
-            currency = Currency.objects.get(id=asset.currency.id)
             assets.append(
                 {
                     'id': asset.id,
-                    'symbol': currency.symbol,
-                    'name': currency.name,
+                    'symbol': asset.currency.symbol,
+                    'name': asset.currency.name,
                     'status': asset.status,
                     'amount': asset.amount,
                     'apr': asset.apr,
                     'stake_start': asset.stake_start,
                     'stake_end': asset.stake_end,
-                    'value': round(float(asset.amount*currency.last_price), 3),
+                    'value': round(float(asset.amount*asset.currency.last_price), 3),
                     'exchange': asset.exchange.name,
                     'exchange_id': asset.exchange.id,
                     'source': asset.source
@@ -93,6 +92,7 @@ class Portfolio(models.Model):
             position = {
                 'status': asset.status,
                 'amount': asset.amount,
+                'value': round(float(asset.amount*asset.currency.last_price), 3),
                 'exchange': asset.exchange.name
             }
             symbol = asset.currency.symbol

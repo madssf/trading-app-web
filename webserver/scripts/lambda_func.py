@@ -10,10 +10,10 @@ def main():
     portfolios = db.get_strategy_portfolios()
     for portfolio in portfolios:
         if len(portfolio['assets']) > 0:
-            strategy = MCAPRebalancer(portfolio['strategy']['parameters'])
-            instructions = strategy.instruct(portfolio['assets'], market)
-
-            print(strategy.parameters)
+            strategy = MCAPRebalancer(
+                portfolio['strategy']['parameters'], portfolio['assets'])
+            instructions = strategy.instruct(market)
+            print(instructions)
             if instructions:
                 if portfolio['email_notify']:
                     # send email

@@ -18,7 +18,7 @@ export default function Strategy(props) {
     return (
         <div className="strategy">
           
-          <h1>{props.data.name}</h1>
+          <h2>{props.data.strategy.name}</h2>
           <Button className="action ">Change</Button>
 
 
