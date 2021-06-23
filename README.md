@@ -30,7 +30,7 @@ docker-compose up --build
 ## Running scripts
 
 See:
-[Running scripts](scripts/README.md)
+[Running scripts](webserver/scripts/README.md)
 
 ## Running backend without Docker
 
