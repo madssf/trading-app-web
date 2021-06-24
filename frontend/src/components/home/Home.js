@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
 import PortfoliosList from './PortfoliosList';
-
+import AddPortfolio from './AddPortfolio';
 
 
 class Home extends Component {
@@ -22,7 +22,10 @@ class Home extends Component {
           <p>Welcome, {user.username}</p>
           <p>Email: {user.email}</p>
           </div> 
+
+          
           <PortfoliosList/>
+          <AddPortfolio />
           <ul>
             <li><Link to="/currencies">Currencies</Link></li>
             <li><Link to="/strategies">Strategies</Link></li>
