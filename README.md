@@ -32,6 +32,8 @@ docker-compose up --build
 See:
 [Running scripts](webserver/scripts/README.md)
 
+<iframe width="560" height="315" src='https://dbdiagram.io/embed/60e87ee77e498c3bb3efeb8d'> </iframe>
+
 ## Running backend without Docker
 
 ```bash
