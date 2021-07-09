@@ -23,7 +23,6 @@ class DBConnection():
             # coingecko 250 max
             market += self.cg.get_market_data(i+1, max=min(per_page, 250))
 
-        print(f"Market size: {len(market)}")
         i = 0
         for coin in market:
             name = "".join(re.findall("[a-zA-Z.]+", coin['name']))

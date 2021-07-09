@@ -18,7 +18,6 @@ class Api():
             creds = {'username': self.user,
                      'password': self.password}
             data = requests.post(self.login_url, data=creds)
-            print(data)
             self.token = data.json()['auth_token']
             print(f"{self.user} logged in!")
         else:
@@ -43,6 +42,5 @@ class Api():
         except JSONDecodeError:
             res = {'error': 'JSONDecodeError', 'msg': res}
         print(
-            f"Request: {method} {self.base_url}{endpoint} Data: {True if data else False}")
-        print(f"Response: {res}")
+            f"{method} {self.base_url}{endpoint} Data: {True if data else False}")
         return res

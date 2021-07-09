@@ -13,7 +13,10 @@ def main():
             strategy = MCAPRebalancer(
                 portfolio['strategy']['parameters'], portfolio['assets'])
             instructions = strategy.instruct(market)
+
+            print(portfolio['name'])
             print(instructions)
+
             if instructions:
                 if portfolio['email_notify']:
                     # send email

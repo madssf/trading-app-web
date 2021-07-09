@@ -58,6 +58,7 @@
     ]
   },
   "devDependencies": {
-    "@material-ui/styles": "^4.11.4"
+    "@material-ui/styles": "^4.11.4",
+    "typescript": "^4.3.4"
   }
 }
