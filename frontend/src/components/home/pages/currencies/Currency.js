@@ -10,7 +10,7 @@ class Currency extends Component {
       <div>
         <hr />
         <p>
-        <b>{currency.symbol}</b>: {currency.name}
+        <b>{currency.symbol}</b>: {currency.name} :  {currency.mcap_rank} : <b>{currency.last_price}</b> | {currency.pct_change_24h}
         </p>
       </div>
     );
