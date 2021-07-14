@@ -1,4 +1,3 @@
-from apps.portfolios.models import PortfolioAsset
 from rest_framework.permissions import IsAdminUser
 from django.db.utils import IntegrityError
 from rest_framework.parsers import JSONParser
@@ -8,7 +7,7 @@ from apps.currencies.models import Currency
 from rest_framework import mixins, generics
 from django.http.response import JsonResponse
 from rest_framework.permissions import IsAdminUser
-from apps.portfolios.models import Portfolio, Credentials
+from apps.portfolios.models import Portfolio, Credentials, PortfolioAsset, PortfolioPosition
 from apps.currencies.models import Currency
 from apps.exchanges.models import Exchange
 
@@ -81,82 +80,51 @@ class ExchangeAssetsBotView(APIView):
     parser_classes = [JSONParser]
 
     def post(self, request, format=None):
-        new = 0
-        changed = 0
-        checked = 0
-        failed_updates = []
+        new_assets = 0
+        new_positions = 0
+        unchanged_positions = 0
+        changed_positions = 0
         unknown_currencies = []
 
         for portfolio in request.data:
             for exchange in portfolio['exchanges']:
+                exchange_obj = Exchange.objects.get(name=exchange['name'])
                 for coin in exchange['assets']:
-
-                    # Check staked
-                    # if spot position (existing or not) increased with >= staked amount expiring to
-
-                    # Try to update:
+                    # Try to find matching currency
                     try:
                         currency = Currency.objects.get(symbol=coin['symbol'])
-                        # Try to get matching asset
-                        asset = PortfolioAsset.objects.get(
-                            close_time=None,
-                            portfolio=Portfolio.objects.get(
-                                id=portfolio['portfolio']),
-                            exchange=Exchange.objects.get(
-                                name=exchange['name']),
-                            currency=currency,
-                            status=coin['status'])
-
-                        change, failed_symbol = self.handle_update_asset(
-                            Portfolio.objects.get(id=portfolio['portfolio']),
-                            Exchange.objects.get(
-                                name=exchange['name']),
-                            coin['symbol'],
-                            coin['amount'],
-                            coin['status'],
-                            asset)
-                        # if updated, write log entry:
-                        checked -= -1+change
-                        changed += change
-                        if failed_symbol:
-                            failed_updates.append(failed_symbol)
-
-                    # Try to create if update fails:
-                    except (Currency.DoesNotExist, PortfolioAsset.DoesNotExist):
-                        try:
-                            asset_obj = PortfolioAsset.objects.create(
-                                portfolio=Portfolio.objects.get(id=portfolio['portfolio']), exchange=Exchange.objects.get(name=exchange['name']), currency=Currency.objects.get(symbol=coin['symbol']),
-                                source="BOT",
-                                amount=coin['amount'],
-                                status=coin['status'])
-                            asset_obj.save()
-                            new += 1
-
-                        # Fail if currency does not exist:
-                        except (Currency.DoesNotExist):
+                    except Currency.DoesNotExist:
+                        if coin['symbol'] not in unknown_currencies:
                             unknown_currencies.append(coin['symbol'])
+                        continue
 
-        return Response({'new': new, 'checked': checked, 'changed': changed, 'failed_updates': failed_updates, 'unknown_currencies': unknown_currencies})
+                    # Getting/creating asset
+                    try:
+                        asset = PortfolioAsset.objects.get(currency=currency)
+                    except PortfolioAsset.DoesNotExist:
+                        asset = PortfolioAsset.objects.create(
+                            portfolio=Portfolio.objects.get(id=portfolio['portfolio']), currency=currency)
+                        asset.save()
+                        new_assets += 1
 
-    def handle_update_asset(self, portfolio, exchange, symbol, amount, status, asset_obj):
-        if float(asset_obj.amount) == float(amount) and asset_obj.status == status:
-            return 0, None
+                    # Updating/creating position
+                    try:
+                        position = PortfolioPosition.objects.get(
+                            asset=asset, exchange=exchange_obj, status=coin['status'])
+                        amount = float(coin['amount'])
+                        if float(position.amount) == amount:
+                            unchanged_positions += 1
+                        else:
+                            position.amount = amount
+                            position.save()
+                            changed_positions += 1
+                    except PortfolioPosition.DoesNotExist:
+                        position = PortfolioPosition.objects.create(
+                            asset=asset, exchange=exchange_obj, source="BOT", amount=float(coin['amount']), status=coin['status'])
+                        position.save()
+                        new_positions += 1
 
-        # Check stake expiry
-
-        if exchange.name.lower() == 'binance':
-            try:
-
-                asset_obj.portfolio = portfolio
-                asset_obj.exchange = exchange
-                asset_obj.currency = Currency.objects.get(symbol=symbol)
-                asset_obj.amount = amount
-                asset_obj.save()
-                return 1, None
-            except IntegrityError as e:
-                return 1, symbol
-        else:
-            raise ValueError(f'Invalid exchange: {exchange.name.lower()}')
+        return Response({'new_assets': new_assets, 'new_positions': new_positions, 'changed_positions': changed_positions, 'unchanged_positions': unchanged_positions, 'unknown_currencies': unknown_currencies})
 
 
 class StrategyPortfoliosBotView(mixins.ListModelMixin, generics.GenericAPIView):
