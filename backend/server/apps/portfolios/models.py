@@ -38,7 +38,8 @@ class Portfolio(models.Model):
                     'pct_change_24h': asset.currency.pct_change_24h,
                     'avg': asset.average,
                     'positions':  list(
-                        {'status': position.status,
+                        {'id': position.id,
+                         'status': position.status,
                          'amount': position.amount,
                          'apr': position.apr,
                          'stake_start': position.stake_start,
