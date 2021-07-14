@@ -5,7 +5,9 @@ export const Asset = (props) => {
   
   const data = props.data
   const symbol = data.symbol
-  const value = Math.round(props.value *100)/100
+  const total = Math.round(props.total *100)/100
+  const last_price = Math.round(data.last_price*100)/100
+  const pct_change_24h = Math.round(data.pct_change_24h*100)/100
 
   const [open, setOpen] = useState(false);
   
@@ -19,7 +21,8 @@ export const Asset = (props) => {
 
          
     <button className="currencyBtn" onClick={() => setOpen(prev => !prev)}>
-      <b>{symbol}</b> | {value} $ | {positions.length} | 
+      <b>{symbol}</b> | <b>{total} $</b> | {last_price} $ | {pct_change_24h}% | {positions.length}
+
     </button>
     <div className="positions">
     {data.positions !== undefined && open ? positions : []}
