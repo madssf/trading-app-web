@@ -28,21 +28,27 @@ class Portfolio(models.Model):
         data['description'] = self.description if self.description else ""
 
         assets = []
-        for asset in PortfolioAsset.objects.filter(portfolio_id=self.id, close_time=None):
+        for asset in PortfolioAsset.objects.filter(portfolio_id=self.id):
             assets.append(
                 {
                     'id': asset.id,
                     'symbol': asset.currency.symbol,
                     'name': asset.currency.name,
-                    'status': asset.status,
-                    'amount': asset.amount,
-                    'apr': asset.apr,
-                    'stake_start': asset.stake_start,
-                    'stake_end': asset.stake_end,
-                    'value': round(float(asset.amount*asset.currency.last_price), 3),
-                    'exchange': asset.exchange.name,
-                    'exchange_id': asset.exchange.id,
-                    'source': asset.source
+                    'last_price': asset.currency.last_price,
+                    'pct_change_24h': asset.currency.pct_change_24h,
+                    'avg': asset.average,
+                    'positions':  list(
+                        {'id': position.id,
+                         'status': position.status,
+                         'amount': position.amount,
+                         'apr': position.apr,
+                         'stake_start': position.stake_start,
+                         'stake_end': position.stake_end,
+                         'value': round(float(position.amount*position.asset.currency.last_price), 3),
+                         'exchange': position.exchange.name,
+                         'exchange_id': position.exchange.id,
+                         'source': position.source,
+                         } for position in PortfolioPosition.objects.filter(asset=asset)),
                 })
         data['assets'] = assets
 
@@ -88,7 +94,7 @@ class Portfolio(models.Model):
                 'parameters': {}
             }
         }
-        for asset in PortfolioAsset.objects.filter(portfolio_id=self.id, close_time=None):
+        for asset in PortfolioAsset.objects.filter(portfolio_id=self.id):
             position = {
                 'status': asset.status,
                 'amount': asset.amount,
@@ -145,19 +151,25 @@ class PortfolioParameter(models.Model):
 
 
 class PortfolioAsset(models.Model):
-
-    class Meta:
-        unique_together = [['portfolio', 'currency', 'exchange', 'status',
-                            'close_time', 'stake_end', 'stake_start', 'apr']]
-
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    average = models.DecimalField(
+        max_digits=18, decimal_places=10, blank=True, null=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.portfolio) + "/" + str(self.currency)
+
+
+class PortfolioPosition(models.Model):
+
+    class Meta:
+        unique_together = [['asset', 'exchange',
+                            'status', 'stake_end', 'stake_start', 'apr']]
+
+    asset = models.ForeignKey(PortfolioAsset, on_delete=models.CASCADE)
     exchange = models.ForeignKey(
         Exchange, default=None, blank=True, null=True, on_delete=SET_DEFAULT)
-
-    # None if this is a current position.
-    close_time = models.DateTimeField(
-        auto_now_add=False, blank=True, null=True)
 
     # Batch added assets for and exchange, or from bot
     BATCH = 'BATCH'
@@ -204,8 +216,7 @@ class PortfolioAsset(models.Model):
         auto_now_add=False, blank=True, null=True)
 
     def __str__(self):
-        status = "OPEN" if not self.close_time else "CLOSED"
-        return str(self.portfolio) + "/" + status + "/" + str(self.exchange) + "/" + str(self.status) + "/" + str(self.currency)
+        return str(self.asset) + "/" + str(self.exchange) + "/" + str(self.status)
 
 
 class PortfolioLogEntry(models.Model):

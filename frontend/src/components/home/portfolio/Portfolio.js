@@ -61,7 +61,10 @@ class Portfolio extends Component {
       this.setState({ portfolio: portfolio });
       this.setState({ assets: portfolio.assets });
       for(var x = 0; x<this.state.assets.length; x++){
-        sum += this.state.assets[x].value
+        for(var y = 0; y<this.state.assets[x].positions.length; y++) {
+          sum += this.state.assets[x].positions[y].value
+        }
+        
       }
       
       this.setState({sum: Math.round(sum*100)/100})

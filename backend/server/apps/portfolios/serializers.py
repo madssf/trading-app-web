@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Deposit, Portfolio, PortfolioAsset, PortfolioLogEntry, PortfolioParameter, Trade, Credentials
+from .models import Deposit, Portfolio, PortfolioAsset, PortfolioLogEntry, PortfolioParameter, PortfolioPosition, Trade, Credentials
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
@@ -22,6 +22,13 @@ class PortfolioAssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = PortfolioAsset
         fields = '__all__'
+
+
+class PortfolioPositionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PortfolioPosition
+        field = '__all__'
 
 
 class PortfolioLogEntrySerializer(serializers.ModelSerializer):
