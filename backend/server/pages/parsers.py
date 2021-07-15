@@ -1,4 +1,4 @@
-class AssetBatchParser:
+class PositionBatchParser:
 
     def parse_binance_txt(data):
         temp = data['data'].split('\n')

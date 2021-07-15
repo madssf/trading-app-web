@@ -17,10 +17,9 @@ export default class AddAsset extends React.Component {
 }
   
 
-  handleSubmit= event => {
-  const url = `http://localhost:1337/api/v1/asset/batch_post/${this.props.portfolio}/${this.state.exchange.id}`
-  console.log(url)
-  axios.post(url, {'data': this.state.data, 'exchange': this.state.exchange.id}, {headers: {
+  handleSubmit = () => {
+  const url = `http://localhost:1337/api/v1/positions/batch_post/${this.props.portfolio}/${this.state.exchange.id}`
+  axios.post(url, {'data': this.state.data}, {headers: {
     'Content-Type': 'application/json'
 }}).then(res => {this.setState({res: res})
   }).catch(error => {
