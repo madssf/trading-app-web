@@ -30,7 +30,7 @@ class Position extends Component {
     handleDelete= event => {
 
   
-      axios.delete(`http://localhost:1337/api/v1/portfolio_assets/${this.props.data.id}/`)
+      axios.delete(`http://localhost:1337/api/v1/portfolio_positions/${this.props.data.id}/`)
         .then(res => {
           window.location.reload();
         }).catch(error => {

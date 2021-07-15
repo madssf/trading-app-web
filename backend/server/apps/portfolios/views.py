@@ -2,9 +2,11 @@ from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from apps.users.permissions import OwnerCUD_AuthR, IsOwner
 from django.db.models import Q
+from rest_framework import status
+from rest_framework.response import Response
 
-from .models import Deposit, Portfolio, PortfolioAsset, PortfolioLogEntry, PortfolioParameter, Trade, Credentials
-from .serializers import DepositSerializer, PortfolioAssetSerializer, PortfolioLogEntrySerializer, PortfolioSerializer, PortfolioParameterSerializer, TradeSerializer, CredentialsSerializer
+from .models import Deposit, Portfolio, PortfolioAsset, PortfolioLogEntry, PortfolioParameter, PortfolioPosition, Trade, Credentials
+from .serializers import DepositSerializer, PortfolioAssetSerializer, PortfolioLogEntrySerializer, PortfolioPositionSerializer, PortfolioSerializer, PortfolioParameterSerializer, TradeSerializer, CredentialsSerializer
 
 
 User = get_user_model()
@@ -52,11 +54,36 @@ class PortfolioLogEntryViewSet(viewsets.ModelViewSet):
 
 class PortfolioAssetView(viewsets.ModelViewSet):
 
+    permission_classes = [IsOwner]
+
     serializer_class = PortfolioAssetSerializer
     queryset = PortfolioAsset.objects.all()
 
     def perform_create(self, serializer):
         serializer.save()
+
+    def get_queryset(self):
+        return self.queryset.all()
+
+
+class PortfolioPositionView(viewsets.ModelViewSet):
+
+    permission_classes = [IsOwner]
+
+    serializer_class = PortfolioPositionSerializer
+    queryset = PortfolioPosition.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        asset = instance.asset
+        self.perform_destroy(instance)
+
+        if not self.queryset.filter(asset=asset):
+            asset.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def get_queryset(self):
         return self.queryset.all()

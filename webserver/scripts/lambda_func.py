@@ -5,7 +5,7 @@ from .strategies.MCAPRebalancer import MCAPRebalancer
 
 def main():
     db = DBConnection(Superuser.USERNAME, Superuser.PASSWORD)
-    #market = db.update_currencies()
+    market = db.update_currencies()
     db.update_exchange_assets()
     '''
     portfolios = db.get_strategy_portfolios()
