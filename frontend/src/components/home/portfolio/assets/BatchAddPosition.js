@@ -5,7 +5,7 @@ import {toastOnError} from "../../../../utils/Utils";
 
 import Dropdown from '../../../ui/Dropdown'
 import "./style.css"
-export default class AddAsset extends React.Component {
+export default class BatchAddPosition extends React.Component {
 
   constructor(props){
     super(props);
