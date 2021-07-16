@@ -60,7 +60,7 @@ export default class AddPosition extends React.Component {
    
     event.preventDefault();
 
-    const asset = {
+    const position = {
       portfolio: this.props.portfolio, 
       currency: this.state.currency.id,
       exchange: this.state.exchange.id,
@@ -71,9 +71,8 @@ export default class AddPosition extends React.Component {
       stake_end: this.state.stakeEnd,
       close_time: null
     };
-    console.log(asset)
 
-    axios.post(`http://localhost:1337/api/v1/portfolio_position/`, asset, {headers: {
+    axios.post(`http://localhost:1337/api/v1/portfolio_positions/`, position, {headers: {
       'Content-Type': 'application/json'
   }})
       .then(res => {

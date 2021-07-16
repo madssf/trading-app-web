@@ -29,7 +29,8 @@ class BatchAddPositonsView(APIView):
     def post(self, request, portfolio_id, exchange_id, format=None):
 
         try:
-            portfolio = Portfolio.objects.get(id=portfolio_id)
+            portfolio = Portfolio.objects.get(
+                id=portfolio_id, owner=request.user)
         except Portfolio.DoesNotExist:
             return Response({'message': 'unknown portfolio'})
         try:
@@ -65,3 +66,7 @@ class BatchAddPositonsView(APIView):
                 added.append(str(position))
 
         return Response({'exchange': exchange.name, 'portfolio': portfolio.name, 'parsed': parsed, 'added': added, 'unknown currencies': missing_currencies})
+
+
+class ManualAddPositionView(APIView):
+    pass
