@@ -13,11 +13,11 @@ import {Container, Button} from "react-bootstrap";
 import { Tabs, Tab, AppBar } from "@material-ui/core";
 
 import Assets from './assets/Assets'
-import AddAsset from './assets/AddAsset';
-import BatchAddAsset from './assets/BatchAddAsset';
 import Graphs from './graphs/Graphs'
 import Settings from './settings/Settings';
 import Strategy from './strategy/Strategy';
+import AddPosition from './assets/AddPosition';
+import BatchAddPosition from './assets/BatchAddPosition';
 
 
 class Portfolio extends Component {
@@ -119,13 +119,13 @@ class Portfolio extends Component {
             <Assets assets={this.state.assets} exchanges={this.props.exchanges}/> 
          : ""}
 
-          <Button className="toggleView" onClick={() => this.setState({showAdd: !this.state.showAdd})}>{this.state.showAdd ? "Close" : "Add assets"}</Button>
-          <Button className="toggleView" onClick={() => this.setState({showBatchAdd: !this.state.showBatchAdd})}>{this.state.showBatchAdd ? "Close" : "Batch add assets"}</Button>
+          <Button className="toggleView" onClick={() => this.setState({showAdd: !this.state.showAdd})}>{this.state.showAdd ? "Close" : "Add positon"}</Button>
+          <Button className="toggleView" onClick={() => this.setState({showBatchAdd: !this.state.showBatchAdd})}>{this.state.showBatchAdd ? "Close" : "Batch add positons"}</Button>
           {this.state.showAdd ?  
-          <AddAsset portfolio={this.props.match.params.id} currencies={currencies} exchanges={exchanges}/>
+          <AddPosition portfolio={this.props.match.params.id} currencies={currencies} exchanges={exchanges}/>
             : ""}
           {this.state.showBatchAdd ?  
-          <BatchAddAsset portfolio={this.props.match.params.id} exchanges={exchanges}/>
+          <BatchAddPosition portfolio={this.props.match.params.id} exchanges={exchanges}/>
             : ""}
           </div>
 

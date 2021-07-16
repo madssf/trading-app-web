@@ -100,7 +100,8 @@ class ExchangeAssetsBotView(APIView):
 
                     # Getting/creating asset
                     try:
-                        asset = PortfolioAsset.objects.get(currency=currency)
+                        asset = PortfolioAsset.objects.get(
+                            portfolio=Portfolio.objects.get(id=portfolio['portfolio']), currency=currency)
                     except PortfolioAsset.DoesNotExist:
                         asset = PortfolioAsset.objects.create(
                             portfolio=Portfolio.objects.get(id=portfolio['portfolio']), currency=currency)

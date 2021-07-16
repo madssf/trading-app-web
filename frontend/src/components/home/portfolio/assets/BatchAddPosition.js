@@ -1,11 +1,13 @@
 import React from 'react';
 import axios from 'axios';
+import { toast } from "react-toastify";
+
 import {Container, Button} from "react-bootstrap";
 import {toastOnError} from "../../../../utils/Utils";
 
 import Dropdown from '../../../ui/Dropdown'
 import "./style.css"
-export default class AddAsset extends React.Component {
+export default class BatchAddPosition extends React.Component {
 
   constructor(props){
     super(props);
@@ -17,19 +19,16 @@ export default class AddAsset extends React.Component {
 }
   
 
-  handleSubmit= event => {
-  const url = `http://localhost:1337/api/v1/asset/batch_post/${this.props.portfolio}/${this.state.exchange.id}`
-  console.log(url)
-  axios.post(url, {'data': this.state.data, 'exchange': this.state.exchange.id}, {headers: {
-    'Content-Type': 'application/json'
-}}).then(res => {this.setState({res: res})
-  }).catch(error => {
-    toastOnError(error);
-  });
-}
+  handleSubmit = () => {
+  const url = `http://localhost:1337/api/v1/positions/batch_post/${this.props.portfolio}/${this.state.exchange.id}`
+  axios.post(url, {'data': this.state.data}, {headers: {
+    'Content-Type': 'application/json'}})
+    .then(res => {toast.success(res);})
+    .catch(error => {toastOnError(error)});
+  }
+
   handleChange= e => {
     this.setState({ [e.target.name]: e.target.value });
-
   }
 
   render() {
