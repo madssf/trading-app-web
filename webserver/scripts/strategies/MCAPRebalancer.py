@@ -22,9 +22,7 @@ class MCAPRebalancer():
         self.parameters = parameters
         self.assets = assets
         # getting total per curerncy
-        self.currency_totals = {symbol: sum(
-            position['value'] for position in self.assets[symbol]) for symbol in self.assets.keys()}
-        self.fiat_total = sum(self.currency_totals.values())
+        self.fiat_total = sum(asset['value'] for asset in self.assets.values())
         # for asset in assets:
 
     def instruct(self, market):
