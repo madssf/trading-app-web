@@ -29,27 +29,7 @@ class Portfolio(models.Model):
 
         assets = []
         for asset in PortfolioAsset.objects.filter(portfolio_id=self.id):
-            assets.append(
-                {
-                    'id': asset.id,
-                    'symbol': asset.currency.symbol,
-                    'name': asset.currency.name,
-                    'last_price': asset.currency.last_price,
-                    'pct_change_24h': asset.currency.pct_change_24h,
-                    'avg': asset.average,
-                    'positions':  list(
-                        {'id': position.id,
-                         'status': position.status,
-                         'amount': position.amount,
-                         'apr': position.apr,
-                         'stake_start': position.stake_start,
-                         'stake_end': position.stake_end,
-                         'value': round(float(position.amount*position.asset.currency.last_price), 3),
-                         'exchange': position.exchange.name,
-                         'exchange_id': position.exchange.id,
-                         'source': position.source,
-                         } for position in PortfolioPosition.objects.filter(asset=asset)),
-                })
+            assets.append(asset.get_asset_data())
         data['assets'] = assets
 
         if not self.strategy:
@@ -95,37 +75,8 @@ class Portfolio(models.Model):
             }
         }
         for asset in PortfolioAsset.objects.filter(portfolio_id=self.id):
-            positions = list(
-                {
-                    'status': position.status,
-                    'amount': position.amount,
-                    'apr': position.apr,
-                    'stake_start': position.stake_start,
-                    'stake_end': position.stake_end,
-                    'value': round(float(position.amount*position.asset.currency.last_price), 3),
-                    'exchange': position.exchange.name,
-                    'source': position.source,
-                } for position in PortfolioPosition.objects.filter(asset=asset))
-            data['assets'][asset.currency.symbol] = {
-                'avg': asset.average,
-                'value': sum(position['value'] for position in positions),
-                'positions': positions,
-            }
+            data['assets'][asset.currency.symbol] = asset.get_asset_data()
 
-        '''
-        for asset in PortfolioAsset.objects.filter(portfolio_id=self.id):
-            position = {
-                'status': asset.status,
-                'amount': asset.amount,
-                'value': round(float(asset.amount*asset.currency.last_price), 3),
-                'exchange': asset.exchange.name
-            }
-            symbol = asset.currency.symbol
-            if symbol not in data['assets'].keys():
-                data['assets'][symbol] = [position]
-            else:
-                data['assets'][symbol].append(position)
-        '''
         for param in StrategyParameter.objects.filter(strategy=self.strategy):
             try:
                 value = PortfolioParameter.objects.get(
@@ -175,6 +126,31 @@ class PortfolioAsset(models.Model):
     average = models.DecimalField(
         max_digits=18, decimal_places=10, blank=True, null=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def get_asset_data(self):
+        positions = list(
+            {
+                'id': position.id,
+                'status': position.status,
+                'amount': position.amount,
+                'apr': position.apr,
+                'stake_start': position.stake_start,
+                'stake_end': position.stake_end,
+                'value': round(float(position.amount*position.asset.currency.last_price), 3),
+                'exchange': position.exchange.name,
+                'exchange_id': position.exchange.id,
+                'source': position.source,
+            } for position in PortfolioPosition.objects.filter(asset=self))
+        return {
+            'id': self.id,
+            'symbol': self.currency.symbol,
+            'name': self.currency.name,
+            'last_price': self.currency.last_price,
+            'pct_change_24h': self.currency.pct_change_24h,
+            'average': self.average,
+            'value': sum(position['value'] for position in positions),
+            'amount': sum(float(position['amount']) for position in positions),
+            'positions': positions}
 
     def __str__(self):
         return str(self.portfolio) + "/" + str(self.currency)

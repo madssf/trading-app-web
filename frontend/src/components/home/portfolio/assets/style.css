@@ -13,6 +13,8 @@ div.assetsHeader {
 div.currencyAsset {
   justify-content: center;
   align-items: center;
+  margin: 5px;
+  background-color: #323d4b;
 }
 
 button.currencyBtn {
@@ -23,6 +25,7 @@ button.currencyBtn {
   font-size: 16px;
   background-color: rgb(118, 155, 255);
   cursor: pointer;
+  border: 0ch;
 }
 
 div.positions {
@@ -44,10 +47,11 @@ div.asset {
   margin: 5px;
   place-content: center;
   grid-gap: 1px;
-  grid-template-columns: repeat(5, 70px);
+  grid-template-columns: repeat(6, 70px);
   gap: 1px;
   grid-auto-rows: minmax(10px, auto);
   align-items: right;
+  color: #ffffff;
 }
 
 .assetGrid1_1 {
@@ -66,6 +70,9 @@ div.asset {
 }
 .assetGrid5_1 {
   grid-column: 5;
+}
+.assetGrid6_1 {
+  grid-column: 6;
 }
 
 .assetGrid1_2 {

@@ -5,7 +5,6 @@ from apps.currencies.models import Currency
 from apps.exchanges.models import Exchange
 from django.http.response import JsonResponse
 from rest_framework import mixins, generics, permissions
-from django.views.generic.edit import DeleteView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -24,7 +23,6 @@ class BatchAddPositonsView(APIView):
     A view that can accept POST requests with JSON content.
     """
     permission_classes = [permissions.IsAuthenticated]
-    #parser_classes = [JSONParser]
 
     def post(self, request, portfolio_id, exchange_id, format=None):
 

@@ -61,6 +61,9 @@ class Position extends Component {
        {this.props.data.source}   
        </div>
        <div className="assetGrid5_1">
+       {this.props.data.amount}   
+       </div>
+       <div className="assetGrid6_1">
        <button className="deleteAssetBtn" onClick={this.handleDeleteClick} type="submit">{this.state.deleteConfirm ? "Confirm" : "Delete"}</button>
        </div>
        {this.props.data.stake_end !== null ? 
