@@ -59,10 +59,9 @@ class Portfolio extends Component {
       console.log(res)
       const portfolio = res.data;
       this.setState({ portfolio: portfolio });
-      this.setState({ assets: portfolio.assets });
-      for(var x = 0; x<this.state.assets.length; x++){
-        for(var y = 0; y<this.state.assets[x].positions.length; y++) {
-          sum += this.state.assets[x].positions[y].value
+      for(var x = 0; x<this.state.portfolio.assets.length; x++){
+        for(var y = 0; y<this.state.portfolio.assets[x].positions.length; y++) {
+          sum += this.state.portfolio.assets[x].positions[y].value
         }
         
       }
@@ -115,8 +114,8 @@ class Portfolio extends Component {
           {this.state.selectedTab === 0 ? 
           <div className="assets">
         
-          {this.state.assets !== undefined && this.props.exchanges !== undefined ? 
-            <Assets assets={this.state.assets} exchanges={this.props.exchanges}/> 
+          {this.state.portfolio.assets !== undefined && this.props.exchanges !== undefined ? 
+            <Assets assets={this.state.portfolio.assets} exchanges={this.props.exchanges}/> 
          : ""}
 
           <Button className="toggleView" onClick={() => this.setState({showAdd: !this.state.showAdd})}>{this.state.showAdd ? "Close" : "Add positon"}</Button>

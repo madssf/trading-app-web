@@ -3,6 +3,7 @@ import Asset from './Asset.js'
 
 import sortBy from '../../../../utils/SortBy'
 import PieChart from '../graphs/PieChart.js'
+import nthIndex from '../../../../utils/NthIndex.js'
 
 
 export default function Assets(props) {
@@ -16,9 +17,12 @@ export default function Assets(props) {
     for(var i = 0; i < props.assets.length ; i++){
       if (assets[i].positions.length > 1) {
         assets[i].total = assets[i].positions.reduce((a, b) => a.value + b.value)
+
       } else {
         assets[i].total = assets[i].positions[0].value
       } 
+
+      
     }
     
     assets = assets.sort(sortBy("total", false))
