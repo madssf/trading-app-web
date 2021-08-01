@@ -233,8 +233,8 @@ class Trade(models.Model):
         Currency, on_delete=models.CASCADE, related_name='buy_currency')
     sell_currency = models.ForeignKey(
         Currency, on_delete=models.CASCADE, related_name='sell_currency')
-    buy_amount = models.DecimalField(max_digits=18, decimal_places=10)
-    sell_amount = models.DecimalField(max_digits=18, decimal_places=10)
+    amount = models.DecimalField(max_digits=18, decimal_places=10)
+    price = models.DecimalField(max_digits=18, decimal_places=10)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -243,6 +243,7 @@ class Trade(models.Model):
 
 class Deposit(models.Model):
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    exchange = models.ForeignKey(Exchange, default=None, blank=True, null=True, on_delete=SET_DEFAULT)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=18, decimal_places=10)
     timestamp = models.DateTimeField(auto_now_add=True)

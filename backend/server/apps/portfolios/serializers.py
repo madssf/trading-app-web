@@ -6,8 +6,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Portfolio
-        fields = ['id', 'created_at', 'owner', 'name',
-                  'strategy', 'description', 'public']
+        fields = '__all__'
 
 
 class PortfolioParameterSerializer(serializers.ModelSerializer):
@@ -40,19 +39,17 @@ class PortfolioLogEntrySerializer(serializers.ModelSerializer):
 class TradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trade
-        fields = ['portfolio', 'exchange', 'buy_currency',
-                  'sell_currency', 'buy_amount', 'sell_amount', 'timestamp']
+        fields = '__all__'
 
 
 class DepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deposit
-        fields = ['portfolio', 'currency', 'amount', 'timestamp']
+        fields = '__all__'
 
 
 class CredentialsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Credentials
-        fields = ['created_at', 'owner', 'exchange',
-                  'portfolio', 'api_key', 'api_secret', 'api_payload']
+        fields = '__all__'
