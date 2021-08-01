@@ -9,15 +9,14 @@ import PropTypes from "prop-types";
 import {getCurrencies} from '../../store/CurrenciesActions'
 import {getExchanges} from '../../store/ExchangesActions'
 
-import {Container, Button} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import { Tabs, Tab, AppBar } from "@material-ui/core";
 
 import Assets from './assets/Assets'
+import Trades from './trades/Trades'
 import Graphs from './graphs/Graphs'
 import Settings from './settings/Settings';
 import Strategy from './strategy/Strategy';
-import AddPosition from './assets/AddPosition';
-import BatchAddPosition from './assets/BatchAddPosition';
 
 
 class Portfolio extends Component {
@@ -29,8 +28,6 @@ class Portfolio extends Component {
       portfolio: {assets:[]},
       selectedCurrency: null,
       selectedExchange: null,
-      showAdd: false,
-      showBatchAdd: false,
       executing: false,
       sum: "",
       selectedTab: 0
@@ -44,8 +41,6 @@ class Portfolio extends Component {
     this.setState({portfolio: {assets:[]},
       selectedCurrency: null,
       selectedExchange: null,
-      showAdd: false,
-      showBatchAdd: false,
       executing: false,
       sum: "",
       selectedTab: 0})
@@ -86,8 +81,6 @@ class Portfolio extends Component {
   
   render() {
 
-    const {currencies} = this.props.currencies
-    const {exchanges} = this.props.exchanges
   
 
     return (
@@ -102,6 +95,7 @@ class Portfolio extends Component {
         <AppBar className="portfolioNavAppBar" position="static">
           <Tabs value={this.state.selectedTab} onChange={this.handleChange} centered>
             <Tab label="Assets" />
+            <Tab label="Trades" />
             <Tab label="Strategy" />
             <Tab label="Graphs" />
             <Tab label="Settings" />
@@ -115,22 +109,18 @@ class Portfolio extends Component {
           <div className="assets">
         
           {this.state.portfolio.assets !== undefined && this.props.exchanges !== undefined ? 
-            <Assets assets={this.state.portfolio.assets} exchanges={this.props.exchanges}/> 
+            <Assets portfolio={this.state.portfolio} currencies={this.props.currencies} exchanges={this.props.exchanges}/> 
          : ""}
-
-          <Button className="toggleView" onClick={() => this.setState({showAdd: !this.state.showAdd})}>{this.state.showAdd ? "Close" : "Add positon"}</Button>
-          <Button className="toggleView" onClick={() => this.setState({showBatchAdd: !this.state.showBatchAdd})}>{this.state.showBatchAdd ? "Close" : "Batch add positons"}</Button>
-          {this.state.showAdd ?  
-          <AddPosition portfolio={this.props.match.params.id} currencies={currencies} exchanges={exchanges}/>
-            : ""}
-          {this.state.showBatchAdd ?  
-          <BatchAddPosition portfolio={this.props.match.params.id} exchanges={exchanges}/>
-            : ""}
+          
           </div>
 
           : ""}
 
-          {this.state.selectedTab === 1 ? 
+          {this.state.selectedTab === 1 ?
+            <Trades portfolio={this.state.portfolio} currencies={this.props.currencies} exchanges={this.props.exchanges}/> : ""
+          }
+
+          {this.state.selectedTab === 2 ? 
           <div className="strategy">
             
             {this.state.portfolio.strategy !== undefined ? 
@@ -140,7 +130,7 @@ class Portfolio extends Component {
 
           : ""}
 
-          {this.state.selectedTab === 2 ? 
+          {this.state.selectedTab === 3 ? 
           <div className="graphs">
         
             <Graphs assets={this.state.assets}/>
@@ -149,7 +139,7 @@ class Portfolio extends Component {
 
           : ""}
         
-        {this.state.selectedTab === 3 ? 
+        {this.state.selectedTab === 4 ? 
           <div className="settings">
         
              {this.state.portfolio !== undefined ? 

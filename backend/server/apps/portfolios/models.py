@@ -243,6 +243,7 @@ class Trade(models.Model):
 
 class Deposit(models.Model):
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    exchange = models.ForeignKey(Exchange, default=None, blank=True, null=True, on_delete=SET_DEFAULT)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=18, decimal_places=10)
     timestamp = models.DateTimeField(auto_now_add=True)
