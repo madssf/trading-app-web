@@ -8,6 +8,7 @@ def main():
     market = db.update_currencies()
     db.update_exchange_assets()
     portfolios = db.get_strategy_portfolios()
+    print(portfolios)
     for portfolio in portfolios:
         if len(portfolio['assets']) > 0:
             strategy = MCAPRebalancer(

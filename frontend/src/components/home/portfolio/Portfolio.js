@@ -51,7 +51,6 @@ class Portfolio extends Component {
     .get(`/api/v1/my_portfolios/${this.props.match.params.id}`)
     .then(res => {
 
-      console.log(res)
       const portfolio = res.data;
       this.setState({ portfolio: portfolio });
       for(var x = 0; x<this.state.portfolio.assets.length; x++){
@@ -109,7 +108,7 @@ class Portfolio extends Component {
           <div className="assets">
         
           {this.state.portfolio.assets !== undefined && this.props.exchanges !== undefined ? 
-            <Assets portfolio={this.state.portfolio} currencies={this.props.currencies} exchanges={this.props.exchanges}/> 
+            <Assets portfolio={this.state.portfolio} currencies={this.props.currencies.currencies} exchanges={this.props.exchanges.exchanges}/> 
          : ""}
           
           </div>

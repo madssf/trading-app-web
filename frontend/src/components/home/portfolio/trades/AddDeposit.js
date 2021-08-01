@@ -9,7 +9,7 @@ import 'react-datetime/css/react-datetime.css';
 
 import Dropdown from '../../../ui/Dropdown';
 import "./style.css"
-export default function AddTrade(props) {
+export default function AddDeposit(props) {
 
   const currencies = props.currencies.currencies
   const exchanges = props.exchanges.exchanges

@@ -18,13 +18,13 @@ export default function AddTrade(props) {
   const [exchange, setExchange] = useState(null)
   const [currencyBought, setCurrencyBought] = useState(null)
   const [currencySold, setCurrencySold] = useState(null)
-  const [amountBought, setAmountBought] = useState(null)
-  const [amountSold, setAmountSold] = useState(null)
+  const [amount, setAmount] = useState(null)
+  const [price, setPrice] = useState(null)
   const [timestamp, setTimestamp] = useState(moment())
   const [canSubmit, setCanSubmit] = useState(false)
   
   function checkForm() {
-  if (exchange != null && currencyBought != null && currencySold != null && amountBought != null && amountSold != null) {
+  if (exchange != null && currencyBought != null && currencySold != null && amount != null && price != null) {
     setCanSubmit(true)
   } else {
     setCanSubmit(false)
@@ -42,8 +42,8 @@ export default function AddTrade(props) {
       exchange: exchange.id,
       buy_currency: currencyBought.id,
       sell_currency: currencySold.id,
-      buy_amount: amountBought,
-      sell_amount: amountSold,
+      amount: amount,
+      price: price,
       timestamp: timestamp,
     };
 
@@ -63,8 +63,8 @@ export default function AddTrade(props) {
       <Container>
         <h2>Add Trade</h2>
       <Container>
-       <input className="amountBoughtInput" type="number" step="0.001"name="amountBought" placeholder="Bought amount" onChange={event => {setAmountBought(event.target.value); checkForm()}} />
-       <input className="amountSoldInput" type="number" step="0.001"name="amountSold" placeholder="Sold amount" onChange={event => {setAmountSold(event.target.value); checkForm()}} />
+       <input className="amountInput" type="number" step="0.001"name="amount" placeholder="Amount" onChange={event => {setAmount(event.target.value); checkForm()}} />
+       <input className="priceInput" type="number" step="0.001"name="price" placeholder="Price" onChange={event => {setPrice(event.target.value); checkForm()}} />
       <Button className="action" onClick={handleSubmit} disabled={!canSubmit} type="submit">Add</Button>
         
       </Container>
