@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.deletion import SET_DEFAULT
 from django_cryptography.fields import encrypt
+import datetime
+import pytz
 from apps.strategies.models import Strategy, StrategyParameter
 from apps.exchanges.models import Exchange
 from apps.currencies.models import Currency, Tag, CurrencyTag
@@ -235,7 +237,7 @@ class Trade(models.Model):
         Currency, on_delete=models.CASCADE, related_name='sell_currency')
     amount = models.DecimalField(max_digits=18, decimal_places=10)
     price = models.DecimalField(max_digits=18, decimal_places=10)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
 
     def __str__(self):
         return f"{self.portfolio}/{self.buy_currency}/{self.sell_currency}/{self.timestamp}"
@@ -246,7 +248,7 @@ class Deposit(models.Model):
     exchange = models.ForeignKey(Exchange, default=None, blank=True, null=True, on_delete=SET_DEFAULT)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=18, decimal_places=10)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
 
     def __str__(self):
         return f"{self.portfolio}/{self.currency}/{self.timestamp}"
