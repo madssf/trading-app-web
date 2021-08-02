@@ -14,7 +14,7 @@ import { Tabs, Tab, AppBar } from "@material-ui/core";
 
 import Assets from './assets/Assets'
 import Trades from './trades/Trades'
-import Graphs from './graphs/Graphs'
+import Stats from './stats/Stats'
 import Settings from './settings/Settings';
 import Strategy from './strategy/Strategy';
 
@@ -25,7 +25,7 @@ class Portfolio extends Component {
     super(props);
   
     this.state = {
-      portfolio: {assets:[]},
+      portfolio: {},
       selectedCurrency: null,
       selectedExchange: null,
       executing: false,
@@ -96,7 +96,7 @@ class Portfolio extends Component {
             <Tab label="Assets" />
             <Tab label="Trades" />
             <Tab label="Strategy" />
-            <Tab label="Graphs" />
+            <Tab label="Stats" />
             <Tab label="Settings" />
           </Tabs>
         </AppBar>
@@ -132,7 +132,7 @@ class Portfolio extends Component {
           {this.state.selectedTab === 3 ? 
           <div className="graphs">
         
-            <Graphs assets={this.state.assets}/>
+            <Stats assets={this.state.assets}/>
 
           </div>
 

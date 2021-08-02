@@ -1,4 +1,5 @@
 
+fixtures/
 resources/
 project.env
 staticfiles/

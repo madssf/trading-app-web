@@ -15,7 +15,7 @@ class MyPortfolioID(mixins.ListModelMixin, generics.GenericAPIView):
         portfolio = Portfolio.objects.get(
             id=id, owner=request.user)
 
-        return JsonResponse(portfolio.get_detail_view_data(), safe=False)
+        return JsonResponse(portfolio.get_frontend_detail_data(), safe=False)
 
 
 class BatchAddPositonsView(APIView):
