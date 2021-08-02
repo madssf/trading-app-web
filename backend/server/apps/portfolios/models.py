@@ -2,11 +2,15 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.deletion import SET_DEFAULT
 from django_cryptography.fields import encrypt
-import datetime
-import pytz
+
 from apps.strategies.models import Strategy, StrategyParameter
 from apps.exchanges.models import Exchange
 from apps.currencies.models import Currency, Tag, CurrencyTag
+
+import datetime
+import pytz
+from django.forms.models import model_to_dict
+
 
 User = get_user_model()
 
@@ -24,16 +28,16 @@ class Portfolio(models.Model):
     bot_email_notify = models.BooleanField(default=False)
     public = models.BooleanField(default=False)
 
-    def get_detail_view_data(self):
+    def get_frontend_detail_data(self):
+
         data = {"id": self.id, "name": self.name, "created_at": self.created_at, "owner": self.owner.id,
-                "description": "", "assets": [], "strategy": {"id": "", "name": "", "description": "", "parameters": []}}
+                "description": "", "assets": [], "deposits": [], "strategy": {"id": "", "name": "", "description": "", "parameters": []}}
+        
         data['description'] = self.description if self.description else ""
-
-        assets = []
-        for asset in PortfolioAsset.objects.filter(portfolio_id=self.id):
-            assets.append(asset.get_asset_data())
-        data['assets'] = assets
-
+        data['assets'] = [asset.get_asset_data() for asset in PortfolioAsset.objects.filter(portfolio_id=self.id)]
+        data['deposits'] = list(model_to_dict(d) for d in Deposit.objects.filter(portfolio_id=self.id))
+    
+        # STRATEGY
         if not self.strategy:
             return data
 

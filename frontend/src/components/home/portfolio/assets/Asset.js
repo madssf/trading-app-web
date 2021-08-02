@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import EditAssetAverage from './EditAssetAverage'
 
 import Position from './Position'
 export const Asset = (props) => {
@@ -28,7 +27,6 @@ export const Asset = (props) => {
       <b>{symbol}</b>x{positions.length} | {amount}/<b>{total} $</b> | {last_price} $ / {pct_change_24h}% | average : {average} 
  
     </button>
-    <EditAssetAverage id={data.id} average={average}/>
     <div className="positions">
     {data.positions !== undefined && open ? positions : []}
     </div>
