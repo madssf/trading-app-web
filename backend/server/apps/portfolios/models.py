@@ -30,13 +30,14 @@ class Portfolio(models.Model):
 
     def get_frontend_detail_data(self):
 
-        data = {"id": self.id, "name": self.name, "created_at": self.created_at, "owner": self.owner.id,
-                "description": "", "assets": [], "deposits": [], "strategy": {"id": "", "name": "", "description": "", "parameters": []}}
+        data = {"id": self.id, "name": self.name, "created_at": self.created_at, "owner": self.owner.id,"description": "", "assets": [], "deposits": [], "trades": [], "stats": {}, "strategy": {"id": "", "name": "", "description": "", "parameters": []}}
         
         data['description'] = self.description if self.description else ""
         data['assets'] = [asset.get_asset_data() for asset in PortfolioAsset.objects.filter(portfolio_id=self.id)]
         data['deposits'] = list(model_to_dict(d) for d in Deposit.objects.filter(portfolio_id=self.id))
-    
+        data['trades'] = list(model_to_dict(t) for t in Trade.objects.filter(portfolio_id=self.id))
+        data['stats']['deposit_total'] = sum(d['amount'] for d in data['deposits'])
+
         # STRATEGY
         if not self.strategy:
             return data

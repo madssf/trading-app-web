@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 import AddTrade from './AddTrade'
 import AddDeposit from './AddDeposit'
 import DepositList from './DepositList'
+import TradeList from './TradeList'
 
 export const Trades = (props) => {
   console.log()
   return (
     <div>
       <AddTrade portfolio={props.portfolio.id} exchanges={props.exchanges} currencies={props.currencies} />
+      <TradeList trades ={props.portfolio.trades} />
       <AddDeposit portfolio={props.portfolio.id} exchanges={props.exchanges} currencies={props.currencies}/>
       <DepositList deposits={props.portfolio.deposits} />
     </div>

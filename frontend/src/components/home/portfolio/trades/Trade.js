@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Deposit(props) {
+export default function Trade(props) {
 
   const amount = props.data.amount
   const timestamp = props.data.timestamp

@@ -66,5 +66,3 @@ class BatchAddPositonsView(APIView):
         return Response({'exchange': exchange.name, 'portfolio': portfolio.name, 'parsed': parsed, 'added': added, 'unknown currencies': missing_currencies})
 
 
-class ManualAddPositionView(APIView):
-    pass
