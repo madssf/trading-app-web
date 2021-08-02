@@ -30,13 +30,14 @@ class Portfolio(models.Model):
 
     def get_frontend_detail_data(self):
 
-        data = {"id": self.id, "name": self.name, "created_at": self.created_at, "owner": self.owner.id,
-                "description": "", "assets": [], "deposits": [], "strategy": {"id": "", "name": "", "description": "", "parameters": []}}
+        data = {"id": self.id, "name": self.name, "created_at": self.created_at, "owner": self.owner.id,"description": "", "assets": [], "deposits": [], "trades": [], "stats": {}, "strategy": {"id": "", "name": "", "description": "", "parameters": []}}
         
         data['description'] = self.description if self.description else ""
         data['assets'] = [asset.get_asset_data() for asset in PortfolioAsset.objects.filter(portfolio_id=self.id)]
         data['deposits'] = list(model_to_dict(d) for d in Deposit.objects.filter(portfolio_id=self.id))
-    
+        data['trades'] = list(model_to_dict(t) for t in Trade.objects.filter(portfolio_id=self.id))
+        data['stats']['deposit_total'] = sum(d['amount'] for d in data['deposits'])
+
         # STRATEGY
         if not self.strategy:
             return data
@@ -133,8 +134,8 @@ class PortfolioAsset(models.Model):
         max_digits=18, decimal_places=10, blank=True, null=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def get_asset_data(self):
-        positions = list(
+    def get_asset_positions_list(self):
+        return list(
             {
                 'id': position.id,
                 'status': position.status,
@@ -147,6 +148,9 @@ class PortfolioAsset(models.Model):
                 'exchange_id': position.exchange.id,
                 'source': position.source,
             } for position in PortfolioPosition.objects.filter(asset=self))
+
+    def get_asset_data(self):
+        positions = self.get_asset_positions_list()
         return {
             'id': self.id,
             'symbol': self.currency.symbol,
@@ -157,6 +161,15 @@ class PortfolioAsset(models.Model):
             'value': sum(position['value'] for position in positions),
             'amount': sum(float(position['amount']) for position in positions),
             'positions': positions}
+
+    def update_average(self, amount, price):
+        if self.average:
+            prev_amt = sum(x['amount'] for x in self.get_asset_positions_list())
+            self.average = ((price*amount)+(self.average*prev_amt))/(amount+prev_amt)
+            self.save()
+        else:
+            self.average = price
+            self.save()
 
     def __str__(self):
         return str(self.portfolio) + "/" + str(self.currency)

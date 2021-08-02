@@ -93,11 +93,15 @@ class PortfolioPositionView(viewsets.ModelViewSet):
 
 class TradeViewSet(viewsets.ModelViewSet):
 
+    permission_classes = [IsOwner]
+
     serializer_class = TradeSerializer
     queryset = Trade.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save()
+        trade = serializer.save()
+        asset = PortfolioAsset.objects.get(currency=trade.buy_currency, portfolio=trade.portfolio)
+        asset.update_average(trade.amount, trade.price)
 
     def get_queryset(self):
         return self.queryset.all()

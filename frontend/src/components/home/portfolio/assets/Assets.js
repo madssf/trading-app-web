@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Asset from './Asset.js'
 
 import sortBy from '../../../../utils/SortBy'
-import PieChart from '../graphs/PieChart.js'
+import PieChart from './PieChart.js'
 import AddPosition from './AddPosition';
 import BatchAddPosition from './BatchAddPosition';
 import {Button} from "react-bootstrap";
