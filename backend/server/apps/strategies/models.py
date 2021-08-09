@@ -7,7 +7,6 @@ User = get_user_model()
 class Strategy(models.Model):
     class Meta:
         verbose_name_plural = 'Strategies'
-    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=50, unique=True)
@@ -18,7 +17,6 @@ class Strategy(models.Model):
 
 
 class ParameterType(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=50, unique=True)
@@ -28,7 +26,6 @@ class ParameterType(models.Model):
 
 
 class Parameter(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=50, unique=True)
@@ -43,7 +40,6 @@ class StrategyParameter(models.Model):
     class Meta:
         unique_together = [['parameter', 'strategy']]
 
-    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User, default=User, blank=True, null=True, on_delete=models.SET_NULL)
     parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)

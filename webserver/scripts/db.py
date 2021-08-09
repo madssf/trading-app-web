@@ -36,9 +36,8 @@ class DBConnection():
         # check if db has currencies that we haven't included
         # add those to market
 
-        market = json.dumps(market)
         self.api.make_request(
-            "POST", "bot/currencies", data=market)
+            "POST", "bot/currencies", data=json.dumps(market))
         return market
 
     def get_credentials(self):
@@ -103,7 +102,8 @@ class DBConnection():
         res = self.api.make_request("GET", "bot/strategy_portfolios")
         return res
 
-    def post_trades(self):
+    def post_instructions(self, data):
+        
         pass
 
     def get_assets(self, exchange, key, secret):

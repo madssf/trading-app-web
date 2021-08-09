@@ -5,10 +5,9 @@ from django_cryptography.fields import encrypt
 
 from apps.strategies.models import Strategy, StrategyParameter
 from apps.exchanges.models import Exchange
-from apps.currencies.models import Currency, Tag, CurrencyTag
+from apps.currencies.models import Currency, Tag, TagGroup, CurrencyTag
 
 import datetime
-import pytz
 from django.forms.models import model_to_dict
 
 
@@ -26,6 +25,9 @@ class Portfolio(models.Model):
     description = models.TextField(blank=True, null=True)
     bot_execute_trades = models.BooleanField(default=False)
     bot_email_notify = models.BooleanField(default=False)
+    balanced_portfolio = models.JSONField(default=None, blank=True, null=True)
+    instructions = models.JSONField(default=None, blank=True, null=True)
+
     public = models.BooleanField(default=False)
 
     def get_frontend_detail_data(self):
@@ -101,7 +103,11 @@ class Portfolio(models.Model):
                     symbols += [c.currency.symbol for c in CurrencyTag.objects.filter(
                         tag=Tag.objects.get(name=tag))]
                 except (CurrencyTag.DoesNotExist, Tag.DoesNotExist):
-                    pass
+                    try:
+                        symbols += [c.currency.symbol for c in CurrencyTag.objects.filter(
+                            tag=Tag.objects.get(tag_group=TagGroup.objects.get(name=tag)))]
+                    except (CurrencyTag.DoesNotExist, Tag.DoesNotExist, TagGroup.DoesNotExist):
+                        pass
             if data['strategy']['parameters']['banned']:
                 data['strategy']['parameters']['banned'] += ',' + \
                     ','.join(symbols)
@@ -254,7 +260,7 @@ class Trade(models.Model):
         Currency, on_delete=models.CASCADE, related_name='sell_currency')
     amount = models.DecimalField(max_digits=18, decimal_places=10)
     price = models.DecimalField(max_digits=18, decimal_places=10)
-    timestamp = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
+    timestamp = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
         return f"{self.portfolio}/{self.buy_currency}/{self.sell_currency}/{self.timestamp}"
@@ -265,7 +271,7 @@ class Deposit(models.Model):
     exchange = models.ForeignKey(Exchange, default=None, blank=True, null=True, on_delete=SET_DEFAULT)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=18, decimal_places=10)
-    timestamp = models.DateTimeField(default=datetime.datetime.now(pytz.utc))
+    timestamp = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
         return f"{self.portfolio}/{self.currency}/{self.timestamp}"
