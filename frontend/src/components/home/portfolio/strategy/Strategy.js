@@ -19,7 +19,6 @@ export default function Strategy(props) {
           <div className="strategyBtns">
           <Button className="action">Execute</Button>
           <Button className="action">Schedule</Button>
-          <Button className="action">Simulate</Button>
           </div>
 
           <p>Difference bar chart</p>
@@ -34,10 +33,7 @@ export default function Strategy(props) {
        
         </div>
 
-        
       )
-      
-
   }
 
   

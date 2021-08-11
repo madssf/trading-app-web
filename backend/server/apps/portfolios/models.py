@@ -25,8 +25,10 @@ class Portfolio(models.Model):
     description = models.TextField(blank=True, null=True)
     bot_execute_trades = models.BooleanField(default=False)
     bot_email_notify = models.BooleanField(default=False)
-    balanced_portfolio = models.JSONField(default=None, blank=True, null=True)
     instructions = models.JSONField(default=None, blank=True, null=True)
+    balanced_portfolio = models.JSONField(default=None, blank=True, null=True)
+    diff_matrix = models.JSONField(default=None, blank=True, null=True)
+    modified = models.DateTimeField(auto_now=True)
 
     public = models.BooleanField(default=False)
 
@@ -74,13 +76,18 @@ class Portfolio(models.Model):
             "id": self.id,
             "name": self.name,
             "owner": self.owner.id,
+            "email": self.owner.email,
             'execute_trades': self.bot_execute_trades,
             'email_notify': self.bot_email_notify,
             "assets": {},
             "strategy": {
                 'id': self.strategy.id,
                 'name': self.strategy.name,
-                'parameters': {}
+                'parameters': {},
+                'instructions' : self.instructions,
+                'balanced_portfolio': self.balanced_portfolio,
+                'diff_matrix': self.diff_matrix,
+                'modified': self.modified,
             }
         }
         for asset in PortfolioAsset.objects.filter(portfolio_id=self.id):

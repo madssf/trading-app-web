@@ -23,6 +23,8 @@ class MCAPRebalancer():
         self.assets = assets
         # getting total per curenncy
         self.balanced_porfolio = None
+        self.diffs = None
+        self.fiat_total = None
         # for asset in assets:
 
     def instruct(self, market):
@@ -125,14 +127,15 @@ class MCAPRebalancer():
                     'fiat' : mcap_coins[symbol], 
                     'tokens': mcap_coins[symbol]/diff_matrix[symbol]['price'], 
                     'side': "BUY"})
-        return
+        return instructions
 
     def generate_balanced_portfolio(self, market):
 
         # 1. Get fiat value of portfolio
 
         fiat_total = sum(asset['value'] for asset in self.assets.values())
-       
+        self.fiat_total = fiat_total
+
         # 2. Calculate balanced portfolio
        
         balanced_portfolio = {}
@@ -213,6 +216,9 @@ class MCAPRebalancer():
         for symbol in diffs:
             price = balanced_portfolio[symbol]['price'] if symbol in balanced_portfolio.keys() else [coin['last_price'] for coin in market if coin['symbol'] == symbol][0]
             diffs[symbol] = {'fiat': diffs[symbol], 'tokens': diffs[symbol]/price, 'price': price}
+        self.diff_matrix = diffs
+        for symbol in self.balanced_porfolio:
+            self.balanced_porfolio[symbol] = {'pct': self.balanced_porfolio[symbol], 'fiat': self.balanced_porfolio[symbol]*self.fiat_total, 'tokens': self.balanced_porfolio[symbol]*self.fiat_total/diffs[symbol]['price']}
         return diffs
         
     def parse_parameters(self, parameters):

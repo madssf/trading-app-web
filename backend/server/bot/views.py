@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from apps.currencies.models import Currency
 from rest_framework import mixins, generics
-from django.http.response import JsonResponse
+from django.http.response import HttpResponse, JsonResponse
 from rest_framework.permissions import IsAdminUser
 from apps.portfolios.models import Portfolio, Credentials, PortfolioAsset, PortfolioPosition
 from apps.currencies.models import Currency
@@ -16,7 +16,28 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class StrategyInstructionsView(APIView):
 
+    permission_classes = [IsAdminUser]
+    parser_classes = [JSONParser]
+
+    def post(self, request, format=None):
+        failed = []
+        total = len(request.data)
+        for element in request.data:
+            try:
+                portfolio = Portfolio.objects.get(id=element['id'])
+                portfolio.instructions = element['instructions']
+                portfolio.balanced_portfolio = element['balanced_portfolio']
+                portfolio.diff_matrix = element['diff_matrix']
+                portfolio.save()
+            except Portfolio.DoesNotExist:
+                failed.append(element['id'])
+        if len(failed) == 0:
+            return HttpResponse(status=200)
+        else:
+            return Response({'failed': failed})
+    
 class CurrencyBotView(APIView):
     """
     A view that can accept POST requests with JSON content.

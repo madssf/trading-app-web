@@ -102,9 +102,8 @@ class DBConnection():
         res = self.api.make_request("GET", "bot/strategy_portfolios")
         return res
 
-    def post_instructions(self, data):
-        
-        pass
+    def update_instructions(self, data):
+        return self.api.make_request("POST", "bot/strategy_instructions", data=json.dumps(data))
 
     def get_assets(self, exchange, key, secret):
         exchange_class = getattr(ccxt, exchange.lower())
@@ -113,3 +112,6 @@ class DBConnection():
             'secret': secret,
         })
         return exchange.fetch_balance()
+
+    def email_notify(self, portfolio):
+        print(f"sending email to{portfolio['email']}")
