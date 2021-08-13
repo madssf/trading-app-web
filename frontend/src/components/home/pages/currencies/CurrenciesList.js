@@ -1,11 +1,11 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Container} from "react-bootstrap";
 import {getCurrencies} from '../../../store/CurrenciesActions'
-import Currency from './Currency'
+// import Currency from './Currency'
 
 
 class CurrenciesList extends Component {
@@ -108,6 +108,7 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {getCurrencies})(withRouter(CurrenciesList));
 
+/*
 const useSortableData = (items, config = null) => {
   const [sortConfig, setSortConfig] = React.useState(config);
   
@@ -137,3 +138,5 @@ const useSortableData = (items, config = null) => {
 
   return { items: sortedItems, requestSort };
 }
+
+*/

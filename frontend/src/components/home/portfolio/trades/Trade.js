@@ -1,13 +1,10 @@
 import React from 'react'
 
 export default function Trade(props) {
-
-  const amount = props.data.amount
-  const timestamp = props.data.timestamp
+  props = props.data
   return (
     <div>
-      {amount} | {timestamp}
-
+      {props.buy_currency} | {props.sell_currency} | {props.amount} | {props.price}
     </div>
   )
 }

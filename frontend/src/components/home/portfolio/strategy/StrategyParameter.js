@@ -37,7 +37,6 @@ export default function StrategyParameter(props) {
           parameter: props.data.strat_param_id,
           value: val
       }
-      console.log(parameter)
       
       if (props.data.value) {
         axios.put(`http://localhost:1337/api/v1/portfolio_parameters/${props.data.pf_param_id}/`, parameter, {headers: {

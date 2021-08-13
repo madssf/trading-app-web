@@ -66,7 +66,10 @@ class Portfolio(models.Model):
             'id': self.strategy.id,
             'name': self.strategy.name,
             "description": self.strategy.description,
-            "parameters": params
+            "parameters": params,
+            "instructions": self.instructions, 
+            'balanced_portfolio': self.balanced_portfolio, 
+            "diff_matrix": self.diff_matrix,
         }
 
         return data

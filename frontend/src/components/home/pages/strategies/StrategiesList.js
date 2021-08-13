@@ -20,7 +20,6 @@ class StrategiesList extends Component {
       return "No currencies yet."
     }
     let items = strategies.map(strategy => {     
-      console.log(strategy);
       return <Strategy key={strategy.id} strategy={strategy}/>;
     })
     return (

@@ -130,9 +130,9 @@ class Portfolio extends Component {
           : ""}
 
           {this.state.selectedTab === 3 ? 
-          <div className="graphs">
+          <div className="stats">
         
-            <Stats assets={this.state.assets}/>
+            <Stats portfolio={this.state.portfolio}/>
 
           </div>
 

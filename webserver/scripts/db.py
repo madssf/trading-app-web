@@ -113,5 +113,7 @@ class DBConnection():
         })
         return exchange.fetch_balance()
 
+
+
     def email_notify(self, portfolio):
         print(f"sending email to{portfolio['email']}")

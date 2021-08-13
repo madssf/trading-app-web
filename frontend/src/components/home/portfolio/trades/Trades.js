@@ -1,28 +1,17 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import AddTrade from './AddTrade'
 import AddDeposit from './AddDeposit'
 import DepositList from './DepositList'
 import TradeList from './TradeList'
 
-export const Trades = (props) => {
-  console.log()
+export default function Trades(props) {
   return (
     <div>
       <AddTrade portfolio={props.portfolio.id} exchanges={props.exchanges} currencies={props.currencies} />
-      <TradeList trades ={props.portfolio.trades} />
+      <TradeList trades ={props.portfolio.trades} currencies={props.currencies}/>
       <AddDeposit portfolio={props.portfolio.id} exchanges={props.exchanges} currencies={props.currencies}/>
       <DepositList deposits={props.portfolio.deposits} />
     </div>
   )
 }
 
-const mapStateToProps = (state) => ({
-  
-})
-
-const mapDispatchToProps = {
-  
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Trades)

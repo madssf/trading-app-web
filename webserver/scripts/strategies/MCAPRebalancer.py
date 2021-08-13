@@ -22,7 +22,7 @@ class MCAPRebalancer():
         self.parameters = self.parse_parameters(parameters)
         self.assets = assets
         # getting total per curenncy
-        self.balanced_porfolio = None
+        self.balanced_portfolio = None
         self.diffs = None
         self.fiat_total = None
         # for asset in assets:
@@ -56,14 +56,17 @@ class MCAPRebalancer():
     
     def calculate_gains(self):
         return {symbol: (
-            float(self.assets[symbol]['last_price']) - float(self.assets[symbol]['average'])) / float(self.assets[symbol]['average']) if self.assets[symbol]['average'] != 0 else 0 
+            float(self.assets[symbol]['last_price']) - float(self.assets[symbol]['average'])) / float(self.assets[symbol]['average']) if self.assets[symbol]['average'] != None else 0 
             for symbol in self.assets}
 
     def generate_instructions(self, balanced_portfolio, diff_matrix, gains):
 
         instructions = []
         new_coins = []
-        free_fiat = self.assets.get(self.parameters['denominator'], 0)
+        if self.assets.get(self.parameters['denominator'], False):
+            free_fiat = self.assets[self.parameters['denominator']]['value']
+        else:
+            free_fiat = 0
 
         for symbol in diff_matrix:
 
@@ -77,8 +80,7 @@ class MCAPRebalancer():
                 continue
 
             # SELLING: Dropped coins or take profit
-
-            if (symbol not in balanced_portfolio.keys() and diff_matrix[symbol]['fiat'] >= self.parameters['min_trade_abs']) or (gains[symbol] > self.parameters['profit_level'] and diff_matrix[symbol] > self.parameters['min_trade']):
+            if (symbol not in balanced_portfolio.keys() and diff_matrix[symbol]['fiat'] >= self.parameters['min_trade_abs']) or (gains[symbol] > self.parameters['profit_level'] and diff_matrix[symbol]['fiat'] > self.parameters['min_trade']):
                 instructions.append({
                     'symbol': symbol,
                     'fiat' : diff_matrix[symbol]['fiat'], 
@@ -113,20 +115,37 @@ class MCAPRebalancer():
         
         # Prio 2: Sort by missing amount, split as many as possible
         sorted_missing = sorted({symbol: diff_matrix[symbol]['fiat'] for symbol in diff_matrix if symbol not in self.parameters['hard_hp'] and diff_matrix[symbol]['fiat'] < 0}.items(), key=lambda x: x[1])
-        
-        lot_size = free_fiat/min(math.floor(free_fiat/self.parameters['min_trade_abs']), len(sorted_missing))
-        index = 0
         mcap_coins = {}
-        while free_fiat > self.parameters['min_trade_abs']:            
-            mcap_coins[sorted_missing[index][0]] = mcap_coins.get(sorted_missing[index][0], 0 ) + lot_size
-            free_fiat -= lot_size
-            index = 0 if index == len(sorted_missing) - 1 else index + 1
+        for element in sorted_missing:
+            symbol = element[0]
+            missing = mcap_coins.get(symbol, 0) - diff_matrix[symbol]['fiat']
+            print("--BEFORE--")
+            print(mcap_coins)
+            print(symbol)
+            print(missing)
+            print(free_fiat)
+            if missing < free_fiat:
+                mcap_coins[symbol] = mcap_coins.get(symbol, 0 ) + missing
+                free_fiat -= missing
+            else:
+                mcap_coins[symbol] = mcap_coins.get(symbol, 0 ) + free_fiat
+                free_fiat = 0
+                break
+            print("--AFTER--")
+            print(mcap_coins)
+            print(symbol)
+            print(missing)
+            print(free_fiat)
         for symbol in mcap_coins:
             instructions.append({
                     'symbol': symbol,
                     'fiat' : mcap_coins[symbol], 
                     'tokens': mcap_coins[symbol]/diff_matrix[symbol]['price'], 
                     'side': "BUY"})
+            print(mcap_coins)
+            print(symbol)
+            print(missing)
+            print(free_fiat)
         return instructions
 
     def generate_balanced_portfolio(self, market):
@@ -183,7 +202,6 @@ class MCAPRebalancer():
             if symbol not in self.parameters['banned']:
                 # Checking for wiggle (almost as good coin):
                 if symbol not in self.assets.keys() and self.parameters['wiggle'] > 0:
-                    self.assets[symbol]['last_price'] = market[index]['last_price']
                     next_index = index + 1
                     next_symbol = market[next_index]['symbol']
                     while (market[next_index]['mcap'] > (1-self.parameters['wiggle'])*market[index]['mcap']):
@@ -197,11 +215,11 @@ class MCAPRebalancer():
                 self.parameters['banned'].append(symbol)
             index += 1
 
-        balanced_porfolio = {symbol : {'fiat' : balanced_portfolio[symbol]*fiat_total, 'tokens': balanced_portfolio[symbol], 'price': float(self.assets[symbol]['last_price']) if symbol in self.assets.keys() else [coin['last_price'] for coin in market if coin['symbol'] == symbol][0]} for symbol in balanced_portfolio}
+        balanced_portfolio = {symbol : {'fiat' : balanced_portfolio[symbol]*fiat_total, 'pct': balanced_portfolio[symbol], 'tokens': balanced_portfolio[symbol]*fiat_total/(float(self.assets[symbol]['last_price']) if symbol in self.assets.keys() else [coin['last_price'] for coin in market if coin['symbol'] == symbol][0]) ,'price': float(self.assets[symbol]['last_price']) if symbol in self.assets.keys() else [coin['last_price'] for coin in market if coin['symbol'] == symbol][0]} for symbol in balanced_portfolio}
 
-        self.balanced_porfolio = balanced_portfolio
+        self.balanced_portfolio = balanced_portfolio
 
-        return balanced_porfolio
+        return balanced_portfolio
 
     def generate_diff_matrix(self, balanced_portfolio, market):
         diffs = {}
@@ -217,8 +235,6 @@ class MCAPRebalancer():
             price = balanced_portfolio[symbol]['price'] if symbol in balanced_portfolio.keys() else [coin['last_price'] for coin in market if coin['symbol'] == symbol][0]
             diffs[symbol] = {'fiat': diffs[symbol], 'tokens': diffs[symbol]/price, 'price': price}
         self.diff_matrix = diffs
-        for symbol in self.balanced_porfolio:
-            self.balanced_porfolio[symbol] = {'pct': self.balanced_porfolio[symbol], 'fiat': self.balanced_porfolio[symbol]*self.fiat_total, 'tokens': self.balanced_porfolio[symbol]*self.fiat_total/diffs[symbol]['price']}
         return diffs
         
     def parse_parameters(self, parameters):

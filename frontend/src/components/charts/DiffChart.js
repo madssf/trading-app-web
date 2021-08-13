@@ -1,17 +1,17 @@
 import "./style.css"
 import React from 'react'
-import { Pie } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 
-const PieChart = (props) => {
+const DiffChart = (props) => {
 
     return (
-    <div className="chart pie">
-      <Pie
+    <div className="chart bar">
+      <Bar
         data={{
           labels: props.labels,
           datasets: [
             {
-              label: '# of votes',
+              label: '$ value',
               data: props.data,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -55,4 +55,4 @@ const PieChart = (props) => {
   )
 }
 
-export default PieChart
+export default DiffChart

@@ -3,7 +3,6 @@ import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
 
 export const Credentials = (props) => {
-  console.log(props)
   return (
     <div>
       <Button>Edit credentials</Button>
