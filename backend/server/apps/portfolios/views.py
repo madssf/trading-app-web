@@ -100,8 +100,11 @@ class TradeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         trade = serializer.save()
-        asset = PortfolioAsset.objects.get(currency=trade.buy_currency, portfolio=trade.portfolio)
-        asset.update_average(trade.amount, trade.price)
+        try:
+            asset = PortfolioAsset.objects.get(currency=trade.buy_currency, portfolio=trade.portfolio)
+            asset.update_average(trade.amount, trade.price)
+        except PortfolioAsset.DoesNotExist:
+            pass
 
     def get_queryset(self):
         return self.queryset.all()

@@ -1,3 +1,4 @@
+from services.is_stablecoin import is_stablecoin
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.deletion import SET_DEFAULT
@@ -179,6 +180,8 @@ class PortfolioAsset(models.Model):
             'positions': positions}
 
     def update_average(self, amount, price):
+        if is_stablecoin(self):
+            return
         if self.average:
             prev_amt = sum(x['amount'] for x in self.get_asset_positions_list())
             self.average = ((price*amount)+(self.average*prev_amt))/(amount+prev_amt)

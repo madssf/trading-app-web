@@ -18,12 +18,17 @@ div.currencyAsset {
 
 button.currencyBtn {
   color: white;
+  width: 600px;
   padding: 15px 20px;
   text-align: center;
   font-size: 16px;
-  background-color: rgb(118, 155, 255);
+  background-color: rgb(100, 140, 240);
   cursor: pointer;
   border: 0ch;
+}
+
+button.currencyBtn:hover {
+  background-color: rgb(118, 155, 255);
 }
 
 div.positions {
@@ -35,7 +40,6 @@ div.positions {
 div.asset {
   font-size: 12px;
   background-color: #4d719c;
-  color: #ffffff;
   text-align: center;
   align-items: center;
 }
@@ -49,7 +53,6 @@ div.asset {
   gap: 1px;
   grid-auto-rows: minmax(10px, auto);
   align-items: right;
-  color: #ffffff;
 }
 
 .assetGrid1_1 {

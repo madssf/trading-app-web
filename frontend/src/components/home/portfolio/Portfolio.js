@@ -94,8 +94,8 @@ class Portfolio extends Component {
         <AppBar className="portfolioNavAppBar" position="static">
           <Tabs value={this.state.selectedTab} onChange={this.handleChange} centered>
             <Tab label="Assets" />
-            <Tab label="Trades" />
             <Tab label="Strategy" />
+            <Tab label="Trades" />
             <Tab label="Stats" />
             <Tab label="Settings" />
           </Tabs>
@@ -115,19 +115,19 @@ class Portfolio extends Component {
 
           : ""}
 
-          {this.state.selectedTab === 1 ?
-            <Trades portfolio={this.state.portfolio} currencies={this.props.currencies} exchanges={this.props.exchanges}/> : ""
-          }
-
-          {this.state.selectedTab === 2 ? 
+          {this.state.selectedTab === 1 ? 
           <div className="strategy">
             
             {this.state.portfolio.strategy !== undefined ? 
-            <Strategy data={this.state.portfolio}/>
+            <Strategy portfolio={this.state.portfolio} currencies={this.props.currencies} />
             : "No strategy"}
           </div>
 
           : ""}
+
+          {this.state.selectedTab === 2 ?
+            <Trades portfolio={this.state.portfolio} currencies={this.props.currencies} exchanges={this.props.exchanges}/> : ""
+          }
 
           {this.state.selectedTab === 3 ? 
           <div className="stats">
