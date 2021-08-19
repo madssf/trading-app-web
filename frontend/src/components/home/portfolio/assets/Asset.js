@@ -11,6 +11,7 @@ export const Asset = (props) => {
   const average = Math.round(data.average*100)/100
   const last_price = data.last_price.toString().substring(0,6)
   const pct_change_24h = Math.round(data.pct_change_24h*100)/100
+  const gain = Math.round(10000*(data.last_price - average)/average)/100
 
   const [open, setOpen] = useState(false);
   
@@ -24,7 +25,7 @@ export const Asset = (props) => {
 
          
     <button className="currencyBtn" onClick={() => setOpen(prev => !prev)}>
-      <b>{symbol}</b>x{positions.length} | {amount}/<b>{total} $</b> | {last_price} $ / {pct_change_24h}% | average : {average} 
+      <b>{symbol}</b>x{positions.length} | {amount}/<b>{total} $</b> | {last_price} $ / {pct_change_24h}% | {average} $ / {gain} %
  
     </button>
     <div className="positions">

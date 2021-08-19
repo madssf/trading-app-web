@@ -60,7 +60,7 @@ class MCAPRebalancer():
             for symbol in self.assets}
 
     def generate_instructions(self, balanced_portfolio, diff_matrix, gains):
-
+        
         instructions = []
         new_coins = []
         if self.assets.get(self.parameters['denominator'], False):
@@ -97,7 +97,7 @@ class MCAPRebalancer():
         # Prio 1: Hard handpicks
         for symbol in self.parameters['hard_hp']:
             diff = -diff_matrix[symbol]['fiat']
-            if diff > self.parameters['min_trade'] and diff < free_fiat:
+            if diff > self.parameters['min_trade_abs'] and diff < free_fiat:
                 instructions.append({
                     'symbol': symbol,
                     'fiat' : -diff_matrix[symbol]['fiat'], 
@@ -119,11 +119,7 @@ class MCAPRebalancer():
         for element in sorted_missing:
             symbol = element[0]
             missing = mcap_coins.get(symbol, 0) - diff_matrix[symbol]['fiat']
-            print("--BEFORE--")
-            print(mcap_coins)
-            print(symbol)
-            print(missing)
-            print(free_fiat)
+           
             if missing < free_fiat:
                 mcap_coins[symbol] = mcap_coins.get(symbol, 0 ) + missing
                 free_fiat -= missing
@@ -131,21 +127,14 @@ class MCAPRebalancer():
                 mcap_coins[symbol] = mcap_coins.get(symbol, 0 ) + free_fiat
                 free_fiat = 0
                 break
-            print("--AFTER--")
-            print(mcap_coins)
-            print(symbol)
-            print(missing)
-            print(free_fiat)
+         
         for symbol in mcap_coins:
             instructions.append({
                     'symbol': symbol,
                     'fiat' : mcap_coins[symbol], 
                     'tokens': mcap_coins[symbol]/diff_matrix[symbol]['price'], 
                     'side': "BUY"})
-            print(mcap_coins)
-            print(symbol)
-            print(missing)
-            print(free_fiat)
+        
         return instructions
 
     def generate_balanced_portfolio(self, market):

@@ -14,12 +14,10 @@ div.currencyAsset {
   justify-content: center;
   align-items: center;
   margin: 5px;
-  background-color: #323d4b;
 }
 
 button.currencyBtn {
   color: white;
-  width: 500px;
   padding: 15px 20px;
   text-align: center;
   font-size: 16px;

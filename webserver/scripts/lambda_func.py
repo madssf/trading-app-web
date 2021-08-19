@@ -29,8 +29,6 @@ def main():
         if portfolio['email']:
             db.email_notify(portfolio)
 
-    
-
 if __name__ == "__main__":
     main({'source': 'main function - commmand line'})
 
