@@ -23,16 +23,16 @@ class MCAPRebalancer():
         self.assets = assets
         # getting total per curenncy
         self.balanced_portfolio = None
-        self.diffs = None
+        self.diff_matrix = None
         self.fiat_total = None
         # for asset in assets:
 
     def instruct(self, market):
-        balanced_portfolio = self.generate_balanced_portfolio(market)
-        diff_matrix = self.generate_diff_matrix(balanced_portfolio, market)
+        self.balanced_portfolio = self.generate_balanced_portfolio(market)
+        self.diff_matrix = self.generate_diff_matrix(self.balanced_portfolio, market)
         gains = self.calculate_gains()
-        if self.check_trade_conditions(balanced_portfolio, diff_matrix, gains):
-            return self.generate_instructions(balanced_portfolio, diff_matrix, gains)
+        if self.check_trade_conditions(self.balanced_portfolio, self.diff_matrix, gains):
+            return self.generate_instructions(self.balanced_portfolio, self.diff_matrix, gains)
         else:
             return False
 
@@ -104,7 +104,6 @@ class MCAPRebalancer():
                     'tokens': -diff_matrix[symbol]['tokens'], 
                     'side': "BUY"})
                 free_fiat -= diff
-                del diff_matrix[symbol]
             elif diff > free_fiat:
                 instructions.append({
                     'symbol': symbol,
@@ -206,15 +205,13 @@ class MCAPRebalancer():
 
         balanced_portfolio = {symbol : {'fiat' : balanced_portfolio[symbol]*fiat_total, 'pct': balanced_portfolio[symbol], 'tokens': balanced_portfolio[symbol]*fiat_total/(float(self.assets[symbol]['last_price']) if symbol in self.assets.keys() else [coin['last_price'] for coin in market if coin['symbol'] == symbol][0]) ,'price': float(self.assets[symbol]['last_price']) if symbol in self.assets.keys() else [coin['last_price'] for coin in market if coin['symbol'] == symbol][0]} for symbol in balanced_portfolio}
 
-        self.balanced_portfolio = balanced_portfolio
-
         return balanced_portfolio
 
     def generate_diff_matrix(self, balanced_portfolio, market):
         diffs = {}
         for symbol in balanced_portfolio:
             try:
-                diffs[symbol] = (self.assets[symbol]['value'] - balanced_portfolio[symbol]['fiat'])
+                diffs[symbol] = self.assets[symbol]['value'] - balanced_portfolio[symbol]['fiat']
             except KeyError:   
                 diffs[symbol] = - balanced_portfolio[symbol]['fiat']
         for symbol in self.assets:
@@ -223,7 +220,6 @@ class MCAPRebalancer():
         for symbol in diffs:
             price = balanced_portfolio[symbol]['price'] if symbol in balanced_portfolio.keys() else [coin['last_price'] for coin in market if coin['symbol'] == symbol][0]
             diffs[symbol] = {'fiat': diffs[symbol], 'tokens': diffs[symbol]/price, 'price': price}
-        self.diff_matrix = diffs
         return diffs
         
     def parse_parameters(self, parameters):
